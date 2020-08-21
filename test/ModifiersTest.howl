@@ -1,0 +1,33 @@
+⊐ NUnit.Framework;
+⊐̥ Active.Howl.Modifiers;
+⊐ M = Active.Howl.Modifiers;
+
+⊓ Unit{
+‒ ○ ModifiersTest : TestBase{
+
+    ؟ ReorderCs ⎚ o( M.ReorderCs("static", "public"),
+                                S("public", "static") );
+
+    ؟ ReorderHl ⎚ o( M.ReorderHl("∘", "‒"), S("‒", "∘") );
+
+    ؟ Nitpick ⎚ o( M.Nitpick("∘", "‒"), "‒̥");
+
+    ؟ NitpickSegment
+    ⎚ o( M.NitpickSegment("∘", "‒", "○"), S("‒̥", "○") );
+
+    // Nitpicking places static after access modifiers and combines
+    ؟ NitpickSegment_1
+    ⎚ o( M.NitpickSegment("∘", "‒", "ᵛ", "○"), S("‒̥ᵛ", "○") );
+
+    ؟ NitpickSegment_2_bug
+    ⎚ o( M.NitpickSegment("⁺","∘", "‒", "ᵛ", "○"), S("⁺‒̥ᵛ", "○") );
+
+    ؟ NitpickSegment_withWhiteSpace
+    ⎚ o( M.NitpickSegment("∘", " ", "‒", "○"), S("‒̥", "○") );
+
+    ؟ NitpickSegment_withTrailingWhiteSpace
+    ⎚ o( M.NitpickSegment("∘", "‒", "  ", "○"), S("‒̥", "  ", "○") );
+
+    ㄹ[] S(⋯ ㄹ[] args) → args;
+
+}}

@@ -1,0 +1,41 @@
+⊐ Ex = System.Exception; ⊐ System.Runtime.InteropServices;
+⊐ Info = System.Runtime.InteropServices.RuntimeInformation;
+
+⊓ Active.Howl{
+‒ ○ DotNet{
+
+    ㄹ dotnet = "/usr/local/share/dotnet/dotnet";
+
+    ‒ ㄹ Build(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["build", α, δ, dry];
+
+    ‒ ㄹ New(ㄹ α, ㄹ δ, ㄹ ω, ㅇ dry){
+        ∙ ㄸ = ⦿["new", α, δ, dry];
+        $"{ω}/Program.cs".JustDelete(dry);
+        ⮐ ㄸ;
+    }
+
+    ‒ ㄹ Publish(ㄹ α, ㄹ δ, ㄹ rt, ㅇ dry)
+    → ⦿["publish", $"{α} --runtime {rt ?? GetRuntime()}", δ, dry];
+
+    ‒ ㄹ Run(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["run", α, δ, dry];
+
+    ‒ ㄹ Test(ㄹ δ, ㅇ dry) → ⦿["test", ∅, δ, dry];
+
+    // -------------------------------------------------------------
+
+    ‒ ㄹ ⦿[ㄹ command, ㄹ args, ㄹ workdir, ㅇ dry]{╭{
+        ㄹ str;
+        🐰 str = $"dotnet {command} {args}";
+        ⤴ (dry) ⮐ str + '\n';
+        Runner.Cmd(dotnet, $"{command} {args}", workdir, dry);
+        ⮐ ∅;
+    }}
+
+    ‒ ㄹ GetRuntime(){
+        ⤴ (Info.IsOSPlatform(OSPlatform.Linux))   ⮐ "linux-x64";
+        ⤳ (Info.IsOSPlatform(OSPlatform.OSX))     ⮐ "osx-x64";
+        ⤳ (Info.IsOSPlatform(OSPlatform.Windows)) ⮐ "win-x64";
+        ⤵ (╯°□°)╯ ⌢ Ex("Unknown Runtime");
+    }
+
+}}

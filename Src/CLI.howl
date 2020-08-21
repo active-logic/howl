@@ -1,31 +1,48 @@
-⊐ System;
-⊐ Active.Util;
-
 ⊓ Active.Howl{
 ‒ ○ CLI{
 
-    ㄹ dotnet = "/usr/local/share/dotnet/dotnet";
+    ㅇ dry;
+    DotNet δ = ⌢ DotNet();
+
+    ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.0.8";
-        🐰 ⌢ CLI().Parse(ㅂ);
+        🐰 "Howl CLI v0.0.12";
+        🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
     ㄹ Parse(ㄹ[] ㅂ){
         ⤴ (ㅂ❙ < 1) ⮐ help;
         ⤭ (ㅂ[0]){
-            ⥰ "export": Export (ㅂ); ¦
-            ⥰ "import": Import (ㅂ); ¦
-            ⥰ "run"   : Run    (ㅂ); ¦
+            ⥰ "build"   : Build   (ㅂ); ¦
+            ⥰ "export"  : Export  (ㅂ); ¦
+            ⥰ "import"  : Import  (ㅂ); ¦
+            ⥰ "install" : Install (ㅂ); ¦
+            ⥰ "publish" : Publish (ㅂ); ¦
+            ⥰ "run"     : Run     (ㅂ); ¦
+            ⥰ "test"    : Test    (ㅂ); ¦
             ～: ⮐ $"Unrecognized command [{ㅂ[0]}]";
         }
         ⮐ "...all done";
     }
 
+    ‒ ㄹ Build(⋯ ㄹ[] ㅂ){
+        ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
+        ω.RmDir(dry);
+        ι += Export(∅, π, ω);
+        ι += δ.New($"console --name build --force", Π, ω, dry);
+        ι += δ.Build("build", Π, dry);
+        ⮐ ι;
+    }
+
     ‒ ㄹ Export(⋯ ㄹ[] ㅂ){
         ㄹ src = ㅂ[1].WithFinalSep(),
           dst = ㅂ[2].WithFinalSep();
+        ⤴ (!src.IsDir()) ⮐ $"Source dir not found: {src}\n";
         ∙ paths = FileSystem.Paths(src, "*.howl");
+        ⤴ (dry){
+            ⮐ ∅;
+        }
         ∀ (∙ x ∈ paths){
             ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
             🐰y;
@@ -34,29 +51,74 @@
         ⮐ "Exported some files";
     }
 
+    ‒ ㄹ Install(⋯ ㄹ[] ㅂ){
+        ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(),
+        name = Π.Substring(Π.LastIndexOf("/") + 1);
+        ι += Publish(∅, $"{π}/src");
+        ∙ build = "src/build/bin/Debug/netcoreapp3.1/osx-x64/publish";
+        ∙ local = $"/usr/local/{name}";
+        ι += $"Remove {local}\n";
+        local.RmDir(dry);
+        ι += $"Move {build} to\n{local}\n";
+        build.JustMoveTo(local, dry);
+        ∙ link  = $"/usr/local/bin/{name.ToLower()}";
+        ∙ target = $"/usr/local/{name}/build";
+        link.JustDelete(dry);
+        ι += Runner.Cmd("ln", $"-s {target} {link}", "/", dry);
+        🍥(ι);
+        ⮐ ι;
+    }
+
+    ‒ ㄹ Publish(⋯ ㄹ[] ㅂ){
+        ㄹ ι = ∅;
+        ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
+        ω.RmDir(dry);
+        ι += Export(∅, π, ω);
+        ι += δ.New($"console --name build --force", Π, ω, dry);
+        ι += δ.Publish("build", Π, rt: ∅, dry);
+        ⮐ ι;
+    }
+
     ‒ ㄹ Run(⋯ ㄹ[] ㅂ){
         ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        ω.RmDir(withMetaFile: ✗);
+        ω.RmDir(dry);
         Export(∅, π, ω);
-        //
-        ∙ @new = $"new console --name build --force";
-        🐰 $"dotnet {@new}";
-        Runner.Cmd(dotnet, @new, Π, dry: ✗);
-        $"{ω}/Program.cs".Delete(withMetaFile: ✓);
-        //
-        ∙ @run = "run --project build";
-        🐰 $"dotnet {@run}";
-        Runner.Cmd(dotnet, @run, Π, dry: ✗);
+        δ.New($"console --name build --force", Π, ω, dry);
+        δ.Run("--project build", Π, dry);
         ⮐ ∅;
+    }
+
+    ‒ ㄹ Test(⋯ ㄹ[] ㅂ){
+        ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
+        ㄹ ι = ∅;
+        ω.MkDir(dry);
+        ι += Export(∅, $"{π}/src", $"{ω}/src");
+        ι += Export(∅, $"{π}/test", $"{ω}/test");
+        ι += δ.New("solution --name Main --force", ω, ∅, dry);
+        ι += δ.New("classlib --name src --force", ω, ∅, dry);
+        ι += δ.New("nunit --name test --force", ω, ∅, dry);
+        $"{ω}/src/Class1.cs".JustDelete(dry);
+        $"{ω}/test/UnitTest1.cs".JustDelete(dry);
+        ι += δ["add",
+               "test/test.csproj reference src/src.csproj", ω, dry];
+        ι += δ["sln add",
+               "src/src.csproj test/test.csproj", ω, dry];
+        ι += δ.Test(ω, dry);
+        🍥(ι);
+        ⮐ ι;
     }
 
     ㄹ Import(ㄹ[] ㅂ) → 🐤 "Unimplemented";
 
     ㄹ help =
 @"Usage:
-howl run DIR                - Build and run a console application
 howl export SRC_DIR DST_DIR - Export Howl scripts to C#
 howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
+howl build DIR              - Build a console app
+howl install DIR            - Install, assuming DIR/src
+howl publish DIR            - Build and publish a console app
+howl run DIR                - Build and run a console app
+howl test DIR - Build and run tests assuming DIR/src, DIR/test
 ";
 
 }}

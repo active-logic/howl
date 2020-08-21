@@ -1,0 +1,23 @@
+⊐ System.IO;
+⊐ InvOp = System.InvalidOperationException;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ WhiteSpaceAdderTest : TestBase{
+
+    ∘ ᆩ[] slash = ⌢ char[]{'/'};
+    ∘ ㄹ[] ps = ⌢ ㄹ[]{"‒̥"};
+
+    ؟ ConsolidateString ⎚ o( "‒̥○".Consolidate(ps), "‒̥ ○");
+
+    // TODO double check this
+    ؟ Consolidate
+    ⎚ o( "Foo\n//bar".Consolidate(slash), "Foo\n/ / bar");
+
+    // Does not acknowledge litterals, have to use segmented form
+    ؟ Consolidate_ignoreLitterals
+    ⎚ o( "A \"litt/eral\" string".Consolidate(slash),
+         "A \"litt/ eral\" string");
+
+}}

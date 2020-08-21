@@ -1,0 +1,93 @@
+⊐ System.IO; ⊐ System.Linq;
+⊐ InvOp = System.InvalidOperationException;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ MapTest : TestBase{
+
+    Map ω;
+
+    ⍜ Setup(){
+        #if UNITY_EDITOR
+        ImportConfig.Clear();
+        #endif
+        ω = Map.@default;
+    }
+
+    ؟ FromRepArray(){
+        Map x = ⌢ Rep[]{ ("a", "b"), ("c", "d") };
+        o(x.rules❙, 2);
+    }
+
+    ؟ Apply()
+    → o("▷ Act()" * ω, "public action Act()");
+
+    ؟ Apply_withCompactModifiers_1()
+    → o("‒⁺" * ω, "public override");
+
+    ؟ Apply_withCompactModifiers_2()
+    → o("‒̥⁺" * ω, "public static override");
+
+    ؟ Apply_quoted()
+    → o("\"(╯°□°)╯\"" * ω, "\"(╯°□°)╯\"");
+
+    ؟ Apply_2 ⎚ o("Badge(\"(╯°□°)╯ ⌒ $\"" * ω,
+                   "Badge(\"(╯°□°)╯ ⌒ $\"");
+
+    ؟ Consolidate ⎚ o( ω.Consolidate("‒○"), "‒ ○" );
+
+    // Does not acknowledge litterals, have to use segmented form
+    ؟ Consolidate_usesSegmentedForm ⎚
+    o( ω.Consolidate("A \"litt/eral\" string"),
+       "A \"litt/eral\" string");
+
+    ؟ Consolidate_cmbVariants ⎚ o( ω.Consolidate("‒̥○"), "‒̥ ○" );
+
+    ؟ Revert()
+    → o( "public action Act()" / ω, "▷ Act()" );
+
+    ؟ Revert_bridging_token_honors_word_boundaries()
+    → o( "public Big.Values" / ω, "‒ Big.Values" );
+
+    ؟ NitPick ⎚ o(">=" % ω, "≥");
+
+    ؟ NitPick_honors_word_boundaries(){
+        o("[i].Value.Matches(key)" % ω, "[i]ᖾ.Matches(key)");
+        o("[i].ValueMatches(key)" % ω, "[i].ValueMatches(key)");
+    }
+
+    ؟ Nits(){
+        o( ω.nits.∋(ω.Rule(">=")) );
+    }
+
+    ؟ Op_Soft(){
+        ∙ Λ = !ω;
+        🍥(Λ);
+    }
+
+    ؟ Revert_class_rule(){
+         o( "class Foo" / ω, "○ Foo" );
+    }
+
+    // TODO this test causes a conflict that should not be
+    // happening.
+    // [Test] public void Revert_WithBridgedToken()
+    // => o("public static void Act()" / ω, "⃠ ┈ Act()");
+
+    #if UNITY_EDITOR
+    ؟ Revert_ConflictThrows(){
+        ⤴(Config.ι.ignoreConflicts){
+            ∙ ㄸ = "メ.Reach" / ω;
+        }⤵
+            ಠᴗಠ<InvOp>( () → { ∙ ㄸ = "メ.Reach" / ω; } );
+    }
+    #endif
+    
+    // TODO when Howl imports this test file, escaped '"' causes
+    // a conflict
+    //[Test] public void Revert_NoConflictInEscapedBlocks(){
+    //    var ㄸ = "\"メ.Reach\"" / ω;
+    //}
+
+}}

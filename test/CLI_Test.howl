@@ -1,0 +1,70 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ CLI_Test : TestBase{
+
+CLI ι;
+
+⍜ Setup ⎚ ι = ⌢ CLI(dry: ✓);
+
+؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
+
+؟ Build ⎚ o(ι.Build(∅, "src"),
+@"Source dir not found: src/
+dotnet new console --name build --force
+dotnet build build
+");
+
+؟ Install ⎚ o(ι.Install(∅, "."),
+@"Source dir not found: ./src/
+dotnet new console --name build --force
+dotnet publish build --runtime osx-x64
+Remove /usr/local/Uta
+Move src/build/bin/Debug/netcoreapp3.1/osx-x64/publish to
+/usr/local/Uta
+ln -s /usr/local/Uta/build /usr/local/bin/uta");
+
+؟ Publish ⎚ o(ι.Publish(∅, "src"),
+@"Source dir not found: src/
+dotnet new console --name build --force
+dotnet publish build --runtime osx-x64
+");
+
+؟ Test ⎚ o(ι.Test(∅, "."),
+@"Source dir not found: ./src/
+Source dir not found: ./test/
+dotnet new solution --name Main --force
+dotnet new classlib --name src --force
+dotnet new nunit --name test --force
+dotnet add test/test.csproj reference src/src.csproj
+dotnet sln add src/src.csproj test/test.csproj
+dotnet test" + " \n");
+/*
+@"Source dir not found: src/
+Source dir not found: src/test/
+dotnet new solution --name Main
+dotnet new classlib --name src --force
+dotnet new nunit --name test --force
+dotnet add test/test.csproj reference src/src.csproj
+dotnet sln add src/src.csproj test/test.csproj
+dotnet test" + " \n");
+*/
+    // Fails in .net because of path differences
+    #if UNITY_EDITOR
+
+    ؟ Export ⎚ ι.Export(∅, "Assets/Howl/Editor/Ng", "Sandbox/CLI");
+
+    ؟ Run(){
+        ∙ target = "Sandbox/HelloWorld";
+        ∙ build  = $"{target}/build";
+        ∙ hocus  = $"{build}/build.csproj";
+        ∙ pocus  = $"{build}/program.cs";
+        ι.Run(∅, target);
+        o( hocus.Exists(), ✓ );
+        o( pocus.Exists(), ✗ );
+    }
+
+    #endif
+
+}}

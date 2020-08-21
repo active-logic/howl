@@ -1,0 +1,84 @@
+⊐ System.IO;
+⊐ InvOp = System.InvalidOperationException;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ StringExtTest : TestBase{
+
+    ؟ Comment ⎚ o( "Foo".Comment(), "// Foo\n");
+
+    ؟ Insert(){
+        ∙ x = "Foo |=\n"
+              + "------\n"
+              + "=| Bar\n";
+        ∙ y = x.Insert("Hot potatoes\n& fries", "|=", "=|");
+        ∙ z = "Foo |=\n"
+              + "Hot potatoes\n"
+              + "& fries\n"
+              + "=| Bar\n";
+        //rint($"OUTPUT\n{y}");
+        o(y, z);
+    }
+
+    //Expected: "Foo |=\nHot potatoes\n& fries\n=| Bar\n"
+    //But was:  "Foo |=Hot potatoes\n& fries\n=| Bar\n"
+
+    ؟ Lines(){
+        ∙ x = "Foo\nbar\n".Lines();
+        o(x❙, 2);
+        o(x[0], "Foo\n");
+        o(x[1], "bar\n");
+    }
+
+    ؟ LineCount(){
+        o("Foo\nbar\n".LineCount(), 2);
+    }
+
+    ؟ Lines_doubleSpaced(){
+        ∙ x = "Foo\n\nbar\n".Lines();
+        o(x❙, 3);
+        o(x[0], "Foo\n");
+        o(x[1], "\n");
+        o(x[2], "bar\n");
+    }
+
+    ؟ Lines_noTrailingNewLine(){
+        ∙ x = "Foo\nbar".Lines();
+        o(x❙, 2);
+        o(x[0], "Foo\n");
+        o(x[1], "bar");
+    }
+
+    #if UNITY_EDITOR
+    ؟ ReadLines(){
+        ㄹ π = "Assets/Howl/Extras/cs-snippets.cson";
+        ㄹ[] x = π.ReadLines();
+        o(x[0], "'.source.cs':");
+        o(x[1], "  'Abstract':");
+        o(x❙, 142);
+    }
+    #endif
+
+    ؟ Reverse(){
+        o("".Reverse(), "");
+        o("a".Reverse(), "a");
+        o("abc".Reverse(), "cba");
+    }
+
+    ؟ Tokenize(){
+        ∙ x = "Foo.bar".Tokenize();
+        o(x❙, 3);
+        o(x[0], "Foo");
+        o(x[1], ".");
+        o(x[2], "bar");
+    }
+
+    ؟ Tokenize_With_at(){
+        ∙ x = "Foo.@bar".Tokenize();
+        o(x❙, 3);
+        o(x[0], "Foo");
+        o(x[1], ".");
+        o(x[2], "@bar");
+    }
+}}

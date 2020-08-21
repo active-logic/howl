@@ -1,0 +1,23 @@
+⊐ System.IO;
+⊐ InvOp = System.InvalidOperationException;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ BlockTest : TestBase{
+
+    ؟ Enter(){
+        Block.Def z = ("/*", "*/");
+        o(Block.Enter("Foo/*", 2, z) ☰ ∅);
+        o(Block.Enter("Foo/*", 3, z) ≠ ∅);
+        o(Block.Enter("Foo/*", 4, z) ☰ ∅);
+    }
+
+    ؟ Exit(){
+        Block.Def z = ("/*", "*/");
+        ∙ block = Block.Enter("Foo/*", 3, z);
+        o(block.Exit("0123*/", 4), ✗);
+        o(block.Exit("0123*/", 5), ✓);
+    }
+
+}}

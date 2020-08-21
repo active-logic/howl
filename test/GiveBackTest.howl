@@ -1,0 +1,31 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl.Util;
+
+⊓ Unit{
+‒ ○ GiveBackTest : TestBase{
+
+    ▰ GiveBack ι;
+
+    ⍜ Setup ⎚ ι = ⌢ GiveBack();
+
+    ؟ A_InitialState(){
+        o( ι.didViewOptions, ✗ );
+        o( ι.showOptions,    ✗ );
+        o( ι.displayNotice,  ✗ );
+    }
+
+    ؟ B_Notice_OnMaxUseCount(){
+        ι.MaxUseCount();
+        o(ι.displayNotice, ✓);
+        o(ι.showOptions, ✓);
+    }
+
+    ؟ C_DismissNotice(){
+        ι.MaxUseCount();
+        ι.Dismiss();
+        ι.didViewOptions = ✓;
+        o(ι.displayNotice, ✗);
+        o(ι.showOptions, ✗);
+    }
+
+}}

@@ -1,0 +1,53 @@
+⊐ System.IO;
+⊐ InvOp = System.InvalidOperationException;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ StringArrayTest : TestBase{
+
+    ᴸ ㄹ π = "ArrayTest.txt";
+
+    ؟ Join(){
+        ∙ x = ⌢ ㄹ[]{"Foo", "Bar"}.Join('\n');
+        o( x, "Foo\nBar");
+    }
+
+    ؟ Replace ⎚ o(
+        ⌢ ㄹ[]{"a", "b", "c", "d"}.Replace(
+            ⌢ ㄹ[]{"b", "c"},
+            ⌢ ㄹ[]{"e"}
+        ),
+        ⌢ ㄹ[]{"a", "e", "d"}
+    );
+
+    ؟ Matches ⎚ o( ⌢ ㄹ[]{"a", "b", "c", "d"}.Matches(
+        ⌢ ㄹ[]{"b", "c"}, 1
+    ));
+
+    ؟ RemoveRange(){
+        ∙ x = ⌢ ㄹ[]{"a", "b", "c", "d"};
+        StringArray.RemoveRange(ref x, 1, 2);
+        o(x❙, 2);
+        o(x, ⌢ ㄹ[]{"a", "d"});
+    }
+
+    ؟ ReplaceRange(){
+        ∙ x = ⌢ ㄹ[]{"a", "b", "c", "d"};
+        StringArray.ReplaceRange(ref x, 1, 2, ⌢ ㄹ[]{"e"});
+        o(x, ⌢ ㄹ[]{"a", "e", "d"});
+    }
+
+    ؟ Write_Lines(){
+        ⌢ ㄹ[]{"Foo", "Bar"}.Write(π);
+        o( File.ReadAllText(π), "Foo\nBar\n" );
+        File.Delete(π);
+    }
+
+    ؟ Write_WithSep(){
+        ⌢ ㄹ[]{"Foo", "Bar"}.Write(π, '-');
+        o( File.ReadAllText(π), "Foo-Bar" );
+        File.Delete(π);
+    }
+
+}}

@@ -1,0 +1,131 @@
+⊐ System.IO;
+⊐ InvOp = System.InvalidOperationException;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ RepTest : TestBase{
+
+    // Test factory methods ----------------------------------------
+
+    ؟ FromTuple()
+    { Rep x = ("a", "b"); o(x.a, "a"); o(x.b, "b"); }
+
+    ؟ FromBinaryTuple_Bridging(){
+        Rep x = ("🍩", "Class ");
+        o( x.bridge, ✓ );
+    }
+
+    ؟ FromTernaryTuple_Bridging(){
+        Rep x = ("🍘", "class ", alt: "x");
+        o( x.bridge, ✓ );
+    }
+
+    ؟ FromNew_ImplicitBridging(){
+        ∙ x = ⌢ Rep("⍥", "public void", px: "pv");
+        o( x.bridge, ✓);
+    }
+
+    ؟ FromTuple_badDef(){
+        ಠᴗಠ<InvOp>(() → { Rep x = ((ㄹ)∅, "x"); });
+        ಠᴗಠ<InvOp>(() → { Rep x = ("x",(ㄹ)∅); });
+    }
+
+    ؟ Mul(){
+        Rep x = ("⦿", "void");
+        o("⦿ Act()" * x, "void Act()");
+    }
+
+    ؟ Minus(){
+        Rep x = ("⦿", "void");
+        o(x.nts, ✗);
+        o((-x).nts, ✓);
+    }
+
+    ؟ Nit() → o( ⌢ Rep("≥", ">=").nit, ✓ );
+
+    ؟ Encloses(){
+        Rep x = ("P", "public"), y = ("PS", "public static");
+        o(x.Encloses(y), ✗);
+        o(y.Encloses(x), ✓);
+    }
+
+    ؟ Encloses_MustBeWider(){
+        Rep x = ("A", "public"), y = ("B", "public");
+        o(x.Encloses(y), ✗);
+        o(y.Encloses(x), ✗);
+    }
+
+    ؟ Name_1(){
+        Rep x = ("-", "namespace ");
+        o(x.name, "Namespace");
+    }
+
+    ؟ Name_2(){
+        Rep x = ("-", "using static");
+        o(x.name, "Using static");
+    }
+
+    ؟ Div(){
+        Rep x = ("⦿", "void");
+        o("void Act()" / x, "⦿ Act()");
+    }
+
+    ؟ Div_honors_word_boundaries(){
+        Rep x = ("•", ".Value");
+        o(x.bridge, ✓);
+        o("[i].ValueMatches(key)".Tokenize() / x,
+          "[i].ValueMatches(key)".Tokenize());
+    }
+
+    ؟ Div2(){
+        Rep x = ("⍥", "public void");
+        o("public void Act()" / x, "⍥ Act()");
+    }
+
+    #if UNITY_EDITOR
+    ؟ Div_ConflictThrows(){
+        System.⒜ act = () → {
+            ∙ ㄸ = "メ.Reach".Tokenize() / (Rep)("メ", "Vector3");
+        };
+        ⤴(Config.ι.ignoreConflicts){
+            act();
+        }⤵ ಠᴗಠ<InvOp>( () → act() );
+
+    }
+    #endif
+
+    ؟ Div_bridged(){
+        Rep x = ("!", "public static");
+        o("public static void" / x, "! void");
+    }
+
+    ؟ Div_tokenized(){
+        Rep x = ("ᆞ", "int");
+        o("Print(foo); int z;" / x, "Print(foo); ᆞ z;");
+    }
+
+    ؟ DivArray_bridged(){
+        Rep x = ("!", "public static");
+        o(⌢ ㄹ[]{"public", " ", "static"} / x, ⌢ ㄹ[]{"!"});
+    }
+
+    ؟ DivArray_tokenized(){
+        Rep x = ("ᆞ", "int");
+        o(⌢ ㄹ[]{"Print", " ", "void"} / x,
+          ⌢ ㄹ[]{"Print", " ", "void"});
+    }
+
+    ؟ Validate(){
+        ಠᴗಠ<InvOp>( () → Rep.Validate(∅) );
+        ಠᴗಠ<InvOp>( () → Rep.Validate("?") );
+        ಠᴗಠ<InvOp>( () → Rep.Validate("") );
+        ಠᴗಠ<InvOp>( () → Rep.Validate(" ") );
+    }
+
+    ؟ ToString_(){
+        Rep x = ("ᆞ", "int");
+        o( x🝠, "Int ⌞ᆞ⌝ → ⌞int⌝" );
+    }
+
+}}

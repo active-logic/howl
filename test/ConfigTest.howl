@@ -1,0 +1,33 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ ConfigTest : TestBase{
+
+    Config c;
+
+    ⍜ Setup() → c = ⌢ Config();
+
+    #if UNITY_EDITOR
+    ؟ GetInstance() → Config.ι🝠;
+    #endif
+
+    ؟ AllowImport(){
+        ∙ x = c.allowImport;
+        c.allowImport = !x;   o(c.allowImport, !x);
+        c.allowImport = x;    o(c.allowImport,  x);
+    }
+
+    ؟ AllowExport(){
+        ∙ x = c.allowExport;
+        c.allowExport = !x;   o( c.allowExport, !x);
+        c.allowExport = x;    o( c.allowExport,  x);
+    }
+
+    ؟ IgnoreConflicts(){
+        ∙ x = c.ignoreConflicts;
+        c.ignoreConflicts = !x;   o( c.ignoreConflicts, !x);
+        c.ignoreConflicts = x;    o( c.ignoreConflicts,  x);
+    }
+
+}}

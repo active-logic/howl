@@ -1,0 +1,10 @@
+⊐ NUnit.Framework;
+
+⊓ Unit{
+‒ ○ LoggerTest : TestBase{
+
+    ؟ Message ⎚ 🐰 "Message";
+    ؟ Warning ⎚ 🐤 "Warn";
+    ؟ Error   ⎚ 🦞 "Error";
+
+}}

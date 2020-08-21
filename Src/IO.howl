@@ -5,7 +5,6 @@
 ⊐ System.Runtime.Serialization.Formatters.Binary;
 
 ⊓ Active.Howl{
-
 ‒̥ ○ IO{
 
     ‒̥ ┈ Clean(⦿ ㄹ dir) {
@@ -33,11 +32,16 @@
         }
     }
 
-    ‒̥  DateTime DateModified(⦿ ㄹ π) → File.GetLastWriteTime(π);
+    ‒̥  DateTime  DateModified(⦿ ㄹ π) → File.GetLastWriteTime(π);
 
     ‒̥ ┈ DeleteFileOrDir(⦿ ㄹ π, ㅇ withMetaFile){
         ⤴ (π.IsFile()) π.Delete(withMetaFile);
         ⤴ (π.IsDir()) π.RmDir(withMetaFile);
+    }
+
+    ‒̥ ┈ JustDelete(⦿ ㄹ π, ㅇ dry){
+        ⤴ (dry) ⮐ ;
+        File.Delete(π);
     }
 
     ‒̥ ┈ Delete(⦿ ㄹ π, ㅇ withMetaFile){
@@ -67,6 +71,9 @@
 
     ‒̥ DirectoryInfo MkDir (⦿ ㄹ π) → Dir.CreateDirectory(π);
 
+    ‒̥ DirectoryInfo MkDir (⦿ ㄹ π, ㅇ dry)
+    → dry ? ∅ : Dir.CreateDirectory(π);
+
     ‒̥ ㄹ MetaFile(⦿ ㄹ π)
     → (π = π.NoFinalSep() + ".meta").Exists() ? π : ∅;
 
@@ -77,6 +84,12 @@
                     φ.MoveTo($"{ㄸ}/{φ.RelativeTo(relTo)}",
                              withMetaFile: ✓);
         }
+    }
+
+    ‒̥ ┈ JustMoveTo(⦿ ㄹ ㅂ, ㄹ ㄸ, ㅇ dry){
+        ⤴ (dry) ⮐ ;
+        //ㄸ.DirName().MkDir();
+        Directory.Move(ㅂ, ㄸ);
     }
 
     ‒̥ ┈ MoveTo(⦿ ㄹ ㅂ, ㄹ ㄸ, ㅇ withMetaFile){
@@ -103,7 +116,14 @@
                    : (╯°□°)╯ ⌢ ArgEx($"{π} is not a subpath of {κ}");
     }
 
-    ‒̥ ┈ RmDir(⦿ ㄹ π, ㅇ withMetaFile){
+    ‒̥ ┈ RmDir(⦿ ㄹ π, ㅇ dry){
+        if(!π.IsDir()) ⮐ ;
+        ∀ (∙ κ ∈ π.Files ()) κ.JustDelete(dry);
+        ∀ (∙ κ ∈ π.Dirs  ()) κ.RmDir(dry);
+        Directory.Delete(π);
+    }
+
+    ‒̥ ┈ RmDir(⦿ ㄹ π, ㅇ withMetaFile, ㅇ dry){
         if(!π.IsDir()) ⮐ ;
         ∀ (∙ κ ∈ π.Files ())
             κ.Delete(withMetaFile: withMetaFile);

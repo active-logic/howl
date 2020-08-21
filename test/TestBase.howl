@@ -1,0 +1,20 @@
+⊐ NUnit.Framework;
+
+‒ ○ TestBase {
+
+#if UNITY_EDITOR
+    ⍜ DisableLogger ⎚  That.Logger.enabled = ✗;
+    ⍉ EnableLogger  ⎚  That.Logger.enabled = ✓ ;
+#endif
+
+    ◠ ┈ o(ㅇ arg)    → Assert.That(arg);
+    ◠ ┈ o(⊡ x, ⊡ y)  → Assert.That(x, Is.EqualTo(y));
+    #if UNITY_EDITOR
+    ◠ ┈ Print(⊡ msg)  → 🍥(msg);
+    ◠ ┈ Warn(⊡ msg)   → 🔸(msg);
+    #else
+    ◠ ┈ Print(⊡ msg)  → System.Console.WriteLine(msg);
+    ◠ ┈ Warn(⊡ msg)   → System.Console.WriteLine(msg);
+    #endif
+
+}
