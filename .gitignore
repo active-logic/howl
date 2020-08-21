@@ -1,5 +1,4 @@
 build
 src/build
 # Transitional
-integrate.sh
 *.meta

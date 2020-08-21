@@ -9,7 +9,7 @@
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.0.14";
+        🐰 "Howl CLI v0.0.17";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -58,28 +58,23 @@
         ⤴ (rt ≠ "osx-x64"){ 🐰 $"N/A: 'install' ({rt})"; ⮐ ∅; }
         ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(),
         name = Π.Substring(Π.LastIndexOf("/") + 1);
-        ι += Publish(∅, $"{π}/src");
-        ∙ build = "src/build/bin/Debug/netcoreapp3.1/osx-x64/publish";
-        ∙ local = $"/usr/local/{name}";
-        ι += $"Remove {local}\n";
-        local.RmDir(dry);
-        ι += $"Move {build} to\n{local}\n";
-        build.JustMoveTo(local, dry);
+        ι += Publish(∅, $"{π}/src", "Release");
+        ∙ build="src/build/bin/Release/netcoreapp3.1/osx-x64/publish";
         ∙ link  = $"/usr/local/bin/{name.ToLower()}";
-        ∙ target = $"/usr/local/{name}/build";
         link.JustDelete(dry);
-        ι += Runner.Cmd("ln", $"-s {target} {link}", "/", dry);
-        🍥(ι);
+        ι += Runner.Cmd(
+             "ln", $"-s {build.FullPath()}/build {link}", π, dry);
         ⮐ ι;
     }
 
     ‒ ㄹ Publish(⋯ ㄹ[] ㅂ){
         ㄹ ι = ∅;
         ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
+        ∙ config = (ㅂ❙> 2) ? ㅂ[2] : "Debug";
         ω.RmDir(dry);
         ι += Export(∅, π, ω);
         ι += δ.New($"console --name build --force", Π, ω, dry);
-        ι += δ.Publish("build", Π, rt: ∅, dry);
+        ι += δ.Publish($"build -c {config}", Π, rt: ∅, dry);
         ⮐ ι;
     }
 
