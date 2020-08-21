@@ -1,0 +1,169 @@
+⊐ System; ⊐ System.IO; ⊐ System.Linq;
+⊐ ArgEx = System.ArgumentException;
+⊐ Dir = System.IO.Directory;
+⊐ SysPath = System.IO.Path;
+⊐ System.Runtime.Serialization.Formatters.Binary;
+
+⊓ Active.Howl{
+
+‒̥ ○ IO{
+
+    ‒̥ ┈ Clean(⦿ ㄹ dir) {
+        ∀ (∙ child ∈ dir.Dirs()){
+            child.Clean();
+            child.MetaFile()?.Delete(withMetaFile: ✗);
+            ↯ { Directory.Delete(child); } ⇤ (IOException) {}
+        }
+    }
+
+    ‒̥ ┈ CopyFiles(⦿ ㄹ ㅂ, ㄹ ㄸ, ㄹ relTo, ㅇ mkdir, ㅇ dry,
+                                                  ⋯ ㄹ[] patterns){
+        ∀ (∙ π ∈ patterns){
+            ∙ σ = FileSystem.Paths(ㅂ, π);
+            ∀ (∙ φ ∈ σ) φ.CopyTo($"{ㄸ}/{φ.RelativeTo(relTo)}",
+                                 mkdir: mkdir, dry: dry);
+        }
+    }
+
+    ‒̥ ┈ CopyTo(⦿ ㄹ ㅂ, ㄹ ㄸ, ㅇ mkdir, ㅇ dry=✗){
+        ⤴ (dry) 🐰 $"Copy {ㅂ.RelativeTo("Assets")} -> {ㄸ}";
+        ⤵ {
+            ⤴ (mkdir) ㄸ.DirName().MkDir();
+            File.Copy(ㅂ, ㄸ);
+        }
+    }
+
+    ‒̥  DateTime DateModified(⦿ ㄹ π) → File.GetLastWriteTime(π);
+
+    ‒̥ ┈ DeleteFileOrDir(⦿ ㄹ π, ㅇ withMetaFile){
+        ⤴ (π.IsFile()) π.Delete(withMetaFile);
+        ⤴ (π.IsDir()) π.RmDir(withMetaFile);
+    }
+
+    ‒̥ ┈ Delete(⦿ ㄹ π, ㅇ withMetaFile){
+        File.Delete(π);
+        ⤴ (withMetaFile) π.MetaFile()?.Delete(withMetaFile: ✗);
+    }
+
+    ‒̥ ┈ DeleteFiles(⦿ ㄹ π, ㄹ pattern, ㅇ withMetaFile){
+        ∀ (∙ x ∈ FileSystem.Paths(π, pattern)) x.Delete(withMetaFile);
+    }
+
+    ‒̥ ㅇ Exists(⦿ ㄹ π) → File.Exists(π) ∨ Directory.Exists(π);
+
+    ‒̥ ㄹ FileName(⦿ ㄹ π) → SysPath.GetFileName(π.FullPath());
+
+    ‒̥ ㄹ[] Files(⦿ ㄹ π) → Directory.GetFiles(π);
+
+    ‒̥ ㄹ[] Dirs(⦿ ㄹ π) → Directory.GetDirectories(π);
+
+    ‒̥ ㄹ DirName(⦿ ㄹ π) → SysPath.GetDirectoryName(π).Nix();
+
+    ‒̥ ㄹ FullPath(⦿ ㄹ π) → SysPath.GetFullPath(π).Nix();
+
+    ‒̥ ㅇ IsDir(⦿ ㄹ π) → Directory.Exists(π);
+
+    ‒̥ ㅇ IsFile(⦿ ㄹ π) → File.Exists(π);
+
+    ‒̥ DirectoryInfo MkDir (⦿ ㄹ π) → Dir.CreateDirectory(π);
+
+    ‒̥ ㄹ MetaFile(⦿ ㄹ π)
+    → (π = π.NoFinalSep() + ".meta").Exists() ? π : ∅;
+
+    ‒̥ ┈ MoveFiles(⦿ ㄹ ㅂ, ㄹ ㄸ, ㄹ relTo, ㅇ dry, params ㄹ[] patterns){
+        ∀ (∙ π ∈ patterns){
+            ∙ σ = FileSystem.Paths(ㅂ, π);
+            ∀ (∙ φ ∈ σ) ⤴ (!dry)
+                    φ.MoveTo($"{ㄸ}/{φ.RelativeTo(relTo)}",
+                             withMetaFile: ✓);
+        }
+    }
+
+    ‒̥ ┈ MoveTo(⦿ ㄹ ㅂ, ㄹ ㄸ, ㅇ withMetaFile){
+        ㄸ.DirName().MkDir();
+        File.Move(ㅂ, ㄸ);
+        ㄹ m0 = ㅂ.MetaFile();
+        ㄹ m1 = ㄸ.PathToMetaFile();
+        ⤴ (m0.Exists()) File.Move(m0, m1);
+    }
+
+    ‒̥ ㄹ Nix(⦿ ㄹ x) → x.Replace('\\', '/');
+
+    ‒̥ ㄹ NoFinalSep(⦿ ㄹ π)
+    → (π = π.Nix()).EndsWith("/") ? π.Substring (0, π❙ - 1) : π;
+
+    ‒̥ ㄹ PathToMetaFile(⦿ ㄹ π) → π = π.NoFinalSep() + ".meta";
+
+    ‒̥ ㄹ Read(⦿ ㄹ π) → File.ReadAllText(π);
+
+    ‒̥ ㄹ RelativeTo(⦿ ㄹ π, ㄹ κ){
+        π = π.FullPath(); κ = κ.FullPath();
+        ⤴ (κ[κ❙-1] ≠ '/') κ += '/';
+        ⮐ π.StartsWith(κ) ? π.Substring(κ❙)
+                   : (╯°□°)╯ ⌢ ArgEx($"{π} is not a subpath of {κ}");
+    }
+
+    ‒̥ ┈ RmDir(⦿ ㄹ π, ㅇ withMetaFile){
+        if(!π.IsDir()) ⮐ ;
+        ∀ (∙ κ ∈ π.Files ())
+            κ.Delete(withMetaFile: withMetaFile);
+        ∀ (∙ κ ∈ π.Dirs  ())
+            κ.RmDir(withMetaFile);
+        ⤴ (withMetaFile)
+            π.MetaFile()?.Delete(withMetaFile: ✗);
+        Directory.Delete(π);
+    }
+
+    ‒̥ ㄹ[] ReadLines(⦿ ㄹ π) → File.ReadLines(π)৴;
+
+    ‒̥  T ReadObject<T>(⦿ ㄹ π){
+        ∙ φ = ⌢ BinaryFormatter();
+        ∙ s    = ⌢ FileStream(π,  FileMode.Open, FileAccess.Read);
+        ∙ @out = φ.Deserialize(s);
+        s.Close();
+        ⮐ (T)@out;
+    }
+
+    ‒̥  T ReadObject<T>(⦿ ㄹ π, T @default)
+    → π.Exists() ? π.ReadObject<T>() : @default;
+
+    ‒̥ long Size(⦿ ㄹ π) → π.Read()❙; //→ ⌢ FileInfo(π)❙;
+
+    ‒̥ long DrySize(⦿ ㄹ π) → π.Read().Replace(" ", "")❙;
+
+    ‒̥ ᆞ StatementCount(⦿ ㄹ π)
+    { ㄹ x = π.Read(), y = x.Replace(";", ""); ⮐ x❙ - y❙; }
+
+    ‒̥ ᆞ NumberOfLines(⦿ ㄹ π) → π.ReadLines()❙;
+
+    ‒̥ ㄹ WithFinalSep(⦿ ㄹ π)
+    → (π = π.Nix()).EndsWith("/") ? π : π + "/";
+
+    ‒̥ ┈ Write(⦿ ㄹ π, ㄹ text, ㅇ mkdir=✗, ㅇ importAsset=✗){
+        ⤴ (mkdir) Directory.GetParent(π).Create();
+        File.WriteAllText(π, text);
+        #if UNITY_EDITOR
+        ⤴ (importAsset) UnityEditor.AssetDatabase.ImportAsset(π);
+        #endif
+    }
+
+    ‒̥ ┈ Write(⦿ ㄹ π, ㄹ text, System.DateTime date){
+        Directory.GetParent(π).Create();
+        File.WriteAllText(π, text);
+        File.SetLastWriteTime(π, date);
+    }
+
+    ‒̥  ┈ WriteObject(⦿ ㄹ π, object @out){
+        ∙ φ = ⌢ BinaryFormatter();
+        ∙ s = ⌢ FileStream(π, FileMode.Create, FileAccess.Write);
+        φ.Serialize(s, @out);
+        s.Close();
+    }
+
+    #if UNITY_EDITOR
+    ∘ ┈ Print(ㄹ x) → 🍥(x);
+    #else
+    ∘ ┈ Print(ㄹ x) → Console.WriteLine(x);
+    #endif
+
+}}

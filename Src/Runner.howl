@@ -1,0 +1,21 @@
+⊐ System; ⊐ System.Diagnostics; ⊐ System.Text; ⊐ System.Threading;
+⊐ ArgEx = System.ArgumentException;
+
+⊓ Active.Util{
+‒̥ ○ Runner{
+
+    ‒̥ ┈ Cmd(ㄹ cmd, ㄹ args, ㄹ workdir, ㅇ dry=✓) {
+        ⤴ (workdir ☰ ∅) (╯°□°)╯ ⌢ ArgEx("Better have a work dir");
+        ⤳ (!dry) ⊐ (∙ φ = ⌢ Process()){
+            φ.StartInfo.WorkingDirectory = workdir;
+            φ.StartInfo.FileName         = cmd;
+            φ.StartInfo.Arguments        = args;
+            φ.StartInfo.UseShellExecute  = ✓;
+            φ.StartInfo.CreateNoWindow   = ✓;
+            φ.Start();
+            φ.WaitForExit();
+        }
+
+    }
+
+}}

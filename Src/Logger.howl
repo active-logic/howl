@@ -1,0 +1,21 @@
+#if !UNITY_2018_1_OR_NEWER
+⊓ That{ ‒̥ ○ Logger{ ‒̥
+
+    ㅇ enabled{ ╰{ log.ε=value; }  }
+
+    ‒̥ ┈ Log  (⊡ x) → log.Print(x);
+    ‒̥ ┈ Err  (⊡ x) → log.Print(x);
+    ‒̥ ┈ Warn (⊡ x) → log.Print(x);
+
+}}
+
+‒ ○ log{
+
+    ‒̥ ㄹ message { ╰{ ⤴ (ε) Print($"(•ᴗ•)ノ 〜 {value}");  }}
+    ‒̥ ㄹ warning { ╰{ ⤴ (ε) Print($"(」°ロ°)」〜 {value}"); }}
+    ‒̥ ㄹ error   { ╰{ ⤴ (ε) Print($"(╬`益´)」〜 {value}");  }}
+    ‒̥ ┈ Print(⊡ x) → System.Console.WriteLine(x);
+    ︲̥ ㅇ ε = ✓;
+
+}
+#endif

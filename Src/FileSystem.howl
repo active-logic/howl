@@ -1,0 +1,56 @@
+⊐ System; ⊐ System.IO; ⊐ Ex = System.Exception;
+⊐ System.Collections.Generic; ⊐ System.Linq;
+
+⊓ Active.Howl {
+‒̥ ○ FileSystem{
+
+    ‒̥ ㄹ FindInParent(ㄹ root, ㄹ pattern)
+    → DoFindInParent(⌢ DirectoryInfo(root), pattern);
+
+    ‒̥ ㅇ Match(ㄹ pattern, ㄹ root, ㅇ files=✓, ㅇ dirs=✗)
+    → FindAny(⌢ DirectoryInfo(root), pattern, files, dirs);
+
+    ‒̥ 𝕃<ㄹ> Paths(ㄹ root, ⋯ ㄹ[] patterns){
+        ∙ ㄸ = ⌢ 𝕃<ㄹ>();
+        ∀ (∙ π ∈ patterns) Traverse(⌢ DirectoryInfo(root), π, ㄸ);
+        ⮐ ㄸ;
+    }
+
+    ‒̥ ㄹ ZeroOrOne(⦿ ㄹ root, ㄹ pattern){
+        ∙ ㄸ = Find(root, pattern);
+        ⤴ (ㄸ⁝ > 1) (╯°□°)╯
+                          ⌢ Ex($"There can be only one '{pattern}'");
+        ⮐ ㄸ⁝ ☰ 0 ? ∅ : ㄸ[0];
+    }
+
+    ‒̥ ㄹ Path(ㄹ root, ㄹ pattern){
+        ∙ ㄸ = Paths(root, pattern);
+        ⤴(ㄸ⁝ > 1) (╯°□°)╯ ⌢ Ex($"Only zero or one '{pattern}'");
+        ⮐ ㄸ⁝ ☰ 0 ? ∅ : ㄸ[0];
+    }
+
+    ∘ 𝕃<ㄹ> Find(ㄹ root, ㄹ pattern) → null;
+
+    ∘ ┈ Traverse(DirectoryInfo dir, ㄹ pattern, 𝕃<ㄹ> ㄸ){
+        ㄸ.AddRange(‖ f ∈ dir.GetFiles(pattern) ፥ f.FullName.Nix());
+        ∀ (∙ x ∈ dir.GetDirectories()) Traverse(x, pattern, ㄸ);
+    }
+
+    ∘ ㄹ DoFindInParent(DirectoryInfo dir, ㄹ pattern){
+        ∙ files = dir.GetFiles(pattern);
+        ∙ dirs = dir.GetDirectories(pattern);
+        ⤴(files❙ > 0) ⮐ files [0]🝠;
+        ⤴(dirs❙  > 0) ⮐ dirs  [0]🝠;
+        ∙ π = dir.Parent; ⮐ π ≠ ∅ ? DoFindInParent(π, pattern) : ∅;
+    }
+
+    ∘ ㅇ FindAny(DirectoryInfo dir, ㄹ pattern, ㅇ files=✓, ㅇ dirs=✗){
+        ⤴( files ∧ dir.GetFiles       (pattern)❙ > 0 ) ⮐ ✓;
+        ⤳( dirs  ∧ dir.GetDirectories (pattern)❙ > 0 ) ⮐ ✓;
+        ∀ (∙ x ∈ dir.GetDirectories()){
+            ⤴ (FindAny(x, pattern, files, dirs)) ⮐ ✓;
+        }
+        ⮐ ✗;
+    }
+
+}}

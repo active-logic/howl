@@ -1,0 +1,62 @@
+⊐ System;
+⊐ Active.Util;
+
+⊓ Active.Howl{
+‒ ○ CLI{
+
+    ㄹ dotnet = "/usr/local/share/dotnet/dotnet";
+
+    ‒̥ ┈ Main(ㄹ[] ㅂ){
+        🐰 "Howl CLI v0.0.8";
+        🐰 ⌢ CLI().Parse(ㅂ);
+    }
+
+    ㄹ Parse(ㄹ[] ㅂ){
+        ⤴ (ㅂ❙ < 1) ⮐ help;
+        ⤭ (ㅂ[0]){
+            ⥰ "export": Export (ㅂ); ¦
+            ⥰ "import": Import (ㅂ); ¦
+            ⥰ "run"   : Run    (ㅂ); ¦
+            ～: ⮐ $"Unrecognized command [{ㅂ[0]}]";
+        }
+        ⮐ "...all done";
+    }
+
+    ‒ ㄹ Export(⋯ ㄹ[] ㅂ){
+        ㄹ src = ㅂ[1].WithFinalSep(),
+          dst = ㅂ[2].WithFinalSep();
+        ∙ paths = FileSystem.Paths(src, "*.howl");
+        ∀ (∙ x ∈ paths){
+            ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
+            🐰y;
+            Howl.BuildFile(x, y);
+        }
+        ⮐ "Exported some files";
+    }
+
+    ‒ ㄹ Run(⋯ ㄹ[] ㅂ){
+        ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
+        ω.RmDir(withMetaFile: ✗);
+        Export(∅, π, ω);
+        //
+        ∙ @new = $"new console --name build --force";
+        🐰 $"dotnet {@new}";
+        Runner.Cmd(dotnet, @new, Π, dry: ✗);
+        $"{ω}/Program.cs".Delete(withMetaFile: ✓);
+        //
+        ∙ @run = "run --project build";
+        🐰 $"dotnet {@run}";
+        Runner.Cmd(dotnet, @run, Π, dry: ✗);
+        ⮐ ∅;
+    }
+
+    ㄹ Import(ㄹ[] ㅂ) → 🐤 "Unimplemented";
+
+    ㄹ help =
+@"Usage:
+howl run DIR                - Build and run a console application
+howl export SRC_DIR DST_DIR - Export Howl scripts to C#
+howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
+";
+
+}}

@@ -1,0 +1,90 @@
+⊐ System;    ⊐ System.Collections.Generic;
+⊐ System.IO; ⊐ System.Linq;
+⊐ System.Text; ⊐ System.Text.RegularExpressions;
+
+⊓ Active.Howl{
+‒̥ ○ StringExt{
+
+    ∘ Regex Az09 = ⌢ Regex("^[a-zA-Z0-9]*$");
+
+    ‒̥ ㄹ Comment(⦿ ㄹ x) → $"// {x}\n";
+
+    ‒̥ ㄹ Ftu(⦿ ㄹ x) → x.First()🝠.ToUpper() + x.Substring(1);
+
+    ‒̥ ㅇ IsAlphaNumeric(⦿ ㄹ x) → Az09.IsMatch(x);
+
+    ‒̥ ㅇ IsWhiteSpace(⦿ ㄹ x) → x ≠ ∅ ∧ ㄹ.IsNullOrWhiteSpace(x);
+
+    ‒̥ ᆞ LineCount(⦿ ㄹ x){
+        ᆞ n = 0;
+        ⟳(ᆞ i = 0; i < x❙; i++) ⤴(x[i] ☰ '\n') n++;
+        ⮐ n;
+    }
+
+    ‒̥ ㄹ Insert(⦿ ㄹ dst, ㄹ src, ㄹ lm, ㄹ rm){
+        ∙ l = dst.IndexOf(lm);
+        ∙ r = dst.IndexOf(rm);
+        ⤴(l < 0){ 🔸($"{lm} marker needed"); ⮐ ∅;  }
+        ⤴(r < 0){ 🔸($"{rm} marker needed"); ⮐ ∅; }
+        l = dst.IndexOf('\n', l);
+        r = dst.LastIndexOf('\n', r) ;
+        ⤴(l < 0){ 🔸($"No new line after marker"); ⮐ ∅; }
+        ⤴(r < 0){ 🔸($"No new line before marker"); ⮐ ∅; }
+        ∙ header = dst.Substring(0, l + 1);
+        ∙ footer = dst.Substring(r);
+        ⮐ header + src + footer;
+    }
+
+    ‒̥ ㄹ[] Lines(⦿ ㄹ self){
+        ⤴(self ☰ ∅) ⮐ ∅;
+        ⤴(self❙ ☰ 0) ⮐ ⌢ ㄹ[]{};
+        ∙ ㄸ = ⌢ 𝕃<ㄹ>();
+        ∙ x = ⌢ StringBuilder();
+        ⟳(ᆞ i = 0; i < self❙; i++){
+            ∙ c = self[i];
+            x.±(c);
+            ⤴(c ☰ '\n'){
+                ㄸ.Add(x🝠);
+                x.Clear();
+            }
+        }
+        ⤴(x❙ > 0) ㄸ.Add(x🝠);
+        ⮐  ㄸ৴;
+    }
+
+    ‒̥ bool Matches(this string x, string y, int at){
+        var w = at + y❙;
+        if(w > x❙) ⤬
+        var z = x.Substring(at, y❙);
+        return z ☰ y;
+    }
+    
+    ‒̥ ㄹ Reverse(⦿ ㄹ x){
+        ⤴(x❙ ≤ 1) ⮐ x;
+        char[] ㄸ = x.ToCharArray();
+        Array.Reverse(ㄸ);
+        ⮐ ⌢ ㄹ(ㄸ);
+    }
+
+    ‒̥ ㄹ[] Tokenize(⦿ ㄹ self){
+        𝕃<ㄹ> ㄸ = ⌢ 𝕃<ㄹ>();
+        ∙ buffer = ⌢ StringBuilder();
+        ∀(char c ∈ self){
+            ⤴(Char.IsLetterOrDigit(c)
+               ∨ c ☰ '_'
+               ∨ (buffer❙ ☰ 0 ∧ c ☰ '@'))
+            {
+                buffer.±(c);
+            }⤵{
+                ⤴(buffer❙ > 0){
+                    ㄸ.Add(buffer🝠);
+                    buffer.Clear();
+                }
+                ㄸ.Add($"{c}");
+            }
+        }
+        ⤴(buffer❙>0) ㄸ.Add(buffer🝠);
+        ⮐ ㄸ৴;
+    }
+
+}}

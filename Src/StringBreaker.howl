@@ -1,0 +1,49 @@
+⊐ System.Collections.Generic;
+⊐ System.Text;
+
+⊓ Active.Howl{
+‒̥ ○ StringBreaker{
+
+    ‒̥ ㅇ DenotesBlock(⦿ ㄹ x, params Block.Def[] defs){
+        ∀(∙ k ∈ defs)
+            ⤴(x.StartsWith(k.prefix)) ⮐ ✓;
+        ⮐ ✗;
+    }
+
+    ‒̥ ㄹ[] Break(⦿ ㄹ x, params Block.Def[] defs){
+        ∙ ㄸ = ⌢ 𝕃<ㄹ>();
+        ∙ buffer = ⌢ StringBuilder();
+        Block block = ∅;
+        ⟳(ᆞ i = 0; i < x❙; i++){
+            ⤴(Enter(x, i, defs, ref block)){
+                Flush(buffer, ㄸ);
+                buffer.±(x[i]);
+            }⤳(block?.Exit(x, i) ?? ✗){
+                buffer.±(x[i]);
+                Flush(buffer, ㄸ);
+                block = ∅;
+            }
+            ⤵ buffer.±(x[i]);
+        }
+        Flush(buffer, ㄸ);
+        ⮐ ㄸ৴;
+    }
+
+    ‒̥ ㅇ Enter(ㄹ x, ᆞ i, Block.Def[] dfs, ref Block bk){
+        ⤴(bk ≠ ∅) ⮐ ✗;
+        ∀(∙ k ∈ dfs){
+            ∙ z = Block.Enter(x, i, k);
+            ⤴(z ≠ ∅){
+                bk = z; ⮐ ✓;
+            }
+        }
+        ⮐ ✗;
+    }
+
+    ‒̥ ┈ Flush(StringBuilder buf, 𝕃<ㄹ> ㄸ){
+        ⤴(buf❙ ☰ 0) ⮐;
+        ㄸ.Add(buf🝠);
+        buf.Clear();
+    }
+
+}}

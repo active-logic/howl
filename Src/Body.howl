@@ -1,0 +1,14 @@
+
+⊓ Active.Howl{
+‒ ○ Body{
+
+    ㄹ @value;
+
+    ‒̥ Body B(ㄹ v) → ⌢ Body(){ @value = v };
+
+    ‒̥ Rep ⨕ * (Rep x, Body y){
+        x.body = y.@value;
+        ⮐ x;
+    }
+
+}}

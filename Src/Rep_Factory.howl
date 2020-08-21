@@ -1,0 +1,68 @@
+⊐ InvOp = System.InvalidOperationException;
+
+// TODO instead of adding tuple ops define flags, like this:
+// [a, b] -b -ι -H -π -ns
+
+⊓ Active.Howl{
+‒ ᴾ ○ Rep{
+
+    ‒ Rep(){}
+
+    // TODO: rename 'bridge' to β
+    ‒ Rep(ㄹ ㅂ, ㄹ ㄸ, ㄹ name=∅, ㄹ px=∅, ㄹ alt=∅, ㅇ? bridge=∅,
+           ㅇ ι=✗, ㄹ H=∅, ㅇ π=✓, ㅇ ns=✗, ㅇ q=✗, ㄹ desc=∅){
+        a = ㅂ; b = ㄸ;
+        ⦿.label       = name;
+        ⦿.bridge      = bridge ?? IsBridging(ㄸ);
+        ⦿.prefix      = px;
+        ⦿.alt         = alt;
+        nospec        = q;
+        ignoreConflicts  = ι;
+        header           = H;
+        import           = π;
+        noSnippet        = ns;
+        _description = desc;
+    }
+
+    ⒤ Rep((ㄹ a, ㄹ b) ⧕)
+    → ⌢ Rep(){
+        a = Validate(⧕.a),
+        b = Validate(⧕.b),
+        bridge = IsBridging(⧕.b)
+    };
+
+    ⒤ Rep((ㄹ a, ㄹ b, ㄹ alt) ⧕)
+    → ⌢ Rep(){
+        a = Validate(⧕.a),
+        b = Validate(⧕.b),
+        bridge = IsBridging(⧕.b),
+        alt = ⧕.alt
+    };
+
+    ⒤ Rep((ㄹ a, ㄹ b, ㄹ alt, ㄹ px) ⧕)
+    → ⌢ Rep(){
+        a      = Validate(⧕.a),
+        b      = Validate(⧕.b),
+        bridge = IsBridging(⧕.b),
+        alt    = ⧕.alt,
+        prefix = ⧕.px
+    };
+
+    ⒤ Rep((ㄹ a, ㄹ b, ㅇ bridge) ⧕)
+    → ⌢ Rep(){
+        a = Validate(⧕.a),
+        b = Validate(⧕.b),
+        bridge = ⧕.bridge
+    };
+
+    ‒̥ ㅇ IsBridging(ㄹ x)
+    → x.∋(" ") ∨ x.∋(".");
+
+    ‒̥ ㄹ Validate(ㄹ κ){
+        ⤴(κ ☰ ∅) (╯°□°)╯ ⌢ InvOp(Undef);
+        ∙ x = κ.Trim();
+        ⤴(x ☰ "?" ∨ x ☰ "") (╯°□°)╯ ⌢ InvOp(Undef);
+        ⮐ κ;
+    }
+
+}}

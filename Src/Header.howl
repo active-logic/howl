@@ -1,0 +1,14 @@
+
+⊓ Active.Howl{
+‒ ○ Header{
+
+    ㄹ @value;
+
+    ‒̥ Header H(ㄹ v) → ⌢ Header(){ @value = v };
+
+    ‒̥ Rep ⨕ + (Header x, Rep y){
+        y.header = x.value;
+        ⮐ y;
+    }
+
+}}

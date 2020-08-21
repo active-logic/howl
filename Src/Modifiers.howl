@@ -1,0 +1,48 @@
+⊐ System.Linq; ⊐ System.Collections.Generic;
+
+⊓ Active.Howl{ ‒̥ ○ Modifiers{
+
+    // Modified Resharper default
+    ∘ ㄹ[] csTemplate = ⌢ []{ "override", /**/ "public", "protected",
+        "internal", "private", /**/ "static", /**/ "new",
+        /**/ "abstract", "virtual", "sealed", /**/ "readonly",
+        "extern", "unsafe", "volatile", "async" };
+
+    // This "/" here probably causes a recursive
+    // invocation which caused a (undesired) guard in
+    // IsModifier. Kind of overkill really
+    ∘ ㄹ[] howlTemplate = csTemplate / Map.@default;
+
+    ‒̥ ㄹ[] NitpickSegment (⋯ ㄹ[] tokens)  {
+        𝕃<ㄹ> ㄸ = ⌢ 𝕃<ㄹ>(), μ = ⌢ 𝕃<ㄹ>();
+        ㄹ _ = ∅;
+        ∀ (∙ x ∈ tokens){
+        //🍥($"Check token {x}");
+        ⤭ (x){
+        //⥰ ∅ : ¦
+        ⥰ ㄹ z ⤏ IsModifier(x):
+            μ.Add(x);  _ = ∅; ¦
+        ⥰ ㄹ z ⤏ x.IsWhiteSpace():
+            ⤴ (μ⁝ ☰ 0) ㄸ.Add(x);
+            ⤵ _ = x; ¦
+        ～:
+            ⤴ (μ⁝ > 0) {
+                ㄸ.Add(Nitpick(μ৴));  μ.Clear();  ⤴ (_ ≠ ∅) ㄸ.Add(_);
+            }
+            ㄸ.Add(x); _ = ∅; ¦
+        } // end switch
+        } // end foreach
+        ⮐ ㄸ৴;
+    }
+
+    ∘ ㅇ IsModifier(ㄹ x) {
+        ⤴ (howlTemplate ☰ null) ⤬
+        ⤵ ∀ (∙ k ∈ howlTemplate) ⤴ (k ☰ x) ㆑ ⤬
+    }
+
+    ‒̥ ㄹ   Nitpick(⋯ ㄹ[] α) → ReorderHl(α).Join().Replace("‒∘", "‒̥");
+    ‒̥ ㄹ[] ReorderCs (⋯ ㄹ[] α) → Reorder(csTemplate, α);
+    ‒̥ ㄹ[] ReorderHl (⋯ ㄹ[] α) → Reorder(howlTemplate, α);
+    ‒̥ ㄹ[] Reorder(ㄹ[] τ, ⋯ ㄹ[] α) → (‖ x ∈ τ ¿ α.∋(x) ፥ x)৴;
+
+}}

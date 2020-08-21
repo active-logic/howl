@@ -1,0 +1,99 @@
+⊐ System.Collections.Generic;
+⊐ InvOp = System.InvalidOperationException;
+
+⊓ Active.Howl{
+[System.Serializable]
+‒ ᴾ ○ Rep{
+
+    ᴸ ㄹ Undef = "Undefined symbol";
+
+    ‒ ㄹ a, b, header, alt, label, prefix, body, _class, _description;
+
+    ‒ ㅇ bridge = ✗, import = ✓, noSnippet = ✗,  ignoreConflicts = ✗,
+        @sel   = ✓,  nts = ✗, nospec = ✗;
+
+    // Operators ----------------------------------------------------
+
+    ‒̥ ㄹ ⨕ * (ㄹ x, Rep y) → x.Replace(y.a, y.b);
+
+    ‒̥ ㄹ ⨕ / (ㄹ x, Rep y){
+        ⤴(!y.willImport) ⮐ x;
+        ⮐ y.bridge ? x.Replace(y.b, y.a)
+                        : (x.Tokenize() / y).Join();
+    }
+
+    ‒̥ ㄹ[] ⨕ / (ㄹ[] tokens, Rep rule){
+        ⤴(!rule.willImport) ⮐ tokens;
+        ⤴(rule.bridge) ⮐ DivBridging(tokens, rule);
+        ⟳(ᆞ i = 0; i < tokens❙; i++){
+            ⤴(tokens[i] ☰ rule.a ∧ !rule.ignoreConflicts
+                                   ∧ !Config.ι.ignoreConflicts)
+            {
+                ∙ prev = i > 1 ? tokens[i - 2] : ∅;
+                ⤴(prev ≠ "using")
+                    (╯°□°)╯ ⌢ InvOp($"{rule.a} in input");
+            }
+            ⤴(tokens[i] ☰ rule.b)
+                tokens[i] = rule.a;
+        }
+        ⮐ tokens;
+    }
+
+    // Prefix with '-' to remove trailing space from snippets
+    ‒̥ Rep ⨕ - (Rep x){ x.nts = ✓; ⮐ x; }
+
+    // Indicates whether this is a "soft" symbol. When converted, a
+    // soft symbol may concatenate with previous/next elements,
+    // creating errors.
+    // TODO this implementation is incorrect. We should only be
+    // looking at first and last char.
+    ‒̥ ㅇ ⨕ ! (Rep x){
+        ∙  s = x.b;
+        ⮐ ᆩ.IsLetterOrDigit(s[0]) ∧ ᆩ.IsLetterOrDigit(s[s❙-1]);
+    }
+
+    /* Editor safe symbolic presentation */
+    ‒̥ ㄹ ⨕ ~ (Rep x) → x.alt ?? x.a;
+
+    // Properties ---------------------------------------------------
+
+    ‒ ㄹ name → label ?? b.Trim().Ftu();
+
+    ‒ ㄹ description → _description ?? label ?? null;
+
+    ‒ ㅇ nit → !b.IsAlphaNumeric();
+
+    ㅇ willImport → @sel ∧ import;
+
+    // Functions ----------------------------------------------------
+
+    ‒̥ ㄹ[] DivBridging(ㄹ[] tokens, Rep rule){
+        ㄹ[] lh = rule.b.Tokenize();
+        ⮐ tokens.Replace(lh, ⌢ ㄹ[]{rule.a});
+    }
+
+    ‒ ㅇ Encloses(Rep ⧕) → ⦿.b❙ ☰ ⧕.b❙ ? ✗ : ⦿.b.∋(⧕.b);
+
+    ‒ ㅇ ValueMatches(ㄹ ⧕) → b ☰ ⧕;
+
+    ⁺‒ ㄹ ToString() → $"{name} ⌞{~this}⌝ → ⌞{b}⌝";
+
+    // Static -------------------------------------------------------
+
+    ‒̥ Rep[] Reorder(Rep[] x){
+        ∙ ㄸ = ⌢ 𝕃<Rep>();
+        ∀(∙ ρ ∈ x){
+            ㅇ added = ✗;
+            ⟳(ᆞ i = 0; i < ㄸ⁝; i++){
+                ⤴(ρ.Encloses(ㄸ[i])){
+                    ㄸ.Insert(i, ρ);
+                    added = ✓;
+                    ¦
+                }
+            }
+            ⤴(!added) ㄸ.Add(ρ);
+        }
+        ⮐ ㄸ৴;
+    }
+
+}}

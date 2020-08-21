@@ -1,0 +1,57 @@
+⊐ System.Linq; ⊐ System.Text;
+
+⊓ Active.Howl{
+‒̥ ○ WhiteSpaceAdder{
+
+    ∘ ᆞ index;
+    ∘ ㄹ ㅂ;
+
+    ‒̥ ㄹ Consolidate(⦿ ㄹ ㅂ, ᆩ[] S){
+        index = 0;
+        WhiteSpaceAdder.ㅂ = ㅂ;
+        ⮐ (‖ c ∈ ㅂ ፥ Consolidate(c, S))৴.Join();
+    }
+
+    ‒̥ string Consolidate(this string x, string[] S){
+        var @out = new StringBuilder();
+        for(int i = 0; i < x❙; i++){
+            bool didMatch = false;
+            foreach(var s in S){
+                var n = s❙;
+                if(x.Matches(s, at: i)){
+                    @out.Append(s);
+                    if(i + n < x❙
+                                ∧ !IsBreakingChar(x[i + n])){
+                        @out.Append(' ');
+                    }
+                    didMatch = true;
+                    i += n - 1;  // -1 because iteration adds 1
+                    ¦
+                }
+            }
+            if(!didMatch) @out.Append(x[i]);
+        }
+        return @out🝠;
+    }
+
+    // TODO probably also win line endings
+    static bool IsBreakingChar(char c){
+        return " \n/()\"':,.;<>~!@#$%^&*|+=[]{}`?-…".Contains(c);
+    }
+
+    ∘ ㄹ Consolidate(ᆩ c, ᆩ[] S){
+        index++;
+        ∙ ㄸ = $"{c}";
+        ⤴(index ☰ ㅂ❙) ⮐ ㄸ;
+        ∙ next = ㅂ[index];
+        // Check if 'c' is a soft symbol; if not, just return it.
+        ⤴(!S.∋(c)) ⮐ ㄸ;
+        // Letter/char after soft symbol needs space; likewise
+        // when soft symbols follow in sequence
+        ⤴(ᆩ.IsLetterOrDigit(next)
+                  ∨ S.∋(next)) ⮐ ㄸ + ' ';
+        // Non word char after soft symbol needs no extra space
+        ⮐ ㄸ;
+    }
+
+}}

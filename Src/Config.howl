@@ -1,0 +1,49 @@
+⊐ System;
+⊐ SerialEx = System.Runtime.Serialization.SerializationException;
+#if UNITY_EDITOR
+⊐ Reload = UnityEditor.AssemblyReloadEvents;
+⊐ Editor = UnityEditor.EditorApplication;
+#endif
+⊐ Active.Howl.Util;
+
+⊓ Active.Howl{
+[System.Serializable] ‒ ○ Config  {
+
+    ᴸㄹ Path = "Howl.cfg";  ▰̥ Config instance;
+
+    ‒ ㅇ ignoreConflicts, allowImport, allowExport, showTips=✓;
+    ‒ ᆞ windowState = 1;
+    ‒ UserChoice sel_importFiles;
+    ‒ DateTime   lastExportDate, lastLocSample ;
+    ‒ GiveBack   giveback;
+    ‒ ᆞ linesOfCode;
+
+    ‒ ┈ Save ⎚ Path.WriteObject(⦿);
+
+    ‒̥ Config ι{╭{
+        ⤴ (instance ☰ ∅){
+            ∙ now = DateTime.Now;
+            ∙ _24Hours = TimeSpan.FromHours(24);
+            //
+            ↯ { instance = Path.ReadObject(⌢ Config()); }
+            ⇤ (SerialEx){
+                🐤 "Reset config (format has changed)";
+                instance = ⌢ Config();
+            }
+            instance.lastExportDate = now;
+            // Update loc count if stale
+            ∙ sampleAge = (now - instance.lastLocSample);
+            ⤴ (instance.linesOfCode ☰ 0 ∨ sampleAge > _24Hours){
+                instance.lastLocSample = now;
+                instance.linesOfCode = Stats.loc;
+            }
+            instance.giveback = instance.giveback ?? ⌢ GiveBack();
+            #if UNITY_EDITOR
+            Reload.beforeAssemblyReload += instance.Save;
+            Editor.quitting             += instance.Save;
+            #endif
+        }
+        ⮐ instance;
+    }}
+
+}}

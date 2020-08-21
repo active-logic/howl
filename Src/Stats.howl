@@ -1,0 +1,31 @@
+⊐ System.Linq;
+
+⊓ Active.Howl{
+‒̥ ○ Stats{
+
+   ᴸ ㄹ howl = "*.howl";
+   ∘ ㄹ ρ = Path.howlRoot;
+
+   ‒̥ ㅅ ratio      → sourceSize/buildSize;
+   ‒̥ ㅅ buildSize  → DrySize(Path.buildRoot, "*" + Path._Cs);
+   ‒̥ ㅅ sourceSize → DrySize(ρ, howl);
+   ‒̥ ㄹ[] largeFiles → FilesOver(ρ, 34, howl);
+   ‒̥ ᆞ loc → StatementCount(ρ, howl);
+   ‒̥ ᆞ δloc → loc - Config.ι.linesOfCode;
+
+   ‒̥ ㄹ[] FilesOver(ㄹ π, ᆞ n, ㄹ pattern)
+   → (‖ x ∈ FileSystem.Paths(π, pattern)
+      ¿ x.NumberOfLines() > n
+      ⏢ x.NumberOfLines() ◺
+      ፥ x.FileName().Replace(".howl", ""))৴;
+
+   ‒̥ ᅭ DrySize(ㄹ π, ㄹ pattern)
+   → FileSystem.Paths(π, pattern).Sum( x → x.DrySize() );
+
+   ‒̥ ᅭ Size(ㄹ π, ㄹ pattern)
+   → FileSystem.Paths(π, pattern).Sum( x → x.Size() );
+
+   ‒̥ ᆞ StatementCount(ㄹ π, ㄹ pattern)
+   → FileSystem.Paths(π, pattern).Sum( x → x.StatementCount() );
+
+}}

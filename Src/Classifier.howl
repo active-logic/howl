@@ -1,0 +1,40 @@
+⊐ self = Active.Howl.Classifier;
+
+⊓ Active.Howl{
+‒ ○ Classifier{
+
+  ㄹ _class;
+
+ // public string @class => _class;
+
+  ‒ Classifier(ㄹ _class){
+    ⦿._class = _class;
+  }
+
+  ‒̥ self c   → ⌢ self("Cat");
+  ‒̥ self f   → ⌢ self("Flow");
+  ‒̥ self k   → ⌢ self("Key");
+  ‒̥ self m   → ⌢ self("Mod");
+  ‒̥ self o   → ⌢ self("Op");
+  ‒̥ self p   → ⌢ self("Pr");
+  ‒̥ self s   → ⌢ self("Const");
+  ‒̥ self x   → ⌢ self("Spe");
+
+  ‒̥ self[] all → ⌢ self[]{ c, f, k, m, o, p, s, x };
+
+  ‒̥ Rep ⨕ * (Rep x, self y){
+      x._class = y._class;
+      ⮐ x;
+  }
+
+  ‒̥ Rep ⨕ * (self x, Rep y){
+      y._class = x._class;
+      ⮐ y;
+  }
+
+  ⁺‒ ㄹ ToString()  → _class;
+
+  ⒤ ㄹ(Classifier x)
+  → x🝠;
+
+}}

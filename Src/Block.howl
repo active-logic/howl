@@ -1,0 +1,51 @@
+
+⊓ Active.Howl{
+‒ ○ Block{
+
+    Def def;
+
+    ‒̥ Block Enter(ㄹ x, ᆞ i, Def z){
+        ⤴(z.Enter(x, i)) ⮐ ⌢ Block(){ def = z };
+        ⤵ ⮐ ∅;
+    }
+
+    ‒ ㅇ Exit(ㄹ x, ᆞ i) → def.Exit(x, i);
+
+    ‒ ○ Def{
+
+        ‒ ㄹ prefix, suffix;
+
+        ⒤ Def((ㄹ p, ㄹ s) ⧕)
+        → ⌢ Def(){ prefix = ⧕.p, suffix = ⧕.s.Reverse() };
+
+        ⒤ Def(ㄹ ⧕) → ⌢ Def(){ prefix = ⧕, suffix = "\n" };
+
+        ‒ ㅇ Enter(ㄹ x, ᆞ i){
+            // Single quoted double quote hack
+            ⤴(i>0 ∧ i<x❙-1 ∧ x.Substring(i - 1, 3) ☰ "'\"'") ⤬
+            // /hack
+            ∀(∙ k ∈ prefix) ⤴ (i ≥ x❙ ∨ x[i++] ≠ k) ⤬
+            ㆑
+        }
+
+        ‒ ㅇ Exit(ㄹ x, ᆞ i){
+            // Escaped double quote hack
+            if(IsEscapedDoubleQuoteInString(x, i)) ⤬
+            // /hack
+            ∀(∙ k ∈ suffix) ⤴ (i < 0 ∨ x[i--] ≠ k) ⤬
+            ㆑
+        }
+
+        ㅇ IsEscapedDoubleQuoteInString(ㄹ x, ᆞ i){
+            ⤴ (suffix ≠ "\"" ∨ x[i] ≠ '"') ⤬
+            ㅇ esc = ✗;
+            ⟲ (--i > 0){
+                ⤴ (x[i] ≠ '\\') ¦
+                ⤵ esc = !esc;
+            }
+            ⮐ esc;
+        }
+
+    }
+
+}}

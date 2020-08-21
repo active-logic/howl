@@ -1,0 +1,49 @@
+⊐ System.IO; ⊐ System;
+
+⊓ Active.Howl {
+‒̥ ○ StringArray {
+
+    ‒̥ ㄹ Join(⦿ ㄹ[] x) → ㄹ.Join("", x);
+
+    ‒̥ ㄹ Join(⦿ ㄹ[] x, char c = '\n')
+    → ㄹ.Join(c🝠, x);
+
+    ‒̥ ㄹ Join(⦿ ㄹ[] x, ㄹ s)
+    → ㄹ.Join(s, x);
+
+    ‒̥ ㄹ[] Replace(⦿ ㄹ[] x, ㄹ[] lh, ㄹ[] lr){
+        ⟳ (ᆞ i = 0; i < x❙; i++){
+            ⤴ (x.Matches(lh, i)){
+                ReplaceRange(ref x, i, lh❙, lr);
+                i += lr❙;
+            }
+        } ⮐ x;
+    }
+
+    ‒̥ ㅇ Matches(⦿ ㄹ[] x, ㄹ[] y, ᆞ n){
+        ⤴    (n + y❙ > x❙) ⤬
+        ⤵ ⟳ (ᆞ i = 0; i < y❙; i++) ⤴ (x[n + i] ≠ y[i]) ⤬
+        ㆑
+    }
+
+    ‒̥ ┈ ReplaceRange(ref ㄹ[] x, ᆞ i, ᆞ len, ㄹ[] y){
+        Array.Copy(x, i + len, x, i, x❙ - (i + len));
+        Array.Resize(ref x, x❙ - len + y❙);
+        Array.Copy(x, i, x, i + y❙, x❙ - (i + y❙));
+        Array.Copy(y, 0, x, i, y❙);
+    }
+
+    ‒̥ ┈ RemoveRange(ref ㄹ[] x, ᆞ i, ᆞ len){
+        Array.Copy(x, i + len, x, i, x❙ - (i + len));
+        Array.Resize(ref x, x❙ - len);
+        🍥("Length of array now " + x❙);
+    }
+
+    // TODO should be an IO, not string ext function.
+    ‒̥ ┈ Write(⦿ ㄹ[] ㅂ, ㄹ path, char sep = '\n')
+    → File.WriteAllText(path, ㅂ.Join(sep)
+                               + (sep ☰ '\n' ? "\n" : ∅));
+
+    ‒̥ ㄹ ToString(⦿ ㄹ[] Λ) → Λ.Join(", ");
+
+}}
