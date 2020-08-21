@@ -96,7 +96,7 @@ Want the full list? Try `howl`
 
 ## Resources
 
-[TODO migrate core issues]
+[TODO migrate CLI issues]
 
 - Learn about [exciting features](https://github.com/active-logic/howl/issues?q=is%3Aissue+is%3Aopen+label%3A＼%28＾∀＾%29メ%28＾∀＾%29ノ) being worked on.
 - Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/Src) (written in Howl).
