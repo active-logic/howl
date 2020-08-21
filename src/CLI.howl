@@ -1,3 +1,5 @@
+⊐ Ex = System.Exception;
+
 ⊓ Active.Howl{
 ‒ ○ CLI{
 
@@ -7,7 +9,7 @@
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.0.12";
+        🐰 "Howl CLI v0.0.14";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -52,6 +54,8 @@
     }
 
     ‒ ㄹ Install(⋯ ㄹ[] ㅂ){
+        ∙ rt = δ.GetRuntime();
+        ⤴ (rt ≠ "osx-x64"){ 🐰 $"N/A: 'install' ({rt})"; ⮐ ∅; }
         ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(),
         name = Π.Substring(Π.LastIndexOf("/") + 1);
         ι += Publish(∅, $"{π}/src");
@@ -115,7 +119,7 @@
 howl export SRC_DIR DST_DIR - Export Howl scripts to C#
 howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
 howl build DIR              - Build a console app
-howl install DIR            - Install, assuming DIR/src
+howl install DIR            - Install, assuming DIR/src [macOS only]
 howl publish DIR            - Build and publish a console app
 howl run DIR                - Build and run a console app
 howl test DIR - Build and run tests assuming DIR/src, DIR/test
