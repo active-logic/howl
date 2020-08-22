@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euxo pipefail
+# Download the latest release
+mkdir howl
+curl -L https://github.com/active-logic/howl/releases/download/0.0.17/howl.tgz | tar xz --strip 1 -C howl
+# Build an executable
+cd howl/build
+dotnet publish --runtime osx-x64
+# Remove out of date Howl dir if any
+sudo rm -rf /usr/local/Howl
+# Move binaries
+sudo mv bin/Debug/netcoreapp3.1/osx-x64/publish /usr/local/Howl
+# Remove out of date symlink if any
+rm -f /usr/local/bin/howl
+# Create new Symlink
+ln -s /usr/local/Howl/build /usr/local/bin/howl
+howl

@@ -1,0 +1,2 @@
+set -euxo pipefail
+tar czf howl.tgz src/build
