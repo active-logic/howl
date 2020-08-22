@@ -39,7 +39,13 @@ Howl is fair source. [Read the terms](LICENSE).
 
 [.Net Core 3.1](https://dotnet.microsoft.com/download) is a prerequisite.
 
-Install scripts are on the way. In the meantime, building Howl [from source](https://github.com/active-logic/howl/releases) is not difficult (the CLI has no dependencies)
+On macOS, run the following command (you will be prompted for your admin/user password)
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/active-logic/howl/master/setup)"
+```
+
+More install scripts are on the way; you may also build Howl [from source](https://github.com/active-logic/howl/releases)
 
 ## Getting started
 
