@@ -96,8 +96,5 @@ Want the full list? Try `howl`
 
 ## Resources
 
-[TODO migrate CLI issues]
-
-- Learn about [exciting features](https://github.com/active-logic/howl/issues?q=is%3Aissue+is%3Aopen+label%3A＼%28＾∀＾%29メ%28＾∀＾%29ノ) being worked on.
-- Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/Src) (written in Howl).
-- Resources are being migrated from https://github.com/active-logic/uta; in the meantime, potential sponsors may [check this page](https://github.com/active-logic/uta/blob/master/Documentation/Giveback.md).
+- Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/Src) (written in Howl)
+- Resources are being migrated from https://github.com/active-logic/uta; in the meantime, potential sponsors may [check this page](https://github.com/active-logic/uta/blob/master/Documentation/Giveback.md)
