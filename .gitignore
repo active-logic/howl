@@ -2,3 +2,4 @@ build
 src/build
 # Transitional
 *.meta
+*.tgz

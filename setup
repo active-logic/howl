@@ -1,12 +1,21 @@
 #!/bin/bash
 repo="https://github.com/active-logic/howl"
 url="$repo/releases/download/0.0.17/howl.tgz"
-set   -euo pipefail
+set -euxo pipefail
+if command -v apt-get &> /dev/null
+then
+    apt-get update -qq
+    apt-get install -qq sudo
+    if ! command -v dotnet &> /dev/null
+    then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/active-logic/howl/master/install_dotnet)"
+    fi
+fi
 mkdir howl
 curl  -Ls $url | tar xz --strip 1 -C howl
-sudo  rm -rf /usr/local/Howl
 pushd howl/build > /dev/null
-sudo  dotnet publish --nologo -v quiet -r osx-x64 -o /usr/local/Howl
+sudo  rm -rf /usr/local/Howl
+sudo  dotnet publish --nologo -v quiet -o /usr/local/Howl
 ln    -sf /usr/local/Howl/build /usr/local/bin/howl
 popd  > /dev/null
 sudo  rm -rf howl
