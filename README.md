@@ -105,5 +105,5 @@ Want the full list? Try `howl`
 
 ## Resources
 
-- Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/Src) (written in Howl)
+- Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/src) (written in Howl)
 - Resources are being migrated from https://github.com/active-logic/uta; in the meantime, potential sponsors may [check this page](https://github.com/active-logic/uta/blob/master/Documentation/Giveback.md)
