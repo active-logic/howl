@@ -1,4 +1,7 @@
 #if !UNITY_2018_1_OR_NEWER
+
+⊐̥ Active.Howl.Mood;
+
 ⊓ That{ ‒̥ ○ Logger{ ‒̥
 
     ㅇ enabled{ ╰{ log.ε=value; }  }
@@ -11,11 +14,14 @@
 
 ‒ ○ log{
 
-    ‒̥ ㄹ message { ╰{ ⤴ (ε) Print($"(•ᴗ•)ノ 〜 {value}");  }}
-    ‒̥ ㄹ warning { ╰{ ⤴ (ε) Print($"(」°ロ°)」〜 {value}"); }}
-    ‒̥ ㄹ error   { ╰{ ⤴ (ε) Print($"(╬`益´)」〜 {value}");  }}
+    ‒̥ ㄹ message { ╰{ ⤴ (ε) Print($"{happy} 〜 {value}"); }}
+    ‒̥ ㄹ warning { ╰{ ⤴ (ε) Print($"{antsy} 〜 {value}"); }}
+    ‒̥ ㄹ error   { ╰{ ⤴ (ε) Print($"{angry} 〜 {value}"); }}
+
     ‒̥ ┈ Print(⊡ x) → System.Console.WriteLine(x);
+
     ︲̥ ㅇ ε = ✓;
 
 }
-#endif
+
+#endif  // UNITY_2018_1_OR_NEWER

@@ -54,7 +54,7 @@
     }
 
     ‒ ㄹ Install(⋯ ㄹ[] ㅂ){
-        ∙ rt = δ.GetRuntime();
+        ∙ rt = OS.runtime;
         ⤴ (rt ≠ "osx-x64"){ 🐰 $"N/A: 'install' ({rt})"; ⮐ ∅; }
         ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(),
         name = Π.Substring(Π.LastIndexOf("/") + 1);

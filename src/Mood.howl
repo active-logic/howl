@@ -1,0 +1,16 @@
+⊓ Active.Howl{
+‒̥ ○ Mood{
+
+    ‒̥ ㄹ happy = "(•ᴗ•)ノ";
+    ‒̥ ㄹ antsy = "(°ロ°)」";
+    ‒̥ ㄹ angry = "(`益´)」";
+
+    ∘ Mood(){
+        ⤴ (!OS.runtime.Contains("osx")){
+            happy = "('v')";
+            antsy = "('~')";
+            angry = "(`^´)";
+        }
+    }
+
+}}

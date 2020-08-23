@@ -1,5 +1,4 @@
-⊐ Ex = System.Exception; ⊐ System.Runtime.InteropServices;
-⊐ Info = System.Runtime.InteropServices.RuntimeInformation;
+⊐ Ex = System.Exception;
 
 ⊓ Active.Howl{
 ‒ ○ DotNet{
@@ -14,8 +13,10 @@
         ⮐ ㄸ;
     }
 
-    ‒ ㄹ Publish(ㄹ α, ㄹ δ, ㄹ rt, ㅇ dry)
-    → ⦿["publish", $"{α} --runtime {rt ?? GetRuntime()}", δ, dry];
+    ‒ ㄹ Publish(ㄹ α, ㄹ δ, ㄹ rt, ㅇ dry){
+        rt = rt ?? OS.runtime ?? (╯°□°)╯ ⌢ Ex("Unknown runtime");
+        ⮐ ⦿["publish", $"{α} --runtime {rt}", δ, dry];
+    }
 
     ‒ ㄹ Run(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["run", α, δ, dry];
 
@@ -30,12 +31,5 @@
         Runner.Cmd(dotnet, $"{command} {args}", workdir, dry);
         ⮐ ∅;
     }}
-
-    ‒ ㄹ GetRuntime(){
-        ⤴ (Info.IsOSPlatform(OSPlatform.Linux))   ⮐ "linux-x64";
-        ⤳ (Info.IsOSPlatform(OSPlatform.OSX))     ⮐ "osx-x64";
-        ⤳ (Info.IsOSPlatform(OSPlatform.Windows)) ⮐ "win-x64";
-        ⤵ (╯°□°)╯ ⌢ Ex("Unknown Runtime");
-    }
 
 }}

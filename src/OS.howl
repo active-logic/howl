@@ -1,0 +1,15 @@
+⊐ Ex   = System.Exception;
+⊐ Info = System.Runtime.InteropServices.RuntimeInformation;
+⊐̥ System.Runtime.InteropServices.OSPlatform;
+
+⊓ Active.Howl{
+‒̥ ○ OS{
+
+    ‒̥  ㄹ runtime
+    → Info.IsOSPlatform(Linux)   ? "linux-x64"
+    : Info.IsOSPlatform(OSX)     ? "osx-x64"
+    : Info.IsOSPlatform(Windows) ? "win-x64"
+    : (╯°□°)╯
+            ⌢ Ex("Unknown Runtime");
+
+}}
