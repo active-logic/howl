@@ -1,0 +1,51 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ BuilderTest : TestBase{
+
+    Builder β;
+
+    ⍜ Setup ⎚ β = ⌢ Builder();
+
+    ؟ Build ⎚ o( β.Build("~/Sandbox"), 0);
+
+    ؟ Install(){
+        $"~/Sandbox/src/Main.howl"
+        .Write("‒ ○ Bar{ ∘ ┈ main(ㄹ[] args){} }");
+        o( β.Install("~/Sandbox"), 0);
+    }
+
+    ؟ Publish(){
+        $"~/Sandbox/src/Main.howl"
+        .Write("‒ ○ Bar{ ∘ ┈ main(ㄹ[] args){} }");
+        o( β.Publish("~/Sandbox"), 0);
+    }
+
+    ؟ Run(){
+        o( β.Run("~/Sandbox"), 1);
+        $"~/Sandbox/src/Main.howl"
+        .Write("‒ ○ Bar{ ∘ ┈ main(ㄹ[] args){} }");
+        // TODO should be zero... ?
+        o( β.Run("~/Sandbox"), 1);
+    }
+
+    ؟ Test ⎚ o( β.Test("~/Sandbox"), 0);
+
+    ؟ ProjectName ⎚ o( β.ProjectName("~/Sandbox"), "sandbox");
+
+    ؟ Solution(){
+        ∙ π = "~/Sandbox";
+        π.MkDir();
+        ᆞ val = β.Solution("~/Sandbox", dry: ✗);
+        o( $"{π}/Main.sln".∃() );
+        o( $"{π}/src".∃() );
+        o( $"{π}/src/src.csproj".∃() );
+        o( $"{π}/test/test.csproj".∃() );
+    }
+
+    //؟ Solution_dry(){
+    //    o( β.Solution("~", ✓), "Foo");
+    //}
+
+}}

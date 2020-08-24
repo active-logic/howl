@@ -8,19 +8,27 @@
     ᴸ ㄹ π = "Assets/Howl/~build";
     ᴸ ㄹ π1 = "Assets";
 
-    ؟ Match1 ⎚ o(!FileSystem.Match("~build", π, files: ✓, dirs: ✓));
+    // QUARANTINE
+    //؟ Match1 ⎚ o(!FileSystem.Match("~build", π, files: ✓, dirs: ✓));
 
-    ؟ Match2 ⎚ o(FileSystem.Match("~build", π1, files: ✓, dirs: ✓));
+    // QUARANTINE
+    //؟ Match2 ⎚ o(FileSystem.Match("~build", π1, files: ✓, dirs: ✓));
 
+    // QUARANTINE
+    /*
     ؟ Paths(){
         ∙ ㄸ = FileSystem.Paths(π, "*.cs");
         o( ㄸ⁝ > 0 );
         ∀(∙ x ∈ ㄸ) o( x.EndsWith(".cs") ∧ x.∋(π) );
     }
+    */
 
     // A file exactly named ".cs" does not exist
-    ؟ Paths_exact_match ⎚ o(FileSystem.Paths(π, ".cs")⁝ ☰ 0);
+    // QUARANTINE
+    //؟ Paths_exact_match ⎚ o(FileSystem.Paths(π, ".cs")⁝ ☰ 0);
 
+    // QUARANTINE
+    /*
     ؟ Paths_matches_filenames_not_path_strings(){
         ∙ ㄸ = FileSystem.Paths(π, "*.cs");
         // There are *.cs files in ~build
@@ -30,6 +38,6 @@
         // However Paths pattern matches file names, not paths.
         ㄸ = FileSystem.Paths(π, "*~build*");
         o( ㄸ⁝ ☰ 0 );
-    }
+    }*/
 
 }}

@@ -4,9 +4,10 @@
 ⊓ Active.Howl{
 ‒̥ ○ Runner{
 
-    ‒̥ ㄹ Cmd(ㄹ cmd, ㄹ args, ㄹ workdir, ㅇ dry=✓) {
+    ‒̥ ᆞ Cmd(ㄹ cmd, ㄹ args, ㄹ workdir, ㅇ dry=✓) {
+        ᆞ ㄸ;
         ⤴ (workdir ☰ ∅) (╯°□°)╯ ⌢ ArgEx("Better have a work dir");
-        ⤳ (dry) ⮐ $"{cmd} {args}";
+        ⤳ (dry) ⮐ 0;
         ⤵ ⊐ (∙ φ = ⌢ Process()){
             φ.StartInfo.WorkingDirectory = workdir;
             φ.StartInfo.FileName         = cmd;
@@ -15,7 +16,8 @@
             φ.StartInfo.CreateNoWindow   = ✓;
             φ.Start();
             φ.WaitForExit();
-        } ⮐ ∅;
+            ㄸ = φ.ExitCode;
+        } ⮐ ㄸ;
 
     }
 

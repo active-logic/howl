@@ -9,7 +9,7 @@
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.0.17";
+        🐰 "Howl CLI v0.1.0";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -93,15 +93,17 @@
         ω.MkDir(dry);
         ι += Export(∅, $"{π}/src", $"{ω}/src");
         ι += Export(∅, $"{π}/test", $"{ω}/test");
-        ι += δ.New("solution --name Main --force", ω, ∅, dry);
-        ι += δ.New("classlib --name src --force", ω, ∅, dry);
-        ι += δ.New("nunit --name test --force", ω, ∅, dry);
-        $"{ω}/src/Class1.cs".JustDelete(dry);
-        $"{ω}/test/UnitTest1.cs".JustDelete(dry);
-        ι += δ["add",
+        ⤴ (!$"{ω}/Main.sln".Exists()){
+            ι += δ.New("solution --name Main --force", ω, ∅, dry);
+            ι += δ.New("classlib --name src --force", ω, ∅, dry);
+            ι += δ.New("nunit --name test --force", ω, ∅, dry);
+            $"{ω}/src/Class1.cs".JustDelete(dry);
+            $"{ω}/test/UnitTest1.cs".JustDelete(dry);
+            ι += δ["add",
                "test/test.csproj reference src/src.csproj", ω, dry];
-        ι += δ["sln add",
+            ι += δ["sln add",
                "src/src.csproj test/test.csproj", ω, dry];
+        }
         ι += δ.Test(ω, dry);
         🍥(ι);
         ⮐ ι;

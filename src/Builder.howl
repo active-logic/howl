@@ -1,0 +1,91 @@
+⊐ Ex = System.Exception;
+
+⊓ Active.Howl{
+‒ ○ Builder{
+
+    DotNet δ = ⌢ DotNet();
+
+    ‒ ᆞ Build(ㄹ π){
+        Update(π); ⮐ δ.Build("-v quiet", $"{π}/build", dry: ✗);
+    }
+
+    ‒ ᆞ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
+        Update(π);
+        ⮐ δ.Publish($"src -c {config} --nologo", $"{π}/build",
+                     rt, dry: ✗);
+    }
+
+    ‒ ᆞ Run(ㄹ π){
+        Update(π);  ⮐ δ.Run("src --nologo", $"{π}/build", dry: ✗);
+    }
+
+    ‒ ᆞ Test(ㄹ π){
+        Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗);
+    }
+
+    ‒ ᆞ Install(ㄹ π){
+        ∙ rt = OS.runtime;
+        ⤴ (rt ≠ "osx-x64"){
+            🐰 $"N/A: 'install' ({rt})";
+            ⮐ 1;
+        }
+        Publish(π, config: "Release", rt);
+        ∙ path =
+           $"{π}/build/src/bin/Release/netcoreapp3.1/osx-x64/publish";
+        ∙ link =
+           $"/usr/local/bin/{ProjectName(π)}";
+        ⤴ (!path.Exists()) (╯°□°)╯
+                                 ⌢ Ex("Binaries path is invalid");
+        ⮐ Runner.Cmd(
+            "ln", $"-sf {path.FullPath()}/src {link}",
+            π, dry: ✗);
+    }
+
+    // ---------------------------------------------------------------
+
+    ‒ ㄹ ProjectName(ㄹ π){
+        ∙ Π = π.FullPath();
+        ⮐ Π.Substring(Π.LastIndexOf("/") + 1).ToLower();
+    }
+
+    ᆞ Update(ㄹ π){
+        Export(∅, $"{π}/src", $"{π}/build/src");
+        Export(∅, $"{π}/test", $"{π}/build/test");
+        ⮐ Solution($"{π}/build", dry: ✗);
+    }
+
+    // TRANSITIONAL
+    ‒ ㄹ Export(⋯ ㄹ[] ㅂ){
+        ㅇ dry = ✗;
+        ㄹ src = ㅂ[1].WithFinalSep(),
+          dst = ㅂ[2].WithFinalSep();
+        ⤴ (!src.IsDir()) ⮐ $"Source dir not found: {src}\n";
+        ∙ paths = FileSystem.Paths(src, "*.howl");
+        ⤴ (dry){
+            ⮐ ∅;
+        }
+        ∀ (∙ x ∈ paths){
+            ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
+            🐰y;
+            Howl.BuildFile(x, y);
+        }
+        ⮐ "Exported some files";
+    }
+
+    ‒ ᆞ Solution(ㄹ π, ㅇ dry){
+        ᆞ ㄸ = 0;
+        ⤴ (!$"{π}/Main.sln".∃()){
+            π.MkDir();
+            ㄸ = δ.New("solution --name Main --force", π, ∅, dry);
+            ㄸ = δ.New("console --name src --force", π, ∅, dry);
+            ㄸ = δ.New("nunit --name test --force", π, ∅, dry);
+            $"{π}/src/Class1.cs".JustDelete(dry);
+            $"{π}/test/UnitTest1.cs".JustDelete(dry);
+            ㄸ = δ["add",
+                "test/test.csproj reference src/src.csproj", π, dry];
+            ㄸ = δ["sln add",
+               "src/src.csproj test/test.csproj", π, dry];
+        } ⮐ ㄸ;
+    }
+
+}}

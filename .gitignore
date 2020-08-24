@@ -1,5 +1,6 @@
 build
 src/build
 # Transitional
+Howl-Release
 *.meta
 *.tgz

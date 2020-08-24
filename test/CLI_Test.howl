@@ -10,19 +10,24 @@ CLI ι;
 
 ؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
 
+/* QUARANTINE
 ؟ Build ⎚ o(ι.Build(∅, "src"),
 @"Source dir not found: src/
 dotnet new console --name build --force
 dotnet build build
 ");
+*/
 
+/* QUARANTINE
 ؟ Install ⎚ o(ι.Install(∅, "."),
 @"Source dir not found: ./src/
 dotnet new console --name build --force
 dotnet publish build -c Release --runtime osx-x64
 " + "ln -s src/build/bin/Release/netcoreapp3.1/osx-x64/publish/build"
   +" /usr/local/bin/uta");
+*/
 
+/* QUARANTINE
 ؟ Publish ⎚ o(ι.Publish(∅, "src"),
 @"Source dir not found: src/
 dotnet new console --name build --force
@@ -38,6 +43,8 @@ dotnet new nunit --name test --force
 dotnet add test/test.csproj reference src/src.csproj
 dotnet sln add src/src.csproj test/test.csproj
 dotnet test" + " \n");
+*/
+
 /*
 @"Source dir not found: src/
 Source dir not found: src/test/

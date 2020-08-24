@@ -5,31 +5,32 @@
 
     ㄹ dotnet = "/usr/local/share/dotnet/dotnet";
 
-    ‒ ㄹ Build(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["build", α, δ, dry];
+    ‒ ᆞ Build(ㄹ args, ㄹ workdir, ㅇ dry)
+    → ⦿["build", args, workdir, dry];
 
-    ‒ ㄹ New(ㄹ α, ㄹ δ, ㄹ ω, ㅇ dry){
+    ‒ ᆞ New(ㄹ α, ㄹ δ, ㄹ ω, ㅇ dry){
         ∙ ㄸ = ⦿["new", α, δ, dry];
         $"{ω}/Program.cs".JustDelete(dry);
         ⮐ ㄸ;
     }
 
-    ‒ ㄹ Publish(ㄹ α, ㄹ δ, ㄹ rt, ㅇ dry){
+    ‒ ᆞ Publish(ㄹ α, ㄹ δ, ㄹ rt, ㅇ dry){
         rt = rt ?? OS.runtime ?? (╯°□°)╯ ⌢ Ex("Unknown runtime");
         ⮐ ⦿["publish", $"{α} --runtime {rt}", δ, dry];
     }
 
-    ‒ ㄹ Run(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["run", α, δ, dry];
+    ‒ ᆞ Run(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["run", α, δ, dry];
 
-    ‒ ㄹ Test(ㄹ δ, ㅇ dry) → ⦿["test", ∅, δ, dry];
+    ‒ ᆞ Test(ㄹ δ, ㅇ dry) → ⦿["test", "-v quiet", δ, dry];
 
     // -------------------------------------------------------------
 
-    ‒ ㄹ ⦿[ㄹ command, ㄹ args, ㄹ workdir, ㅇ dry]{╭{
+    ‒ ᆞ ⦿[ㄹ command, ㄹ args, ㄹ workdir, ㅇ dry]{╭{
         ㄹ str;
         🐰 str = $"dotnet {command} {args}";
-        ⤴ (dry) ⮐ str + '\n';
-        Runner.Cmd(dotnet, $"{command} {args}", workdir, dry);
-        ⮐ ∅;
+        ⤴ (dry) ⮐ 0;
+        ᆞ ㄸ = Runner.Cmd(dotnet, $"{command} {args}", workdir, dry);
+        ⮐ ㄸ;
     }}
 
 }}

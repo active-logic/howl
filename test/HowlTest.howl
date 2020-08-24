@@ -12,14 +12,17 @@
     ⍜ Setup    ⎚ Howl.warnings = ✗;
     ⍉ Teardown ⎚ Howl.warnings = ✓;
 
-    ؟ BuildFile ⎚ o(Howl.BuildFile($"{ρ}/Valid.howl.test", ∅) ≠ ∅);
+    // QUARANTINE
+    //؟ BuildFile ⎚ o(Howl.BuildFile($"{ρ}/Valid.howl.test", ∅) ≠ ∅);
 
+    // QUARANTINE
+    /*
     ؟ BuildFile_AsIs(){
         ∙ π = $"{ρ}/NonInteger.howl.test";
         ∙ ㅂ = π.Read();
         ∙ ㄸ = Howl.BuildFile(π, ∅);
         o(ㄸ, ㅂ.Replace(Howl.cerberusWard, ""));
-    }
+    }*/
 
     #if UNITY_EDITOR
 
@@ -75,29 +78,43 @@ Assets/Howl/~build/Howl/Tests/Data/Valid.cs.cs");
     #endif  // end editor tests
 
     // TODO improve test
+    // QUARANTINE
+    /*
     ؟ ImportFile ⎚ o(
         Howl.ImportFile($"{ρ}/Valid.cs.test", ∅)
             .StartsWith(Howl.cerberusWard), ✗);
+    */
 
+    // QUARANTINE
     // TODO not well formed
+    /*
     ؟ ImportFile_WithConflict(){
         ∙  π = $"{ρ}/Defeat_cf.scs";
         ⤴ (Config.ι.ignoreConflicts) Howl.ImportFile(π, ∅);
         ⤵
            ಠᴗಠ<InvOp>( () → Howl.ImportFile(π, ∅) );
     }
+    */
 
+    // QUARANTINE
+    /*
     ؟ ReimportFile ⎚ o(
         Howl.ReimportFile($"{ρ}/Valid.howl.test", dry: ✓)
             .StartsWith(Howl.cerberusWard), ✗);
+    */
 
+    // QUARANTINE
+    /*
     ؟ NitPick(){
         ㄹ ㅂ = $"{ρ}/Sample.Howl", ㄸ = $"{ρ}/PolishedSample.Howl";
         Howl.NitPick(ㅂ, ㄸ, force: true);
         o( ㄸ.Read().Contains("≥") );
         ㄸ.Delete(withMetaFile: ✓);
     }
+    */
 
+    // QUARANTINE
+    /*
     ؟ NitPick_AsIs(){
         ㄹ ㅂ = $"{ρ}/NonInteger.howl.test",
            ㄸ = $"{ρ}/NonIntegerAsIs.Howl.test";
@@ -106,6 +123,7 @@ Assets/Howl/~build/Howl/Tests/Data/Valid.cs.cs");
         // Since output is unchanged, no file is output
         o(ㄸ.Exists(), ✗);
     }
+    */
 
     // #endif  // Common tests ------------------------------------------
 
