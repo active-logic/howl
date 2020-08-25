@@ -9,7 +9,7 @@
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.1.0";
+        🐰 "Howl CLI v0.0.19";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -30,7 +30,7 @@
 
     ‒ ㄹ Build(⋯ ㄹ[] ㅂ){
         ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        ω.RmDir(dry);
+        CleanCsFiles(ω);
         ι += Export(∅, π, ω);
         ι += δ.New($"console --name build --force", Π, ω, dry);
         ι += δ.Build("build", Π, dry);
@@ -54,16 +54,24 @@
     }
 
     ‒ ㄹ Install(⋯ ㄹ[] ㅂ){
+        ∙ π = ㅂ[1];
+        ㄹ ι = ∅, Π = π.FullPath(), name;
+        ⤴ (!π.∃()){
+            🐰 "Arg does not reflect existing path; assume name";
+            name = π; π = ".";
+        }⤵{
+            name = Π.Substring(Π.LastIndexOf("/") + 1);
+            🐰 $"Path exists {π}; assume project name '{name}'";
+        }
         ∙ rt = OS.runtime;
         ⤴ (rt ≠ "osx-x64"){ 🐰 $"N/A: 'install' ({rt})"; ⮐ ∅; }
-        ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(),
-        name = Π.Substring(Π.LastIndexOf("/") + 1);
+        🐰 $"CALL howl publish {π}/src Release";
         ι += Publish(∅, $"{π}/src", "Release");
         ∙ build="src/build/bin/Release/netcoreapp3.1/osx-x64/publish";
         ∙ link  = $"/usr/local/bin/{name.ToLower()}";
-        link.JustDelete(dry);
+        //link.JustDelete(dry);
         ι += Runner.Cmd(
-             "ln", $"-s {build.FullPath()}/build {link}", π, dry);
+             "ln", $"-sf {build.FullPath()}/build {link}", π, dry);
         ⮐ ι;
     }
 
@@ -71,7 +79,7 @@
         ㄹ ι = ∅;
         ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
         ∙ config = (ㅂ❙> 2) ? ㅂ[2] : "Debug";
-        ω.RmDir(dry);
+        CleanCsFiles(ω);
         ι += Export(∅, π, ω);
         ι += δ.New($"console --name build --force", Π, ω, dry);
         ι += δ.Publish($"build -c {config}", Π, rt: ∅, dry);
@@ -80,7 +88,7 @@
 
     ‒ ㄹ Run(⋯ ㄹ[] ㅂ){
         ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        ω.RmDir(dry);
+        CleanCsFiles(ω);
         Export(∅, π, ω);
         δ.New($"console --name build --force", Π, ω, dry);
         δ.Run("--project build", Π, dry);
@@ -110,6 +118,10 @@
     }
 
     ㄹ Import(ㄹ[] ㅂ) → 🐤 "Unimplemented";
+
+    // ---------------------------------------------------------------
+
+    ┈ CleanCsFiles(ㄹ π) → π.DeleteFiles("*.cs", withMetaFile: ✗);
 
     ㄹ help =
 @"Usage:
