@@ -38,13 +38,13 @@ Howl is fair source. [Read the terms](LICENSE).
 
 [.Net Core 3.1](https://dotnet.microsoft.com/download) is a prerequisite (Linux: will be installed if not present)
 
-MacOS/Linux (you may be prompted for your admin/user password)
+**MacOS/Linux** (you may be prompted for your admin/user password)
 
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/active-logic/howl/master/setup)"
 ```
 
-Windows (run as administrator):
+**Windows** (run as administrator)
 
 ```ps1
 . { iwr -useb https://raw.githubusercontent.com/active-logic/howl/master/setup.ps1 } | iex
@@ -105,5 +105,5 @@ Want the full list? Try `howl`
 
 ## Resources
 
-- Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/Src) (written in Howl)
+- Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/src) (written in Howl)
 - Resources are being migrated from https://github.com/active-logic/uta; in the meantime, potential sponsors may [check this page](https://github.com/active-logic/uta/blob/master/Documentation/Giveback.md)
