@@ -44,7 +44,7 @@ Howl is fair source. [Read the terms](LICENSE).
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/active-logic/howl/master/setup)"
 ```
 
-Running Docker? Start with `apt-get update && apt-get install curl`
+Running Docker? Start with `apt-get update -qq && apt-get install -qq curl`
 
 **Windows** (run as administrator)
 
