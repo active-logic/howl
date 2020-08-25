@@ -5,18 +5,20 @@ mkdir /usr/local/bin  # for Catalina (test)
 set -euxo pipefail
 if command -v apt-get &> /dev/null
 then
+    flags=""
     apt-get update -qq
     apt-get install -qq sudo
     if ! command -v dotnet &> /dev/null
     then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/active-logic/howl/master/install_dotnet)"
     fi
+else flags="-r osx-x64"
 fi
 mkdir howl
 curl  -Ls $url | tar xz --strip 1 -C howl
 pushd howl/build > /dev/null
 sudo  rm -rf /usr/local/Howl
-sudo  dotnet publish --nologo -v quiet -o /usr/local/Howl
+sudo  dotnet publish --nologo -v quiet $flags -o /usr/local/Howl
 sudo  ln -sf /usr/local/Howl/build /usr/local/bin/howl
 popd  > /dev/null
 sudo  rm -rf howl
