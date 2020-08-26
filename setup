@@ -1,5 +1,5 @@
 #!/bin/bash
-version=0.0.19
+version=0.0.20
 repo=https://github.com/active-logic/howl
 url=$repo/releases/download/$version/howl.tgz
 mkdir /usr/local/bin  # for Catalina (test)
