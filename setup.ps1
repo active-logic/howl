@@ -1,8 +1,9 @@
 # First, may need to run
 # set-executionpolicy remotesigned
 cls
-$repo = "https://github.com/active-logic/howl"
-$url  = "$repo/releases/download/0.0.17/howl.tgz"
+$version = "0.0.19"
+$repo    = "https://github.com/active-logic/howl"
+$url     = "$repo/releases/download/$version/howl.tgz"
 
 mkdir -f Howl
 pushd Howl

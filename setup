@@ -1,6 +1,7 @@
 #!/bin/bash
-repo="https://github.com/active-logic/howl"
-url="$repo/releases/download/0.0.17/howl.tgz"
+version=0.0.19
+repo=https://github.com/active-logic/howl
+url=$repo/releases/download/$version/howl.tgz
 mkdir /usr/local/bin  # for Catalina (test)
 set -euxo pipefail
 if command -v apt-get &> /dev/null
