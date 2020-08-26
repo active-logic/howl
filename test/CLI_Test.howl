@@ -4,72 +4,69 @@
 ⊓ Unit{
 ‒ ○ CLI_Test : TestBase{
 
-CLI ι;
+    CLI ι;
 
-⍜ Setup ⎚ ι = ⌢ CLI(dry: ✓);
+    ⍜ Setup(){ ι = ⌢ CLI(dry: ✗); MkProj(); }
 
-؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
+    ⍉ Teardown ⎚ DelProj();
 
-/* QUARANTINE
-؟ Build ⎚ o(ι.Build(∅, "src"),
-@"Source dir not found: src/
-dotnet new console --name build --force
-dotnet build build
-");
-*/
+    ؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
 
-/* QUARANTINE
-؟ Install ⎚ o(ι.Install(∅, "."),
-@"Source dir not found: ./src/
-dotnet new console --name build --force
-dotnet publish build -c Release --runtime osx-x64
-" + "ln -s src/build/bin/Release/netcoreapp3.1/osx-x64/publish/build"
-  +" /usr/local/bin/uta");
-*/
+    // ==============================================================
 
-/* QUARANTINE
-؟ Publish ⎚ o(ι.Publish(∅, "src"),
-@"Source dir not found: src/
-dotnet new console --name build --force
-dotnet publish build -c Debug --runtime osx-x64
-");
-
-؟ Test ⎚ o(ι.Test(∅, "."),
-@"Source dir not found: ./src/
-Source dir not found: ./test/
-dotnet new solution --name Main --force
-dotnet new classlib --name src --force
-dotnet new nunit --name test --force
-dotnet add test/test.csproj reference src/src.csproj
-dotnet sln add src/src.csproj test/test.csproj
-dotnet test" + " \n");
-*/
-
-/*
-@"Source dir not found: src/
-Source dir not found: src/test/
-dotnet new solution --name Main
-dotnet new classlib --name src --force
-dotnet new nunit --name test --force
-dotnet add test/test.csproj reference src/src.csproj
-dotnet sln add src/src.csproj test/test.csproj
-dotnet test" + " \n");
-*/
-    // Fails in .net because of path differences
-    #if UNITY_EDITOR
-
-    ؟ Export ⎚ ι.Export(∅, "Assets/Howl/Editor/Ng", "Sandbox/CLI");
-
-    ؟ Run(){
-        ∙ target = "Sandbox/HelloWorld";
-        ∙ build  = $"{target}/build";
-        ∙ hocus  = $"{build}/build.csproj";
-        ∙ pocus  = $"{build}/program.cs";
-        ι.Run(∅, target);
-        o( hocus.Exists(), ✓ );
-        o( pocus.Exists(), ✗ );
+    ؟ Build(){
+        ι.Build(∅, "Mudbox/src");
+        o( "Mudbox/src/build/Main.cs".∃() );
+        o( "Mudbox/src/build/build.csproj".∃() );
+        o( "Mudbox/src/build/bin".∃() );
+        o( "Mudbox/src/build/obj".∃() );
     }
 
-    #endif
+    // --------------------------------------------------------------
+
+    ؟ Export(){
+        o( ι.Export(∅, "Mudbox/src", "Mudbox/build"),
+           "Exported Main.howl");
+        o( "Mudbox/build/Main.cs".∃() );
+    }
+
+    // --------------------------------------------------------------
+
+    // TODO - Install is platform specific and so is the test
+
+    ؟ Install(){
+        ι.Install(∅, "Mudbox");
+        o( $"Mudbox/src/build/bin/Release/{publishPath}/build".∃() );
+        o( "/usr/local/bin/mudbox".∃() );
+    }
+
+    ؟ Publish(){
+        ι.Publish(∅, "Mudbox/src");
+        o(  $"Mudbox/src/build/bin/Debug/{publishPath}/build".∃() );
+        o( !$"Mudbox/src/build/bin/Release/{publishPath}/build".∃() );
+    }
+
+    ㄹ publishPath → "netcoreapp3.1/osx-x64/publish";
+
+    // --------------------------------------------------------------
+
+    // TODO - Check tests actually build and run
+    ؟ Test(){
+        ι.Test(∅, "Mudbox");
+        o( "Mudbox/build/src".∃() );
+        o( "Mudbox/build/test".∃() );
+        o( "Mudbox/build/Main.sln".∃() );
+        o( "Mudbox/build/src/src.csproj".∃() );
+        o( "Mudbox/build/test/test.csproj".∃() );
+    }
+
+    // ==============================================================
+
+    ┈ MkProj(){
+        "Mudbox/src".MkDir();
+        "Mudbox/src/Main.howl".Write("‒○ Bar{∘ ┈ Main(ㄹ[] args){}}");
+    }
+
+    ┈ DelProj ⎚ "MudBox".RmDir(dry: ✗);
 
 }}
