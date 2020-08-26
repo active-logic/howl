@@ -15,7 +15,7 @@ howl test .     # build and run tests
 howl run src    # run the CLI
 ```
 
-## Updating and reverting
+## Updating and reverting [TODO: macOS only for now]
 
 Once you feel a change is ready for local use:
 

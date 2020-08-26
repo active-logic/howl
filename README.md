@@ -109,4 +109,4 @@ Want the full list? Try `howl`
 
 - Have a peak at the [Howl source](https://github.com/active-logic/howl/tree/master/src) (written in Howl)
 - Resources are being migrated from https://github.com/active-logic/uta; in the meantime, potential sponsors may [check this page](https://github.com/active-logic/uta/blob/master/Documentation/Giveback.md)
-- Also check the [developer workflow](docs/dev-workflow.md)
+- Also check the [dev workflow](docs/dev-workflow.md)
