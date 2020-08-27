@@ -1,20 +1,28 @@
 #!/bin/bash
+# -------------------------------------------------------------------
 version=0.1.0
 repo=https://github.com/active-logic/howl
 url=$repo/releases/download/$version/howl.tgz
-mkdir /usr/local/bin  # for Catalina (test)
-set -euxo pipefail
+# -------------------------------------------------------------------
+echo -e "GET http://google.com HTTP/1.0\n\n" \
+                                  | nc google.com 80 > /dev/null 2>&1
+if [ $? -eq 1 ]; then
+    echo "Cannot run setup while offline" && exit $?
+fi
+# -------------------------------------------------------------------
+set -euo pipefail
+mkdir -p /usr/local/bin             # Catalina: ensure /usr/local/bin
 if command -v apt-get &> /dev/null
-then
+then                                # Linux: get sudo and dotnet sdk
     flags=""
-    apt-get update -qq
-    apt-get install -qq sudo
+    apt-get update -qq && apt-get install -qq sudo
     if ! command -v dotnet &> /dev/null
     then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/active-logic/howl/master/install_dotnet)"
     fi
-else flags="-r osx-x64"
+else flags="-r osx-x64"             # macOS: set publish RID
 fi
+# -------------------------------------------------------------------
 mkdir howl
 curl  -Ls $url | tar xz --strip 1 -C howl
 pushd howl/src > /dev/null
