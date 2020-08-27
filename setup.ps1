@@ -1,7 +1,7 @@
 # First, may need to run
 # set-executionpolicy remotesigned
 cls
-$version = "0.0.20"
+$version = "0.1.0"
 $repo    = "https://github.com/active-logic/howl"
 $url     = "$repo/releases/download/$version/howl.tgz"
 
@@ -10,10 +10,10 @@ pushd Howl
 wget -Uri $url -OutFile howl.tgz
 tar xf howl.tgz
 
-pushd src/build
+pushd src
 dotnet publish --nologo -v quiet -o "C:/Program Files/Howl"
 mv -fo "C:\Program Files\Howl\build.exe" "C:\Program Files\Howl\howl.exe"
-popd  # Exit src/build
+popd  # Exit src
 popd  # Exit Howl
 rm -r -fo Howl
 

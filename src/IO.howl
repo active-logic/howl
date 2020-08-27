@@ -39,6 +39,7 @@
         ⤴ (π.IsDir()) π.RmDir(withMetaFile);
     }
 
+    // TRANSITIONAL
     ‒̥ ┈ JustDelete(⦿ ㄹ π, ㅇ dry){
         ⤴ (dry) ⮐ ;
         File.Delete(π);
@@ -86,6 +87,7 @@
         }
     }
 
+    // TRANSITIONAL
     ‒̥ ┈ JustMoveTo(⦿ ㄹ ㅂ, ㄹ ㄸ, ㅇ dry){
         ⤴ (dry) ⮐ ;
         //ㄸ.DirName().MkDir();

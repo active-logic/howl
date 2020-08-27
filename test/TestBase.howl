@@ -1,4 +1,5 @@
 ⊐ NUnit.Framework;
+⊐ Active.Howl;
 
 ‒ ○ TestBase {
 
@@ -7,8 +8,18 @@
     ⍉ EnableLogger  ⎚  That.Logger.enabled = ✓ ;
 #endif
 
-    ◠ ┈ o(ㅇ arg)    → Assert.That(arg);
-    ◠ ┈ o(⊡ x, ⊡ y)  → Assert.That(x, Is.EqualTo(y));
+    ◠ ┈ o(ㅇ arg)      → Assert.That(arg);
+
+    ◠ ┈ o(⊡ x, ⊡ y)    → Assert.That(x, Is.EqualTo(y));
+
+    ◠ ┈ Exists(⋯ ㄹ[] files){
+        ∀ (∙ x ∈ files){
+            ⤴ ( x.∃() ) 〰
+            🍥($"∄ {x}");
+            Assert.That( x.∃() );
+        }
+    }
+
     #if UNITY_EDITOR
     ◠ ┈ Print(⊡ msg)  → 🍥(msg);
     ◠ ┈ Warn(⊡ msg)   → 🔸(msg);

@@ -4,22 +4,65 @@
 ⊓ Unit{
 ‒ ○ CLI_Test : TestBase{
 
+    ᴸ ㄹ publishPath = "netcoreapp3.1/osx-x64/publish";
+
     CLI ι;
 
     ⍜ Setup(){ ι = ⌢ CLI(dry: ✗); MkProj(); }
 
     ⍉ Teardown ⎚ DelProj();
 
-    ؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
-
     // ==============================================================
 
+    // Ensure no-arg run displays version number and doc
+    ؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
+
+    // --------------------------------------------------------------
+
     ؟ Build(){
-        ι.Build(∅, "Mudbox/src");
-        o( "Mudbox/src/build/Main.cs".∃() );
-        o( "Mudbox/src/build/build.csproj".∃() );
-        o( "Mudbox/src/build/bin".∃() );
-        o( "Mudbox/src/build/obj".∃() );
+        ι.Build(∅, "Mudbox");
+        ∃( "Mudbox/build/Main.sln",
+           "Mudbox/build/src/Main.cs",
+           "Mudbox/build/src/src.csproj",
+           "Mudbox/build/src/bin/Debug",
+           "Mudbox/build/src/obj/Debug" );
+    }
+
+    // TODO - Install is platform specific and so is the test
+    ؟ Install(){
+        ι.Install(∅, "Mudbox");
+        ∃( $"Mudbox/build/src/bin/Release/{publishPath}/src",
+            "/usr/local/bin/mudbox" );
+        o( Runner.Cmd("foobar", "", workdir: "/", dry: ✗) ≠ 0 );
+        o( Runner.Cmd("mudbox", "", workdir: "/", dry: ✗) ☰ 0 );
+        // Clean
+        $"Mudbox/build/src/bin".RmDir(dry: ✗);
+        $"/usr/local/bin/mudbox".JustDelete(dry: ✗);
+    }
+
+    ؟ Publish(){
+        ι.Publish(∅, "Mudbox");
+        ∃( $"Mudbox/build/src/bin/Debug/{publishPath}/src" );
+    }
+
+    // TODO differentiate `Run` from `Build`
+    ؟ Run(){
+        o(ι.Build(∅, "Mudbox"), 0);
+        ∃( "Mudbox/build/Main.sln",
+           "Mudbox/build/src/Main.cs",
+           "Mudbox/build/src/src.csproj",
+           "Mudbox/build/src/bin/Debug",
+           "Mudbox/build/src/obj/Debug" );
+    }
+
+    // TODO - Check tests actually build and run
+    ؟ Test(){
+        ι.Test(∅, "Mudbox");
+        ∃( "Mudbox/build/src",
+           "Mudbox/build/test",
+           "Mudbox/build/Main.sln",
+           "Mudbox/build/src/src.csproj",
+           "Mudbox/build/test/test.csproj" );
     }
 
     // --------------------------------------------------------------
@@ -27,37 +70,7 @@
     ؟ Export(){
         o( ι.Export(∅, "Mudbox/src", "Mudbox/build"),
            "Exported Main.howl");
-        o( "Mudbox/build/Main.cs".∃() );
-    }
-
-    // --------------------------------------------------------------
-
-    // TODO - Install is platform specific and so is the test
-
-    ؟ Install(){
-        ι.Install(∅, "Mudbox");
-        o( $"Mudbox/src/build/bin/Release/{publishPath}/build".∃() );
-        o( "/usr/local/bin/mudbox".∃() );
-    }
-
-    ؟ Publish(){
-        ι.Publish(∅, "Mudbox/src");
-        o(  $"Mudbox/src/build/bin/Debug/{publishPath}/build".∃() );
-        o( !$"Mudbox/src/build/bin/Release/{publishPath}/build".∃() );
-    }
-
-    ㄹ publishPath → "netcoreapp3.1/osx-x64/publish";
-
-    // --------------------------------------------------------------
-
-    // TODO - Check tests actually build and run
-    ؟ Test(){
-        ι.Test(∅, "Mudbox");
-        o( "Mudbox/build/src".∃() );
-        o( "Mudbox/build/test".∃() );
-        o( "Mudbox/build/Main.sln".∃() );
-        o( "Mudbox/build/src/src.csproj".∃() );
-        o( "Mudbox/build/test/test.csproj".∃() );
+        ∃( "Mudbox/build/Main.cs" );
     }
 
     // ==============================================================
@@ -67,6 +80,11 @@
         "Mudbox/src/Main.howl".Write("‒○ Bar{∘ ┈ Main(ㄹ[] args){}}");
     }
 
-    ┈ DelProj ⎚ "MudBox".RmDir(dry: ✗);
+    ┈ DelProj(){
+        // Cleaning everything takes too long because of dotnet new
+        // "MudBox".RmDir(dry: ✗);
+        "MudBox".DeleteFiles("*.cs", withMetaFile: ✗);
+        "MudBox".DeleteFiles("*.howl", withMetaFile: ✗);
+    }
 
 }}

@@ -29,12 +29,14 @@ Have a change of heart? `./setup` restores the CLI to the latest release.
 
 ## Releases
 
-1) Visit https://github.com/active-logic/howl/releases/new
-2) Match release tag with `CLI.howl`
-3) Commit, push, run tests
-4) Run `howl install .` and `howl`
-5) Run `./release`
-6) Upload `Howl.tgz`
+1) Commit, run `howl test .`
+2) Run `howl install .` and `howl`
+3) Run `test.sh` (manual till correct err codes)
+4) Visit https://github.com/active-logic/howl/releases/new
+5) Match release tag with `CLI.howl`
+6) Push
+7) Run `./release`
+8) Upload `Howl.tgz`
 
 Once the release has been uploaded:
 - Update `setup` and `setup.ps1` to point at the correct version.

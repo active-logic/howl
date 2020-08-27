@@ -1,5 +1,5 @@
 #!/bin/bash
-version=0.0.20
+version=0.1.0
 repo=https://github.com/active-logic/howl
 url=$repo/releases/download/$version/howl.tgz
 mkdir /usr/local/bin  # for Catalina (test)
@@ -17,10 +17,10 @@ else flags="-r osx-x64"
 fi
 mkdir howl
 curl  -Ls $url | tar xz --strip 1 -C howl
-pushd howl/build > /dev/null
+pushd howl/src > /dev/null
 sudo  rm -rf /usr/local/Howl
 sudo  dotnet publish --nologo -v quiet $flags -o /usr/local/Howl
-sudo  ln -sf /usr/local/Howl/build /usr/local/bin/howl
+sudo  ln -sf /usr/local/Howl/src /usr/local/bin/howl
 popd  > /dev/null
 sudo  rm -rf howl
 howl

@@ -4,12 +4,13 @@
 ‒ ○ CLI{
 
     ㅇ dry;
-    DotNet δ = ⌢ DotNet();
+    //DotNet  δ = ⌢ DotNet();
+    Builder β = ⌢ Builder();
 
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.0.20";
+        🐰 "Howl CLI v0.1.0a";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -30,14 +31,11 @@
 
     // ---------------------------------------------------------------
 
-    ‒ ㄹ Build(⋯ ㄹ[] ㅂ){
-        ㄹ ι = ∅, π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        CleanCsFiles(ω);
-        ι += Export(∅, π, ω);
-        ι += δ.New($"console --name build --force", Π, ω, dry);
-        ι += δ.Build("build", Π, dry);
-        ⮐ ι;
-    }
+    ‒ ᆞ Build   (⋯ ㄹ[] ㅂ) → β.Build   (ㅂ[1]);
+    ‒ ᆞ Install (⋯ ㄹ[] ㅂ) → β.Install (ㅂ[1]);
+    ‒ ᆞ Publish (⋯ ㄹ[] ㅂ) → β.Publish (ㅂ[1]);
+    ‒ ᆞ Run     (⋯ ㄹ[] ㅂ) → β.Run     (ㅂ[1]);
+    ‒ ᆞ Test    (⋯ ㄹ[] ㅂ) → β.Test    (ㅂ[1]);
 
     // ---------------------------------------------------------------
 
@@ -64,95 +62,21 @@
             ⮐ "No input files in '{src}'";
     }
 
-    // --------------------------------------------------------------
-
-    ‒ ㄹ Install(⋯ ㄹ[] ㅂ){
-        ∙ π = ㅂ[1];
-        ㄹ ι = ∅, Π = π.FullPath(), name;
-        ⤴ (!π.∃()){
-            🐰 "Arg does not reflect existing path; assume name";
-            name = π; π = ".";
-        }⤵{
-            name = Π.Substring(Π.LastIndexOf("/") + 1);
-            🐰 $"Path exists {π}; assume project name '{name}'";
-        }
-        ∙ rt = OS.runtime;
-        ⤴ (rt ≠ "osx-x64"){ 🐰 $"N/A: 'install' ({rt})"; ⮐ ∅; }
-        🐰 $"CALL howl publish {π}/src Release";
-        ι += Publish(∅, $"{π}/src", "Release");
-        ∙ build="src/build/bin/Release/netcoreapp3.1/osx-x64/publish";
-        ∙ link  = $"/usr/local/bin/{name.ToLower()}";
-        //link.JustDelete(dry);
-        ι += Runner.Cmd(
-             "ln", $"-sf {build.FullPath()}/build {link}", π, dry);
-        ⮐ ι;
-    }
-
-    // --------------------------------------------------------------
-
-    ‒ ㄹ Publish(⋯ ㄹ[] ㅂ){
-        ㄹ ι = ∅;
-        ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        ∙ config = (ㅂ❙> 2) ? ㅂ[2] : "Debug";
-        CleanCsFiles(ω);
-        ι += Export(∅, π, ω);
-        ι += δ.New($"console --name build --force", Π, ω, dry);
-        ι += δ.Publish($"build -c {config}", Π, rt: ∅, dry);
-        ⮐ ι;
-    }
-
-    // --------------------------------------------------------------
-
-    ‒ ㄹ Run(⋯ ㄹ[] ㅂ){
-        ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        CleanCsFiles(ω);
-        Export(∅, π, ω);
-        δ.New($"console --name build --force", Π, ω, dry);
-        δ.Run("--project build", Π, dry);
-        ⮐ ∅;
-    }
-
-    // --------------------------------------------------------------
-
-    ‒ ㄹ Test(⋯ ㄹ[] ㅂ){
-        ㄹ π = ㅂ[1], Π = π.FullPath(), ω =  $"{π}/build";
-        ㄹ ι = ∅;
-        ω.MkDir(dry);
-        ι += Export(∅, $"{π}/src", $"{ω}/src");
-        ι += Export(∅, $"{π}/test", $"{ω}/test");
-        ⤴ (!$"{ω}/Main.sln".Exists()){
-            ι += δ.New("solution --name Main --force", ω, ∅, dry);
-            ι += δ.New("classlib --name src --force", ω, ∅, dry);
-            ι += δ.New("nunit --name test --force", ω, ∅, dry);
-            $"{ω}/src/Class1.cs".JustDelete(dry);
-            $"{ω}/test/UnitTest1.cs".JustDelete(dry);
-            ι += δ["add",
-               "test/test.csproj reference src/src.csproj", ω, dry];
-            ι += δ["sln add",
-               "src/src.csproj test/test.csproj", ω, dry];
-        }
-        ι += δ.Test(ω, dry);
-        🍥(ι);
-        ⮐ ι;
-    }
-
     ㄹ Import(ㄹ[] ㅂ) → 🐤 "Unimplemented";
-
-    // ---------------------------------------------------------------
-
-    ┈ CleanCsFiles(ㄹ π){
-        ⤴ (π.∃()) π.DeleteFiles("*.cs", withMetaFile: ✗);
-    }
 
     ㄹ help =
 @"Usage:
+Import/Export commands
 howl export SRC_DIR DST_DIR - Export Howl scripts to C#
 howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
-howl build DIR              - Build a console app
-howl install DIR            - Install, assuming DIR/src [macOS only]
-howl publish DIR            - Build and publish a console app
+
+Builder commands
+howl build DIR              - Publish a console app
+howl install DIR            - Install a console app [macOS only]
+howl publish DIR            - Publish a console app
 howl run DIR                - Build and run a console app
-howl test DIR - Build and run tests assuming DIR/src, DIR/test
+howl test DIR               - Run tests
+Builder commands assume source files in DIR/src, tests in DIR/test.
 ";
 
 }}

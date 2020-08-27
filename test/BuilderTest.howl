@@ -8,26 +8,30 @@
 
     ⍜ Setup ⎚ β = ⌢ Builder();
 
-    ؟ Build ⎚ o( β.Build("~/Sandbox"), 0);
+    ؟ Build(){
+        $"~/Sandbox/src/Main.howl"
+        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
+        o( β.Build("~/Sandbox"), 0);
+    }
 
     ؟ Install(){
         $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ main(ㄹ[] args){} }");
+        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
         o( β.Install("~/Sandbox"), 0);
     }
 
     ؟ Publish(){
         $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ main(ㄹ[] args){} }");
+        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
         o( β.Publish("~/Sandbox"), 0);
     }
 
     ؟ Run(){
-        o( β.Run("~/Sandbox"), 1);
+        o( β.Run("~/Sandbox"), 0);
         $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ main(ㄹ[] args){} }");
+        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
         // TODO should be zero... ?
-        o( β.Run("~/Sandbox"), 1);
+        o( β.Run("~/Sandbox"), 0);
     }
 
     ؟ Test ⎚ o( β.Test("~/Sandbox"), 0);
@@ -44,8 +48,25 @@
         o( $"{π}/test/test.csproj".∃() );
     }
 
-    //؟ Solution_dry(){
-    //    o( β.Solution("~", ✓), "Foo");
-    //}
+    ؟ Update(){
+        "Sandbox/src".MkDir();
+        "Sandbox/test".MkDir();
+        //
+        "Sandbox/src/A.howl".Write("○ A{}");
+        "Sandbox/src/X.cs".Write("○ X{}");
+        "Sandbox/test/TestA.howl".Write("○ TestA{}");
+        β.Update("Sandbox");
+        ∃( "Sandbox/build/src/A.cs", "Sandbox/build/test/TestA.cs" );
+        //
+        "Sandbox/src/A.howl".JustDelete(dry: ✗);
+        "Sandbox/test/TestA.howl".JustDelete(dry: ✗);
+        β.Update("Sandbox");
+        // Stale C# output must not remain
+        o( "Sandbox/build/src/A.cs".∃(), ✗);
+        o( "Sandbox/build/test/TestA.cs".∃(), ✗);
+        // Do not accidentally delete C# input, if any
+        ∃( "Sandbox/src/X.cs" );
+        "Sandbox".RmDir(dry: ✗);
+    }
 
 }}

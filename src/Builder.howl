@@ -6,21 +6,8 @@
     DotNet δ = ⌢ DotNet();
 
     ‒ ᆞ Build(ㄹ π){
-        Update(π); ⮐ δ.Build("-v quiet", $"{π}/build", dry: ✗);
-    }
-
-    ‒ ᆞ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
         Update(π);
-        ⮐ δ.Publish($"src -c {config} --nologo", $"{π}/build",
-                     rt, dry: ✗);
-    }
-
-    ‒ ᆞ Run(ㄹ π){
-        Update(π);  ⮐ δ.Run("src --nologo", $"{π}/build", dry: ✗);
-    }
-
-    ‒ ᆞ Test(ㄹ π){
-        Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗);
+        ⮐ δ.Build("-v quiet --nologo", $"{π}/build", dry: ✗);
     }
 
     ‒ ᆞ Install(ㄹ π){
@@ -41,6 +28,21 @@
             π, dry: ✗);
     }
 
+    ‒ ᆞ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
+        Update(π);
+        ⮐ δ.Publish($"src -c {config} --nologo", $"{π}/build",
+                     rt, dry: ✗);
+    }
+
+    ‒ ᆞ Run(ㄹ π){
+        Update(π);
+        ⮐ δ.Run("--nologo --project src", $"{π}/build", dry: ✗);
+    }
+
+    ‒ ᆞ Test(ㄹ π){
+        Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗);
+    }
+
     // ---------------------------------------------------------------
 
     ‒ ㄹ ProjectName(ㄹ π){
@@ -48,10 +50,12 @@
         ⮐ Π.Substring(Π.LastIndexOf("/") + 1).ToLower();
     }
 
-    ᆞ Update(ㄹ π){
-        Export(∅, $"{π}/src", $"{π}/build/src");
-        Export(∅, $"{π}/test", $"{π}/build/test");
-        ⮐ Solution($"{π}/build", dry: ✗);
+    ‒ ᆞ Update(ㄹ π){
+        ∙ β = $"{π}/build";
+        ⤴ ( β.∃() ) β.DeleteFiles("*.cs", withMetaFile: ✗);
+        Export(∅, $"{π}/src", $"{β}/src");
+        Export(∅, $"{π}/test", $"{β}/test");
+        ⮐ Solution(β, dry: ✗);
     }
 
     // TRANSITIONAL
@@ -79,7 +83,9 @@
             ㄸ = δ.New("solution --name Main --force", π, ∅, dry);
             ㄸ = δ.New("console --name src --force", π, ∅, dry);
             ㄸ = δ.New("nunit --name test --force", π, ∅, dry);
-            $"{π}/src/Class1.cs".JustDelete(dry);
+            $"{π}/src/Program.cs".JustDelete(dry);
+            // This is for libraries
+            // $"{π}/src/Class1.cs".JustDelete(dry);
             $"{π}/test/UnitTest1.cs".JustDelete(dry);
             ㄸ = δ["add",
                 "test/test.csproj reference src/src.csproj", π, dry];
