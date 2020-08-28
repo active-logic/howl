@@ -8,5 +8,6 @@ dotnet new console --name src --force --no-restore
 dotnet new nunit --name test --force --no-restore
 rm src/Program.cs && rm test/UnitTest1.cs
 dotnet add test/test.csproj reference src/src.csproj
+dotnet add test/test.csproj package coverlet.msbuild
 dotnet sln add src/src.csproj test/test.csproj
 popd

@@ -5,6 +5,7 @@ before_script:
     - ./setup
     - ./scripts/solution
 script:
-    - sudo dotnet test build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+    - dotnet test build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 after_script:
+    - sed -i 's/.cs/.howl/g' build/test/coverage.opencover.xml
     - bash <(curl -s https://codecov.io/bash)

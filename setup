@@ -27,8 +27,9 @@ mkdir howl
 curl  -Ls $url | tar xz --strip 1 -C howl
 pushd howl/src > /dev/null
 sudo  rm -rf /usr/local/Howl
-sudo  dotnet publish --nologo -v quiet $flags -o /usr/local/Howl
+dotnet publish --nologo -v quiet $flags -o ~/howl.build.tmp
+sudo  mv ~/howl.build.tmp /usr/local/Howl
 sudo  ln -sf /usr/local/Howl/src /usr/local/bin/howl
 popd  > /dev/null
-sudo  rm -rf howl
+rm -rf howl
 howl
