@@ -16,4 +16,6 @@
     : (╯°□°)╯
             ⌢ Ex("Unknown Runtime");
 
+    ‒̥ ㅇ isWindows → Info.IsOSPlatform(OSP.Windows);
+
 }}
