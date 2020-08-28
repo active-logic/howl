@@ -4,13 +4,13 @@
 ⊓ Unit{
 ‒ ○ CLI_Test : TestBase{
 
-    ᴸ ㄹ publishPath = "netcoreapp3.1/osx-x64/publish";
-
     CLI ι;
 
     ⍜ Setup(){ ι = ⌢ CLI(dry: ✗); MkProj(); }
 
     ⍉ Teardown ⎚ DelProj();
+
+    ㄹ publishPath → $"netcoreapp3.1/{OS.runtime}/publish";
 
     // ==============================================================
 
