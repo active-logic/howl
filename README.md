@@ -1,5 +1,8 @@
 ⚠️ **UNDER DEVELOPMENT 〜 HANDLE WITH CARE**
 
+[![Build Status](https://travis-ci.com/active-logic/howl.svg?branch=CI)](https://travis-ci.com/active-logic/xgoap)
+[![codecov](https://codecov.io/gh/active-logic/howl/branch/CI/graph/badge.svg)](https://codecov.io/gh/active-logic/howl)
+
 # Howl
 
 Howl is a symbolic notation engine.
