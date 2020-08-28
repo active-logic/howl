@@ -10,10 +10,10 @@ pushd Howl
 wget -Uri $url -OutFile howl.tgz
 tar xf howl.tgz
 
-pushd src
+pushd build/src
 dotnet publish --nologo -v quiet -o "C:/Program Files/Howl"
-mv -fo "C:\Program Files\Howl\build.exe" "C:\Program Files\Howl\howl.exe"
-popd  # Exit src
+mv -fo "C:\Program Files\Howl\src.exe" "C:\Program Files\Howl\howl.exe"
+popd  # Exit build/src
 popd  # Exit Howl
 rm -r -fo Howl
 
