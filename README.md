@@ -81,9 +81,9 @@ PROJECT/
     test/
 ```
 
-While `PROJECT` may be anything you like, many commands expect `src` and `test`.
+While `PROJECT` may be anything you like, most commands assume `src` and `test`.
 
-A greetings program would look like this:
+A greetings program:
 
 ```howl
 ○ Greetings{
@@ -95,15 +95,15 @@ A greetings program would look like this:
 }
 ```
 
-If you have installed Atom and the language extension, notations are made available via *literate snippets* (type `class` → get `○`).
+With *Atom* and *language-howl*, notations are availed via *literate snippets* (type `class` → get `○`).
 
 A few commands you may run:
 
 ```sh
 cd PROJECT
-howl run src  # build and run a console application
-howl test     # run tests (via NUnit)
-howl publish  # (locally) publish a platform dependent executable.
+howl run .      # build and run a console application
+howl test .     # run tests (via NUnit)
+howl publish .  # generate an executable.
 ```
 
 Want the full list? Try `howl`
