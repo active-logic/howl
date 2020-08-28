@@ -10,7 +10,8 @@
 
     ⍉ Teardown ⎚ DelProj();
 
-    ㄹ publishPath → $"netcoreapp3.1/{OS.runtime}/publish";
+    ㄹ publishPath      → $"netcoreapp3.1/{OS.runtime}/publish";
+    ㄹ publishPathNoRID → $"netcoreapp3.1/publish";
 
     // ==============================================================
 
@@ -44,7 +45,8 @@
 
     ؟ Publish(){
         ι.Publish(∅, "Mudbox");
-        ∃( $"Mudbox/build/src/bin/Debug/{publishPath}/src" );
+        ∙ ext = OS.runtime ☰ OS.Windows ? ".exe" : "";
+        ∃( $"Mudbox/build/src/bin/Debug/{publishPath}/src{ext}" );
     }
 
     // TODO differentiate `Run` from `Build`
