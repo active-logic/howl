@@ -1,7 +1,7 @@
 # Assuming `howl install .`
 # First delegate to `howl publish .` with
 # config = release and no runtime arg
-# howl export src build/src
+howl export src build/src
 pushd build
 # dotnet publish src -c Release --nologo
 # Above should build to
