@@ -43,6 +43,6 @@
     ‒̥ ㄹ   Nitpick(⋯ ㄹ[] α) → ReorderHl(α).Join().Replace("‒∘", "‒̥");
     ‒̥ ㄹ[] ReorderCs (⋯ ㄹ[] α) → Reorder(csTemplate, α);
     ‒̥ ㄹ[] ReorderHl (⋯ ㄹ[] α) → Reorder(howlTemplate, α);
-    ‒̥ ㄹ[] Reorder(ㄹ[] τ, ⋯ ㄹ[] α) → (‖ x ∈ τ ¿ α.∋(x) ፥ x)৴;
+    ‒̥ ㄹ[] Reorder(ㄹ[] τ, ⋯ ㄹ[] α) → (‖ x ∈ τ ¿ α.∋(x) ▸ x)৴;
 
 }}

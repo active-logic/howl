@@ -32,7 +32,7 @@
     ∘ 𝕃<ㄹ> Find(ㄹ root, ㄹ pattern) → null;
 
     ∘ ┈ Traverse(DirectoryInfo dir, ㄹ pattern, 𝕃<ㄹ> ㄸ){
-        ㄸ.AddRange(‖ f ∈ dir.GetFiles(pattern) ፥ f.FullName.Nix());
+        ㄸ.AddRange(‖ f ∈ dir.GetFiles(pattern) ▸ f.FullName.Nix());
         ∀ (∙ x ∈ dir.GetDirectories()) Traverse(x, pattern, ㄸ);
     }
 

@@ -19,11 +19,11 @@
 
     ‒̥ ㄹ   ⨕ / (ㄹ x, Map y) → Rev(x, y.rules);
 
-    ‒̥ ㄹ[] ⨕ / (ㄹ[] A, Map y) → (‖ x ∈ A ፥ x / y)৴;
+    ‒̥ ㄹ[] ⨕ / (ㄹ[] A, Map y) → (‖ x ∈ A ▸ x / y)৴;
 
     ‒̥ ㄹ   ⨕ % (ㄹ x, Map y) → Rev(x, y.nits);
 
-    ‒̥ ㄹ[] ⨕ ! (Map m) → (‖ x ∈ m.rules ¿ !x ፥ x.a)৴;
+    ‒̥ ㄹ[] ⨕ ! (Map m) → (‖ x ∈ m.rules ¿ !x ▸ x.a)৴;
 
     // Functions ----------------------------------------------------
 
@@ -53,10 +53,10 @@
 
     // TODO: return IEnumerable instead
     ‒ Rep[] nits
-    → (‖ ρ ∈ rules ¿ ρ.nit ፥ ρ)৴;
+    → (‖ ρ ∈ rules ¿ ρ.nit ▸ ρ)৴;
 
     ‒ Rep[] ForClass(ㄹ @class)
-    → (‖ ρ ∈ rules ¿ ρ._class ☰ @class ፥ ρ)৴;
+    → (‖ ρ ∈ rules ¿ ρ._class ☰ @class ▸ ρ)৴;
 
 
     ‒ ᆞ ⦿[ㄹ key]{╭{

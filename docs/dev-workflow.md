@@ -15,6 +15,13 @@ howl test .     # build and run tests
 howl run src    # run the CLI
 ```
 
+## Changing the symset
+
+- Add a rule for the symbol that needs to be exchanged
+- `howl install .`
+- Search and replace to swap symbols in the source
+- Do a *Release*
+
 ## Updating and reverting
 
 [TODO: macOS only for now]

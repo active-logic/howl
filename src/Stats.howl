@@ -17,7 +17,7 @@
    → (‖ x ∈ FileSystem.Paths(π, pattern)
       ¿ x.NumberOfLines() > n
       ⏢ x.NumberOfLines() ◺
-      ፥ x.FileName().Replace(".howl", ""))৴;
+      ▸ x.FileName().Replace(".howl", ""))৴;
 
    ‒̥ ᅭ DrySize(ㄹ π, ㄹ pattern)
    → FileSystem.Paths(π, pattern).Sum( x → x.DrySize() );

@@ -9,7 +9,7 @@
     ‒̥ ㄹ Consolidate(⦿ ㄹ ㅂ, ᆩ[] S){
         index = 0;
         WhiteSpaceAdder.ㅂ = ㅂ;
-        ⮐ (‖ c ∈ ㅂ ፥ Consolidate(c, S))৴.Join();
+        ⮐ (‖ c ∈ ㅂ ▸ Consolidate(c, S))৴.Join();
     }
 
     ‒̥ string Consolidate(this string x, string[] S){

@@ -24,12 +24,12 @@
     → o("▷ Act()" * ω, "public action Act()");
 
     ؟ EthiopicColonMappingTest(){
-        Map x = ⌢ Rep[]{ ("፥", "BAR") };
-        o( "x ፥ y" * x, "x BAR y");
+        Map x = ⌢ Rep[]{ ("▸", "BAR") };
+        o( "x ▸ y" * x, "x BAR y");
     }
 
     ؟ EthiopicColonReplaceTest(){
-        o( "x ፥ y".Replace("፥", "*"), "x * y");
+        o( "x ▸ y".Replace("▸", "*"), "x * y");
     }
 
     ؟ TriColonReplaceTest(){
@@ -42,7 +42,7 @@
     }
 
     ؟ Apply_withSelector()
-    → o("‖ x ∈ z ¿ x > 0 ፥ foo" * ω,
+    → o("‖ x ∈ z ¿ x > 0 ▸ foo" * ω,
         "from x in z where x > 0 select foo");
 
     ؟ Apply_withCompactModifiers_1()
