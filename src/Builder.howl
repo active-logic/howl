@@ -36,7 +36,7 @@
 
     ‒ ᆞ Run(ㄹ π){
         Update(π);
-        ⮐ δ.Run("--nologo --project src", $"{π}/build", dry: ✗);
+        ⮐ δ.Run("--project src", $"{π}/build", dry: ✗);
     }
 
     ‒ ᆞ Test(ㄹ π){
