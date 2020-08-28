@@ -80,9 +80,24 @@
         ᆞ ㄸ = 0;
         ⤴ (!$"{π}/Main.sln".∃()){
             π.MkDir();
-            ㄸ = δ.New("solution --name Main --force", π, ∅, dry);
-            ㄸ = δ.New("console --name src --force", π, ∅, dry);
-            ㄸ = δ.New("nunit --name test --force", π, ∅, dry);
+            ㄸ = δ.New($"solution --force -n Main", π, ∅, dry);
+            $"{π}/src/src.csproj".Write(newConsole, mkdir: true);
+            $"{π}/test/test.csproj".Write(newNUnit, mkdir: true);
+            ㄸ = δ["sln add",
+               "src/src.csproj test/test.csproj", π, dry];
+        } ⮐ ㄸ;
+    }
+
+    ‒ ᆞ SlowSolution(ㄹ π, ㅇ dry){
+        ᆞ ㄸ = 0;
+        ⤴ (!$"{π}/Main.sln".∃()){
+            π.MkDir();
+            ∙ opts = "--force --no-restore";
+            // NOTE: dotnet [new solution | sln | add ] do not accept
+            // --no-restore
+            ㄸ = δ.New($"solution --force -n Main", π, ∅, dry);
+            ㄸ = δ.New($"console {opts} -n src", π, ∅, dry);
+            ㄸ = δ.New($"nunit {opts} -n test", π, ∅, dry);
             $"{π}/src/Program.cs".JustDelete(dry);
             // This is for libraries
             // $"{π}/src/Class1.cs".JustDelete(dry);
@@ -93,5 +108,29 @@
                "src/src.csproj test/test.csproj", π, dry];
         } ⮐ ㄸ;
     }
+
+    ᴸ ㄹ newConsole =
+@"<Project Sdk=""Microsoft.NET.Sdk"">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+</Project>";
+
+    ᴸ ㄹ newNUnit =
+@"<Project Sdk=""Microsoft.NET.Sdk"">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include=""nunit"" Version=""3.12.0"" />
+    <PackageReference Include=""NUnit3TestAdapter"" Version=""3.15.1"" />
+    <PackageReference Include=""Microsoft.NET.Test.Sdk"" Version=""16.4.0"" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include=""..\src\src.csproj"" />
+  </ItemGroup>
+</Project>";
 
 }}
