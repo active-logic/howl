@@ -6,6 +6,6 @@ before_script:
     - ./setup
 script:
     - howl test .
-    - dotnet test -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+    - dotnet test build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 after_script:
     - bash <(curl -s https://codecov.io/bash)
