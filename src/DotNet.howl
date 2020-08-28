@@ -3,7 +3,7 @@
 ⊓ Active.Howl{
 ‒ ○ DotNet{
 
-    ㄹ dotnet = "/usr/local/share/dotnet/dotnet";
+    ㄹ dotnet = "dotnet";
 
     ‒ ᆞ Build(ㄹ args, ㄹ workdir, ㅇ dry)
     → ⦿["build", args, workdir, dry];
