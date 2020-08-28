@@ -29,6 +29,7 @@
     }
 
     // TODO - Install is platform specific and so is the test
+    /* QUARANTINE (n/a on nix)
     ؟ Install(){
         ι.Install(∅, "Mudbox");
         ∃( $"Mudbox/build/src/bin/Release/{publishPath}/src",
@@ -39,6 +40,7 @@
         $"Mudbox/build/src/bin".RmDir(dry: ✗);
         $"/usr/local/bin/mudbox".JustDelete(dry: ✗);
     }
+    */
 
     ؟ Publish(){
         ι.Publish(∅, "Mudbox");
@@ -83,6 +85,7 @@
     ┈ DelProj(){
         // Cleaning everything takes too long because of dotnet new
         // "MudBox".RmDir(dry: ✗);
+        ⤴ ( !"MudBox".IsDir() ) ⮐ ;
         "MudBox".DeleteFiles("*.cs", withMetaFile: ✗);
         "MudBox".DeleteFiles("*.howl", withMetaFile: ✗);
     }

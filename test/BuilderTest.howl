@@ -13,10 +13,12 @@
         o( β.Build("~/Sandbox"), 0);
     }
 
+    /* QUARANTINE (n/a on nix)
     ؟ Install(){
         MkMain_howl();
         o( β.Install("~/Sandbox"), 0);
     }
+    */
 
     ؟ Publish(){
         MkMain_howl();
