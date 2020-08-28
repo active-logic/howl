@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euxo pipefail
+howl export src build/src
+howl export test build/test
+pushd build
+dotnet new solution --name Main --force
+dotnet new console --name src --force --no-restore
+dotnet new nunit --name test --force --no-restore
+rm src/Program.cs && rm test/UnitTest1.cs
+dotnet add test/test.csproj reference src/src.csproj
+dotnet sln add src/src.csproj test/test.csproj
+popd
