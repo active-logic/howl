@@ -9,29 +9,29 @@
     ⍜ Setup ⎚ β = ⌢ Builder();
 
     ؟ Build(){
-        $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
+        MkMain_howl();
         o( β.Build("~/Sandbox"), 0);
     }
 
     ؟ Install(){
-        $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
+        MkMain_howl();
         o( β.Install("~/Sandbox"), 0);
     }
 
     ؟ Publish(){
-        $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
+        MkMain_howl();
         o( β.Publish("~/Sandbox"), 0);
     }
 
     ؟ Run(){
         o( β.Run("~/Sandbox"), 0);
-        $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }");
         // TODO should be zero... ?
         o( β.Run("~/Sandbox"), 0);
+    }
+
+    ┈ MkMain_howl(){
+        $"~/Sandbox/src/Main.howl"
+        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }", mkdir: ✓);
     }
 
     ؟ Test ⎚ o( β.Test("~/Sandbox"), 0);
