@@ -28,6 +28,14 @@
         o( "x ፥ y" * x, "x BAR y");
     }
 
+    ؟ EthiopicColonReplaceTest(){
+        o( "x ፥ y".Replace("፥", "*"), "x * y");
+    }
+
+    ؟ TriColonReplaceTest(){
+        o( "x ⁝ y".Replace("⁝", "*"), "x * y");
+    }
+
     ؟ MulOpMappingTest(){
         Map x = ⌢ Rep[]{ ("*", "MUL") };
         o( "x * y" * x, "x MUL y");
