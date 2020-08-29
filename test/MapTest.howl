@@ -20,26 +20,23 @@
         o(x.rules❙, 2);
     }
 
-    ؟ Apply()
-    → o("▷ Act()" * ω, "public action Act()");
+    ؟ Apply ⎚ o("▷ Act()" * ω, "public action Act()");
 
     ؟ EthiopicColonMappingTest(){
         Map x = ⌢ Rep[]{ ("፥", "BAR") };
         o( "x ፥ y" * x, OS.isWindows ? "x ፥ y" : "x BAR y");
     }
 
-    ؟ EthiopicColonReplaceTest(){
-        o( "x ፥ y".Replace("፥", "*"), OS.isWindows ? "x ፥ y" : "x * y");
-    }
+    ؟ EthiopicColonReplaceTest
+    ⎚ o( "x ፥ y".Replace("፥", "*"), OS.isWindows ? "x ፥ y" : "x * y");
 
-    // "Too many characters in character literal"
-    //؟ EthiopicColonReplaceTest2(){
-    //    o( "x ፥ y".Replace('፥', '*'), OS.isWindows ? "x ፥ y" : "x * y");
-    //}
+    // "Too many characters in character literal" (Win, macOS)
+    /*
+    ؟ EthiopicColonReplaceTest2
+    ⎚ o( "x ፥ y".Replace('፥', '*'), OS.isWindows ? "x ፥ y" : "x * y");
+    */
 
-    ؟ TriColonReplaceTest(){
-        o( "x ⁝ y".Replace("⁝", "*"), "x * y");
-    }
+    ؟ TriColonReplaceTest ⎚ o( "x ⁝ y".Replace("⁝", "*"), "x * y");
 
     ؟ MulOpMappingTest(){
         Map x = ⌢ Rep[]{ ("*", "MUL") };
