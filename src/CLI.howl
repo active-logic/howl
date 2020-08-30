@@ -10,7 +10,7 @@
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.1.3a";
+        🐰 "Howl CLI v0.1.4a";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 

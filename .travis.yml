@@ -15,7 +15,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     # Windows: tests only, verbose output
     - os: windows
-      env: TEST_ARGS="-l console;verbosity=detailed"
+      env: TEST_ARGS="-l console;verbosity=normal"
       before_script:
         - powershell Set-ExecutionPolicy Unrestricted
         - choco install dotnetcore-sdk

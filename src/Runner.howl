@@ -12,8 +12,9 @@
             φ.StartInfo.WorkingDirectory = workdir;
             φ.StartInfo.FileName         = cmd;
             φ.StartInfo.Arguments        = args;
-            // Win: shell execute opens a new window
-            φ.StartInfo.UseShellExecute  = (OS.runtime ≠ OS.Windows);
+            // Win: shell execute opens a new window; also needed for
+            // output redirection
+            φ.StartInfo.UseShellExecute  = ✗;
             φ.StartInfo.CreateNoWindow   = ✓;
             φ.StartInfo.RedirectStandardOutput = ✓;
             φ.StartInfo.RedirectStandardError = ✓;
@@ -30,7 +31,7 @@
     }
 
     ∘ ┈ OutputHandler(⊡ sendingProcess, DataReceivedEventArgs line){
-        //⤴ (!ㄹ.IsNullOrEmpty(line.Data))
+        ⤴ (!ㄹ.IsNullOrEmpty(line.Data))
         Console.WriteLine(line.Data);
     }
 
