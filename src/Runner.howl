@@ -17,7 +17,7 @@
             // Linux: output redir causing issues for now
             φ.StartInfo.CreateNoWindow   = ✓;
             //
-            ∙ rdr = !OS.isLinux;
+            ∙ rdr = OS.isWindows;
             φ.StartInfo.UseShellExecute        = !rdr;
             φ.StartInfo.RedirectStandardOutput =  rdr;
             φ.StartInfo.RedirectStandardError  =  rdr;

@@ -1,7 +1,7 @@
 # First, may need to run
 # set-executionpolicy remotesigned
 cls
-$version = "0.1.4"
+$version = "0.1.5"
 $repo    = "https://github.com/active-logic/howl"
 $url     = "$repo/releases/download/$version/howl.tgz"
 
