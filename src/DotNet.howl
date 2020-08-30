@@ -15,8 +15,8 @@
     }
 
     ‒ ᆞ Publish(ㄹ α, ㄹ δ, ㄹ rt, ㅇ dry){
-        rt = rt ?? OS.runtime ?? (╯°□°)╯ ⌢ Ex("Unknown runtime");
-        ⮐ ⦿["publish", $"{α} --runtime {rt}", δ, dry];
+        ⤴ (rt ≠ ∅) rt = $"--runtime {rt}";
+        ⮐ ⦿["publish", $"{α} {rt}", δ, dry];
     }
 
     ‒ ᆞ Run(ㄹ α, ㄹ δ, ㅇ dry) → ⦿["run", α, δ, dry];

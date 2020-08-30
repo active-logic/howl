@@ -1,4 +1,6 @@
-⊐ Ex = System.Exception;
+⊐ System; ⊐ Ex = System.Exception;
+⊐ DNT = Active.Howl.DotNetTemplates;
+⊐ System.Linq;
 
 ⊓ Active.Howl{
 ‒ ○ Builder{
@@ -10,23 +12,9 @@
         ⮐ δ.Build("-v quiet --nologo", $"{π}/build", dry: ✗);
     }
 
-    ‒ ᆞ Install(ㄹ π){
-        ∙ rt = OS.runtime;
-        ⤴ (rt ≠ "osx-x64"){
-            🐰 $"N/A: 'install' ({rt})";
-            ⮐ 1;
-        }
-        Publish(π, config: "Release", rt);
-        ∙ path =
-           $"{π}/build/src/bin/Release/netcoreapp3.1/osx-x64/publish";
-        ∙ link =
-           $"/usr/local/bin/{ProjectName(π)}";
-        ⤴ (!path.Exists()) (╯°□°)╯
-                                 ⌢ Ex("Binaries path is invalid");
-        ⮐ Runner.Cmd(
-            "ln", $"-sf {path.FullPath()}/src {link}",
-            π, dry: ✗);
-    }
+    ‒ ᆞ Install(ㄹ π, ㅇ addToPath = ✓)
+    → OS.isWindows ? InstallWin(π, addToPath)
+                   : InstallNix(π, addToPath);
 
     ‒ ᆞ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
         Update(π);
@@ -34,21 +22,58 @@
                      rt, dry: ✗);
     }
 
-    ‒ ᆞ Run(ㄹ π){
-        Update(π);
-        ⮐ δ.Run("--project src", $"{π}/build", dry: ✗);
-    }
+    ‒ ᆞ Run(ㄹ π)
+    { Update(π); ⮐ δ.Run("--project src", $"{π}/build", dry: ✗); }
 
-    ‒ ᆞ Test(ㄹ π){
-        Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗);
-    }
+    ‒ ᆞ Test(ㄹ π){ Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗); }
 
     // ---------------------------------------------------------------
 
-    ‒ ㄹ ProjectName(ㄹ π){
-        ∙ Π = π.FullPath();
-        ⮐ Π.Substring(Π.LastIndexOf("/") + 1).ToLower();
+    ‒ ᆞ InstallNix(ㄹ π, ㅇ addToPath){
+        ∙ rt = OS.runtime;
+        ∙ ㄸ = Publish(π, config: "Release", rt);
+        ⤴ (ㄸ != 0){ 🦞 "Install: Publish failed ({ㄸ})"; ⮐ ㄸ; }
+        ∙ path =
+           $"{π}/build/src/bin/Release/netcoreapp3.1/{rt}/publish";
+        ∙ link =
+           $"/usr/local/bin/{ExeName(π)}";
+        ⤴ (!path.Exists()) (╯°□°)╯ ⌢ Ex("Binaries path is invalid");
+        ⤳ (!addToPath) ⮐ ㄸ;
+        ㄸ = Runner.Cmd(
+            "ln", $"-sf {path.FullPath()}/src {link}", π, dry: ✗);
+        ⤴ (ㄸ != 0){ 🦞 "Install: symlink failed ({ㄸ})"; }
+        ⮐ ㄸ;
     }
+
+    ‒ ᆞ InstallWin(ㄹ π, ㅇ addToPath){
+        Update(π);
+        ㄹ args = "-c Release --nologo", proj = ProjectName(π);
+        ∙ ㄸ = δ.Publish(
+            $"src {args} -o \"C:/Program Files/{proj}\"",
+            $"{π}/build", rt: ∅, dry: ✗);
+        ∙ path = $"C:/Program Files/{proj}";
+        ⤴ (!$"{path}/src.exe".Exists())
+                            (╯°□°)╯ ⌢ Ex("Binaries path is invalid");
+        ⤳ (!addToPath) ⮐ ㄸ;
+        // TODO Update path in $profile
+        ∙ profile = Environment.GetEnvironmentVariable("profile");
+        ⤴ (ㄹ.IsNullOrEmpty(profile)){
+            🐤 $"User profile not found; Cannot add {ExeName(π)} to "
+              + "the path";
+            ⮐ 2;
+        }
+        🐰 $"PROFILE: {profile}";
+        ∙ Λ = profile.ReadLines();
+        ∙ pathEntry = $"$env:Path += ';c:/PROGRA~1/{proj}'";
+        ⤴ (!Λ.Contains(pathEntry))
+            profile.Write(Λ + "\n" + pathEntry);
+        ⮐ ㄸ;
+    }
+
+    ‒ ㄹ ProjectName(ㄹ π)
+    { ∙ Π = π.FullPath(); ⮐ Π.Substring(Π.LastIndexOf("/") + 1); }
+
+    ‒ ㄹ ExeName(ㄹ π) → ProjectName(π).ToLower();
 
     ‒ ᆞ Update(ㄹ π){
         ∙ β = $"{π}/build";
@@ -81,8 +106,8 @@
         ⤴ (!$"{π}/Main.sln".∃()){
             π.MkDir();
             ㄸ = δ.New($"solution --force -n Main", π, ∅, dry);
-            $"{π}/src/src.csproj".Write(newConsole, mkdir: true);
-            $"{π}/test/test.csproj".Write(newNUnit, mkdir: true);
+            $"{π}/src/src.csproj".Write(DNT.Console, mkdir: true);
+            $"{π}/test/test.csproj".Write(DNT.NUnit, mkdir: true);
             ㄸ = δ["sln add",
                "src/src.csproj test/test.csproj", π, dry];
         } ⮐ ㄸ;
@@ -108,29 +133,5 @@
                "src/src.csproj test/test.csproj", π, dry];
         } ⮐ ㄸ;
     }
-
-    ᴸ ㄹ newConsole =
-@"<Project Sdk=""Microsoft.NET.Sdk"">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-</Project>";
-
-    ᴸ ㄹ newNUnit =
-@"<Project Sdk=""Microsoft.NET.Sdk"">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include=""nunit"" Version=""3.12.0"" />
-    <PackageReference Include=""NUnit3TestAdapter"" Version=""3.15.1"" />
-    <PackageReference Include=""Microsoft.NET.Test.Sdk"" Version=""16.4.0"" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include=""..\src\src.csproj"" />
-  </ItemGroup>
-</Project>";
 
 }}

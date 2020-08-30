@@ -9,7 +9,7 @@
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.1.5a";
+        🐰 "Howl CLI v0.1.6a";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -73,7 +73,7 @@ howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
 
 Builder commands
 howl build DIR              - Publish a console app
-howl install DIR            - Install a console app [macOS only]
+howl install DIR            - Install a console app
 howl publish DIR            - Publish a console app
 howl run DIR                - Build and run a console app
 howl test DIR               - Run tests

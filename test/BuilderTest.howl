@@ -8,28 +8,26 @@
 
     ⍜ Setup ⎚ β = ⌢ Builder();
 
-    ؟ Build(){
-        MkMain_howl();
-        o( β.Build("~/Sandbox"), 0);
-    }
+    ؟ Build(){ MkMain_howl(); o( β.Build("~/Sandbox"), 0); }
 
-    /* QUARANTINE (n/a on nix)
     ؟ Install(){
         MkMain_howl();
-        o( β.Install("~/Sandbox"), 0);
+        ⤴ (OS.isLinux){
+            // Symlink fails on Travis CI
+            ∙ user = System.Environment.UserName;
+            🐰 $"USER: {user}";
+            o( β.Install("~/Sandbox", addToPath: user ≠ "travis"), 0);
+        }⤳ (OS.isWindows){
+            // $profile not in environment variables (maybe CI only)
+            o( β.Install("~/Sandbox", addToPath: ✓), 2);
+        }⤵{
+            o( β.Install("~/Sandbox", addToPath: ✓), 0);
+        }
     }
-    */
 
-    ؟ Publish(){
-        MkMain_howl();
-        o( β.Publish("~/Sandbox"), 0);
-    }
+    ؟ Publish(){ MkMain_howl(); o( β.Publish("~/Sandbox"), 0); }
 
-    ؟ Run(){
-        o( β.Run("~/Sandbox"), 0);
-        // TODO should be zero... ?
-        o( β.Run("~/Sandbox"), 0);
-    }
+    ؟ Run ⎚ o( β.Run("~/Sandbox"), 0);
 
     ┈ MkMain_howl(){
         $"~/Sandbox/src/Main.howl"
@@ -38,7 +36,9 @@
 
     ؟ Test ⎚ o( β.Test("~/Sandbox"), 0);
 
-    ؟ ProjectName ⎚ o( β.ProjectName("~/Sandbox"), "sandbox");
+    ؟ ProjectName ⎚ o( β.ProjectName("~/Sandbox"), "Sandbox");
+
+    ؟ ExeName ⎚ o( β.ExeName("~/Sandbox"), "sandbox");
 
     ؟ Solution(){
         ∙ π = "~/Sandbox";

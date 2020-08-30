@@ -16,11 +16,11 @@
     // ==============================================================
 
     // Ensure no-arg run displays version number and doc
-    ؟ Main ⎚ CLI.Main(⌢ ㄹ[]{});
+    ؟ MainCmd ⎚ CLI.Main(⌢ ㄹ[]{});
 
     // --------------------------------------------------------------
 
-    ؟ Build(){
+    ؟ BuildCmd(){
         ι.Build(∅, "Mudbox");
         ∃( "Mudbox/build/Main.sln",
            "Mudbox/build/src/Main.cs",
@@ -31,7 +31,7 @@
 
     // TODO - Install is platform specific and so is the test
     /* QUARANTINE (n/a on nix)
-    ؟ Install(){
+    ؟ CLI_Install(){
         ι.Install(∅, "Mudbox");
         ∃( $"Mudbox/build/src/bin/Release/{publishPath}/src",
             "/usr/local/bin/mudbox" );
@@ -43,14 +43,16 @@
     }
     */
 
-    ؟ Publish(){
+    ؟ PublishCmd(){
         ι.Publish(∅, "Mudbox");
-        ∙ ext = OS.runtime ☰ OS.Windows ? ".exe" : "";
-        ∃( $"Mudbox/build/src/bin/Debug/{publishPath}/src{ext}" );
+        ∙ ext  = OS.runtime ☰ OS.Windows ? ".exe" : "";
+        ∙ path = OS.runtime ☰ OS.MacOS ? publishPath
+                                       : publishPathNoRID;
+        ∃( $"Mudbox/build/src/bin/Debug/{path}/src{ext}" );
     }
 
     // TODO differentiate `Run` from `Build`
-    ؟ Run(){
+    ؟ RunCmd(){
         o(ι.Build(∅, "Mudbox"), 0);
         ∃( "Mudbox/build/Main.sln",
            "Mudbox/build/src/Main.cs",
@@ -60,7 +62,7 @@
     }
 
     // TODO - Check tests actually build and run
-    ؟ Test(){
+    ؟ TestCmd(){
         ι.Test(∅, "Mudbox");
         ∃( "Mudbox/build/src",
            "Mudbox/build/test",
@@ -71,7 +73,7 @@
 
     // --------------------------------------------------------------
 
-    ؟ Export(){
+    ؟ ExportCmd(){
         o( ι.Export(∅, "Mudbox/src", "Mudbox/build"),
            "Exported Main.howl");
         ∃( "Mudbox/build/Main.cs" );

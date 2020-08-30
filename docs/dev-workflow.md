@@ -24,8 +24,6 @@ howl run src    # run the CLI
 
 ## Updating and reverting
 
-[TODO: macOS only for now]
-
 Once you feel a change is ready for local use:
 
 ```
@@ -33,6 +31,17 @@ howl install .  # Build in Release mode and symlink binaries
 ```
 
 Have a change of heart? `./setup` restores the CLI to the latest release.
+
+## Linux testing
+
+Docker image for dotnet (also git, curl)
+
+```
+mcr.microsoft.com/dotnet/core/sdk:3.1
+git clone https://github.com/active-logic/howl Howl
+cd Howl
+./setup
+```
 
 ## Releases
 
