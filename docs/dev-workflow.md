@@ -43,9 +43,7 @@ Have a change of heart? `./setup` restores the CLI to the latest release.
 5) Match release tag in `CLI.howl, Setup, Setup.ps1`
 6) Run `./release`
 7) Upload `Howl.tgz`
-8) Push
-
-Once the release has been uploaded:
-- Update `setup` and `setup.ps1` to point at the correct version.
-- Commit and push
-- Run `./setup`
+8) Update `setup` and `setup.ps1` to point at the correct version.
+9) Commit and push
+10) Run `./setup`
+11) If the symset has changed, run `./scripts/gup [minor | patch]` to update and publish `language-howl` and `tree-sitter-howl`
