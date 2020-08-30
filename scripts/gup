@@ -1,0 +1,19 @@
+#!/bin/bash
+# Usage: cd Howl && ./scripts/gup [major/minor/patch]
+# Requires:
+# - ../Tree-Sitter checked out
+# - Atom and language-howl installed
+set         -euxo pipefail
+pushd          ../Tree-Sitter
+howl        inject grammar.template.js grammar
+tree-sitter generate
+tree-sitter parse example.howl
+tree-sitter parse sample.howl
+tree-sitter parse braces.howl
+git add --all
+git commit -m "Update grammar"
+npm version $1
+npm publish
+popd
+cd ~/.atom/packages/language-howl/
+apm install --verbose

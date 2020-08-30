@@ -4,13 +4,12 @@
 ‒ ○ CLI{
 
     ㅇ dry;
-    //DotNet  δ = ⌢ DotNet();
     Builder β = ⌢ Builder();
 
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ┈ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.1.4a";
+        🐰 "Howl CLI v0.1.5a";
         🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
     }
 
@@ -24,6 +23,8 @@
             ⥰ "publish" : Publish (ㅂ); ¦
             ⥰ "run"     : Run     (ㅂ); ¦
             ⥰ "test"    : Test    (ㅂ); ¦
+            // provisional
+            ⥰ "inject"  : Grammar.Inject(ㅂ[1], ㅂ[2]); ¦
             ～: ⮐ $"Unrecognized command [{ㅂ[0]}]";
         }
         ⮐ "...all done";

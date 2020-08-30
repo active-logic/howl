@@ -1,0 +1,46 @@
+⊐ System.Linq;
+⊐ InvOp = System.InvalidOperationException;
+
+⊓ Active.Howl{
+‒ ○ Grammar{
+
+    // cd to tree-sitter-howl, then:
+    // In: grammar.template.js, Out: grammar.js
+    ‒̥ ┈ Inject(ㄹ ㅂ, ㄹ ㄸ){
+        🍥("Injecting grammar template");
+        ㄸ.Write(Grammar.Inject(ㅂ.Read(), Map.@default));
+    }
+
+    ‒̥ ㄹ Inject(ㄹ jsGram, Map map, ㅇ raise = ✓){
+        ∀(Classifier x ∈ Classifier.all){
+            ∙ tag = Tag(x);
+            ⤴(jsGram.∋(tag)){
+                jsGram = jsGram.Replace(tag, Format(x, map));
+            }⤵{
+                jsGram = InjectEach(jsGram, x, map, raise);
+            }
+        }
+        ⮐ jsGram;
+    }
+
+    ‒̥ ㄹ InjectEach(ㄹ jsGram, Classifier x,
+                                    Map map, ㅇ raise = ✓){
+        ∀(Rep rule ∈ map.ForClass(x)){
+            ∙ tag = Tag(rule);
+            ⤴(jsGram.∋(tag)){
+                jsGram = jsGram.Replace(tag, $"'{rule.a}'");
+            }⤳(raise) (╯°□°)╯
+                ⌢ InvOp($"Template needs {tag} or {Tag(x)}");
+        }
+        ⮐ jsGram;
+    }
+
+    ‒̥ ㄹ Tag(Classifier x) → $"__{x}__";
+
+    ‒̥ ㄹ Tag(Rep x) → $"__%{x.b}%__";
+
+    ‒̥ ㄹ Format(Classifier x, Map map)
+    → (‖ ρ ∈ map.ForClass(x) ▸ $"'{ρ.a}'")
+       ৴.Join(", ");
+
+}}
