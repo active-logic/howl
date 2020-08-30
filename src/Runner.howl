@@ -15,11 +15,23 @@
             // Win: shell execute opens a new window
             φ.StartInfo.UseShellExecute  = (OS.runtime ≠ OS.Windows);
             φ.StartInfo.CreateNoWindow   = ✓;
+            φ.StartInfo.RedirectStandardOutput = ✓;
+            φ.StartInfo.RedirectStandardError = ✓;
+            //
+            φ.OutputDataReceived += OutputHandler;
+            φ.ErrorDataReceived += OutputHandler;
             φ.Start();
+            φ.BeginOutputReadLine();
+            φ.BeginErrorReadLine();
             φ.WaitForExit();
             ㄸ = φ.ExitCode;
         } ⮐ ㄸ;
 
+    }
+
+    ∘ ┈ OutputHandler(⊡ sendingProcess, DataReceivedEventArgs line){
+        //⤴ (!ㄹ.IsNullOrEmpty(line.Data))
+        Console.WriteLine(line.Data);
     }
 
 }}
