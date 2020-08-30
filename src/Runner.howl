@@ -14,25 +14,30 @@
             φ.StartInfo.Arguments        = args;
             // Win: shell execute opens a new window; also needed for
             // output redirection
-            φ.StartInfo.UseShellExecute  = ✗;
+            // Linux: output redir causing issues for now
             φ.StartInfo.CreateNoWindow   = ✓;
-            φ.StartInfo.RedirectStandardOutput = ✓;
-            φ.StartInfo.RedirectStandardError = ✓;
             //
-            φ.OutputDataReceived += OutputHandler;
-            φ.ErrorDataReceived += OutputHandler;
+            ∙ rdr = !OS.isLinux;
+            φ.StartInfo.UseShellExecute        = !rdr;
+            φ.StartInfo.RedirectStandardOutput =  rdr;
+            φ.StartInfo.RedirectStandardError  =  rdr;
+            ⤴ (rdr){
+                φ.OutputDataReceived += OutputHandler;
+                φ.ErrorDataReceived  += OutputHandler;
+            }
+            //
             φ.Start();
-            φ.BeginOutputReadLine();
-            φ.BeginErrorReadLine();
+            ⤴ (rdr){
+                φ.BeginOutputReadLine ();
+                φ.BeginErrorReadLine  ();
+            }
             φ.WaitForExit();
             ㄸ = φ.ExitCode;
         } ⮐ ㄸ;
 
     }
 
-    ∘ ┈ OutputHandler(⊡ sendingProcess, DataReceivedEventArgs line){
-        ⤴ (!ㄹ.IsNullOrEmpty(line.Data))
-        Console.WriteLine(line.Data);
-    }
+    ∘ ┈ OutputHandler(⊡ x, DataReceivedEventArgs λ)
+    { ⤴ (!ㄹ.IsNullOrEmpty(λ.Data)) Console.WriteLine(λ.Data); }
 
 }}

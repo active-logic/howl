@@ -17,5 +17,6 @@
             ⌢ Ex("Unknown Runtime");
 
     ‒̥ ㅇ isWindows → Info.IsOSPlatform(OSP.Windows);
+    ‒̥ ㅇ isLinux → Info.IsOSPlatform(OSP.Linux);
 
 }}
