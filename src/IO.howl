@@ -161,12 +161,13 @@
     ‒̥ ㄹ WithFinalSep(⦿ ㄹ π)
     → (π = π.Nix()).EndsWith("/") ? π : π + "/";
 
-    ‒̥ ┈ Write(⦿ ㄹ π, ㄹ text, ㅇ mkdir=✗, ㅇ importAsset=✗){
+    ‒̥ ㅇ Write(⦿ ㄹ π, ㄹ text, ㅇ mkdir=✗, ㅇ importAsset=✗){
         ⤴ (mkdir) Directory.GetParent(π).Create();
         File.WriteAllText(π, text);
         #if UNITY_EDITOR
         ⤴ (importAsset) UnityEditor.AssetDatabase.ImportAsset(π);
         #endif
+        ㆑
     }
 
     ‒̥ ┈ Write(⦿ ㄹ π, ㄹ text, System.DateTime date){

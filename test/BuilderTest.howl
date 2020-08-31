@@ -8,7 +8,9 @@
 
     ⍜ Setup ⎚ β = ⌢ Builder();
 
-    ؟ Build(){ MkMain_howl(); o( β.Build("~/Sandbox"), 0); }
+    // --------------------------------------------------------------
+
+    ؟ Build(){ MkMain_howl(); o( β.Build("~/Sandbox") ); }
 
     ؟ Install(){
         MkMain_howl();
@@ -16,25 +18,22 @@
             // Symlink fails on Travis CI
             ∙ user = System.Environment.UserName;
             🐰 $"USER: {user}";
-            o( β.Install("~/Sandbox", addToPath: user ≠ "travis"), 0);
+            o( β.Install("~/Sandbox", addToPath: user ≠ "travis") );
         }⤳ (OS.isWindows){
             // $profile not in environment variables (maybe CI only)
-            o( β.Install("~/Sandbox", addToPath: ✓), 2);
+            o( β.Install("~/Sandbox", addToPath: ✓) );
         }⤵{
-            o( β.Install("~/Sandbox", addToPath: ✓), 0);
+            o( β.Install("~/Sandbox", addToPath: ✓) );
         }
     }
 
-    ؟ Publish(){ MkMain_howl(); o( β.Publish("~/Sandbox"), 0); }
+    ؟ Publish(){ MkMain_howl(); o( β.Publish("~/Sandbox") ); }
 
-    ؟ Run ⎚ o( β.Run("~/Sandbox"), 0);
+    ؟ Run ⎚ o( β.Run("~/Sandbox") );
 
-    ┈ MkMain_howl(){
-        $"~/Sandbox/src/Main.howl"
-        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }", mkdir: ✓);
-    }
+    ؟ Test ⎚ o( β.Test("~/Sandbox") );
 
-    ؟ Test ⎚ o( β.Test("~/Sandbox"), 0);
+    // --------------------------------------------------------------
 
     ؟ ProjectName ⎚ o( β.ProjectName("~/Sandbox"), "Sandbox");
 
@@ -43,7 +42,7 @@
     ؟ Solution(){
         ∙ π = "~/Sandbox";
         π.MkDir();
-        ᆞ val = β.Solution("~/Sandbox", dry: ✗);
+        o( β.Solution("~/Sandbox", dry: ✗) );
         o( $"{π}/Main.sln".∃() );
         o( $"{π}/src".∃() );
         o( $"{π}/src/src.csproj".∃() );
@@ -69,6 +68,13 @@
         // Do not accidentally delete C# input, if any
         ∃( "Sandbox/src/X.cs" );
         "Sandbox".RmDir(dry: ✗);
+    }
+
+    // ==============================================================
+
+    ┈ MkMain_howl(){
+        $"~/Sandbox/src/Main.howl"
+        .Write("‒ ○ Bar{ ∘ ┈ Main(ㄹ[] args){} }", mkdir: ✓);
     }
 
 }}

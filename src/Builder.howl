@@ -7,50 +7,51 @@
 
     DotNet δ = ⌢ DotNet();
 
-    ‒ ᆞ Build(ㄹ π){
+    ‒ ㅇ Build(ㄹ π){
         Update(π);
         ⮐ δ.Build("-v quiet --nologo", $"{π}/build", dry: ✗);
     }
 
-    ‒ ᆞ Install(ㄹ π, ㅇ addToPath = ✓)
+    ‒ ㅇ Install(ㄹ π, ㅇ addToPath = ✓)
     → OS.isWindows ? InstallWin(π, addToPath)
                    : InstallNix(π, addToPath);
 
-    ‒ ᆞ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
+    ‒ ㅇ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
         Update(π);
         ⮐ δ.Publish($"src -c {config} --nologo", $"{π}/build",
                      rt, dry: ✗);
     }
 
-    ‒ ᆞ Run(ㄹ π)
-    { Update(π); ⮐ δ.Run("--project src", $"{π}/build", dry: ✗); }
+    ‒ ㅇ Run(ㄹ π){
+        Update(π); ⮐ δ.Run("--project src", $"{π}/build", dry: ✗); }
 
-    ‒ ᆞ Test(ㄹ π){ Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗); }
+    ‒ ㅇ Test(ㄹ π){ Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗); }
 
     // ---------------------------------------------------------------
 
-    ‒ ᆞ InstallNix(ㄹ π, ㅇ addToPath){
+    ‒ ㅇ InstallNix(ㄹ π, ㅇ addToPath){
         ∙ rt = OS.runtime;
         ∙ ㄸ = Publish(π, config: "Release", rt);
-        ⤴ (ㄸ != 0){ 🦞 "Install: Publish failed ({ㄸ})"; ⮐ ㄸ; }
+        ⤴ (!ㄸ){ 🦞 "Install: Publish failed ({ㄸ})"; ⤬ }
         ∙ path =
            $"{π}/build/src/bin/Release/netcoreapp3.1/{rt}/publish";
         ∙ link =
            $"/usr/local/bin/{ExeName(π)}";
         ⤴ (!path.Exists()) (╯°□°)╯ ⌢ Ex("Binaries path is invalid");
         ⤳ (!addToPath) ⮐ ㄸ;
-        ㄸ = Runner.Cmd(
-            "ln", $"-sf {path.FullPath()}/src {link}", π, dry: ✗);
-        ⤴ (ㄸ != 0){ 🦞 "Install: symlink failed ({ㄸ})"; }
+        ㄸ = Runner.Cmd("ln", $"-sf {path.FullPath()}/src {link}",
+                        π, dry: ✗) == 0;
+        ⤴ (!ㄸ) 🦞 "Install: symlink failed ({ㄸ})";
         ⮐ ㄸ;
     }
 
-    ‒ ᆞ InstallWin(ㄹ π, ㅇ addToPath){
+    ‒ ㅇ InstallWin(ㄹ π, ㅇ addToPath){
         Update(π);
         ㄹ args = "-c Release --nologo", proj = ProjectName(π);
         ∙ ㄸ = δ.Publish(
             $"src {args} -o \"C:/Program Files/{proj}\"",
             $"{π}/build", rt: ∅, dry: ✗);
+        ⤴ (!ㄸ){ 🦞 "Install: Publish failed ({ㄸ})"; ⤬ }
         ∙ path = $"C:/Program Files/{proj}";
         ⤴ (!$"{path}/src.exe".Exists())
                             (╯°□°)╯ ⌢ Ex("Binaries path is invalid");
@@ -60,7 +61,7 @@
         ⤴ (ㄹ.IsNullOrEmpty(profile)){
             🐤 $"User profile not found; Cannot add {ExeName(π)} to "
               + "the path";
-            ⮐ 2;
+            ⤬
         }
         🐰 $"PROFILE: {profile}";
         ∙ Λ = profile.ReadLines();
@@ -75,7 +76,7 @@
 
     ‒ ㄹ ExeName(ㄹ π) → ProjectName(π).ToLower();
 
-    ‒ ᆞ Update(ㄹ π){
+    ‒ ㅇ Update(ㄹ π){
         ∙ β = $"{π}/build";
         ⤴ ( β.∃() ) β.DeleteFiles("*.cs", withMetaFile: ✗);
         Export(∅, $"{π}/src", $"{β}/src");
@@ -88,11 +89,11 @@
         ㅇ dry = ✗;
         ㄹ src = ㅂ[1].WithFinalSep(),
           dst = ㅂ[2].WithFinalSep();
-        ⤴ (!src.IsDir()) ⮐ $"Source dir not found: {src}\n";
+        ⤴ (!src.IsDir())
+            ⮐ $"Source dir not found: {src}\n";
         ∙ paths = FileSystem.Paths(src, "*.howl");
-        ⤴ (dry){
+        ⤴ (dry)
             ⮐ ∅;
-        }
         ∀ (∙ x ∈ paths){
             ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
             🐰y;
@@ -101,35 +102,31 @@
         ⮐ "Exported some files";
     }
 
-    ‒ ᆞ Solution(ㄹ π, ㅇ dry){
-        ᆞ ㄸ = 0;
-        ⤴ (!$"{π}/Main.sln".∃()){
-            π.MkDir();
-            ㄸ = δ.New($"solution --force -n Main", π, ∅, dry);
-            $"{π}/src/src.csproj".Write(DNT.Console, mkdir: true);
-            $"{π}/test/test.csproj".Write(DNT.NUnit, mkdir: true);
-            ㄸ = δ["sln add",
-               "src/src.csproj test/test.csproj", π, dry];
-        } ⮐ ㄸ;
-    }
+    ‒ ㅇ Solution(ㄹ π, ㅇ dry)
+      → $"{π}/Main.sln".∃()
+      ∨ (π.MkDir() ≠ ∅)
+      ∧ δ.New($"solution --force -n Main", π, ∅, dry)
+      ∧ $"{π}/src/src.csproj"  .Write(DNT.Console, mkdir: ✓)
+      ∧ $"{π}/test/test.csproj".Write(DNT.NUnit,   mkdir: ✓)
+      ∧ δ["sln add", "src/src.csproj test/test.csproj", π, dry];
 
-    ‒ ᆞ SlowSolution(ㄹ π, ㅇ dry){
-        ᆞ ㄸ = 0;
+    ‒ ㅇ SlowSolution(ㄹ π, ㅇ dry){
+        ∙  ㄸ = ✓;
         ⤴ (!$"{π}/Main.sln".∃()){
             π.MkDir();
             ∙ opts = "--force --no-restore";
             // NOTE: dotnet [new solution | sln | add ] do not accept
             // --no-restore
-            ㄸ = δ.New($"solution --force -n Main", π, ∅, dry);
-            ㄸ = δ.New($"console {opts} -n src", π, ∅, dry);
-            ㄸ = δ.New($"nunit {opts} -n test", π, ∅, dry);
+            ㄸ &= δ.New($"solution --force -n Main", π, ∅, dry);
+            ㄸ &= δ.New($"console {opts} -n src", π, ∅, dry);
+            ㄸ &= δ.New($"nunit {opts} -n test", π, ∅, dry);
             $"{π}/src/Program.cs".JustDelete(dry);
             // This is for libraries
             // $"{π}/src/Class1.cs".JustDelete(dry);
             $"{π}/test/UnitTest1.cs".JustDelete(dry);
-            ㄸ = δ["add",
+            ㄸ &= δ["add",
                 "test/test.csproj reference src/src.csproj", π, dry];
-            ㄸ = δ["sln add",
+            ㄸ &= δ["sln add",
                "src/src.csproj test/test.csproj", π, dry];
         } ⮐ ㄸ;
     }

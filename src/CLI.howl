@@ -8,46 +8,44 @@
 
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
-    ‒̥ ┈ Main(ㄹ[] ㅂ){
+    ‒̥ ᆞ Main(ㄹ[] ㅂ){
         🐰 "Howl CLI v0.1.6a";
-        🐰 ⌢ CLI(dry: ✗).Parse(ㅂ);
+        ⮐ ⌢ CLI(dry: ✗).Parse(ㅂ) ? 0 : 1;
     }
 
-    ㄹ Parse(ㄹ[] ㅂ){
-        ⤴ (ㅂ❙ < 1) ⮐ help;
+    ㅇ Parse(ㄹ[] ㅂ){
+        ⤴ (ㅂ❙ < 1){ 🍥(help); ㆑ }
         ⤭ (ㅂ[0]){
-            ⥰ "build"   : Build   (ㅂ); ¦
-            ⥰ "export"  : Export  (ㅂ); ¦
-            ⥰ "import"  : Import  (ㅂ); ¦
-            ⥰ "install" : Install (ㅂ); ¦
-            ⥰ "publish" : Publish (ㅂ); ¦
-            ⥰ "run"     : Run     (ㅂ); ¦
-            ⥰ "test"    : Test    (ㅂ); ¦
-            // provisional
-            ⥰ "inject"  : Grammar.Inject(ㅂ[1], ㅂ[2]); ¦
-            ～: ⮐ $"Unrecognized command [{ㅂ[0]}]";
+            ⥰ "build"   : ⮐ Build   (ㅂ);
+            ⥰ "export"  : ⮐ Export  (ㅂ);
+            ⥰ "import"  : ⮐ Import  (ㅂ);
+            ⥰ "install" : ⮐ Install (ㅂ);
+            ⥰ "publish" : ⮐ Publish (ㅂ);
+            ⥰ "run"     : ⮐ Run     (ㅂ);
+            ⥰ "test"    : ⮐ Test    (ㅂ);
+            // Provisional
+            ⥰ "inject"  : Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑
+            //
+            ～: 🦞 $"Unrecognized command [{ㅂ[0]}]"; ⤬
         }
-        ⮐ "...all done";
     }
 
     // ---------------------------------------------------------------
 
-    ‒ ᆞ Build   (⋯ ㄹ[] ㅂ) → β.Build   (ㅂ[1]);
-    ‒ ᆞ Install (⋯ ㄹ[] ㅂ) → β.Install (ㅂ[1]);
-    ‒ ᆞ Publish (⋯ ㄹ[] ㅂ) → β.Publish (ㅂ[1]);
-    ‒ ᆞ Run     (⋯ ㄹ[] ㅂ) → β.Run     (ㅂ[1]);
-    ‒ ᆞ Test    (⋯ ㄹ[] ㅂ) → β.Test    (ㅂ[1]);
+    ‒ ㅇ Build   (⋯ ㄹ[] ㅂ) → β.Build   (ㅂ[1]);
+    ‒ ㅇ Install (⋯ ㄹ[] ㅂ) → β.Install (ㅂ[1]);
+    ‒ ㅇ Publish (⋯ ㄹ[] ㅂ) → β.Publish (ㅂ[1]);
+    ‒ ㅇ Run     (⋯ ㄹ[] ㅂ) → β.Run     (ㅂ[1]);
+    ‒ ㅇ Test    (⋯ ㄹ[] ㅂ) → β.Test    (ㅂ[1]);
 
     // ---------------------------------------------------------------
 
-    ‒ ㄹ Export(⋯ ㄹ[] ㅂ){
+    ‒ ㅇ Export(⋯ ㄹ[] ㅂ){
         ㄹ src = ㅂ[1].WithFinalSep(),
           dst = ㅂ[2].WithFinalSep();
-        ⤴ (!src.IsDir()) ⮐ $"Source dir not found: {src}";
+        ⤴ (!src.IsDir()){ 🦞 $"Source dir not found: {src}"; ⤬ }
         ∙ paths = FileSystem.Paths(src, "*.howl");
-        ⤴ (dry){
-            ⮐ "Running in dry mode";
-        }
+        ⤴ (dry) ㆑
         ᆞ count = paths⁝;
         ∀ (∙ x ∈ paths){
             ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
@@ -55,15 +53,13 @@
             🍥($"Export {x} --> {y}");
             Howl.BuildFile(x, y);
         }
-        ⤴ (count == 1)
-            ⮐ $"Exported {paths[0].FileName()}";
-        ⤳ (count > 1)
-            ⮐ $"Exported {count} files";
-        ⤵
-            ⮐ "No input files in '{src}'";
+        ⤴ (count ☰ 1) 🐰 $"Exported {paths[0].FileName()}";
+        ⤳ (count > 1)  🐰 $"Exported {count} files";
+        ⤵              🐰 $"No input files in '{src}'";
+        ㆑
     }
 
-    ㄹ Import(ㄹ[] ㅂ) → 🐤 "Unimplemented";
+    ㅇ Import(ㄹ[] ㅂ){ 🐤 "Unimplemented"; ⤬ }
 
     ㄹ help =
 @"Usage:
