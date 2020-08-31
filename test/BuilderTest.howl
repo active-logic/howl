@@ -21,7 +21,8 @@
             o( β.Install("~/Sandbox", addToPath: user ≠ "travis") );
         }⤳ (OS.isWindows){
             // $profile not in environment variables (maybe CI only)
-            o( β.Install("~/Sandbox", addToPath: ✓) );
+            o( β.Install("~/Sandbox", addToPath: ✓), ✗);
+            o( β.Install("~/Sandbox", addToPath: ✗), ✓);
         }⤵{
             o( β.Install("~/Sandbox", addToPath: ✓) );
         }
