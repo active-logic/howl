@@ -1,0 +1,22 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+⊐̥ Active.Howl.Subversion;
+
+‒ ○ VersionTest : TestBase{
+
+    ؟ FromString(){
+        ∙ v = (Version)"1.2.3";
+        o(v.major, 1);
+        o(v.minor, 2);
+        o(v.patch, 3);
+    }
+
+    ؟ Add_Major ⎚ o( (⌢ Version() + major).ToString(), "1.0.0" );
+
+    ؟ Add_Minor ⎚ o( (⌢ Version() + minor).ToString(), "0.1.0" );
+
+    ؟ Add_Patch ⎚ o( (⌢ Version() + patch).ToString(), "0.0.1" );
+
+    ؟ ToString_ ⎚ o( ⌢ Version(1, 2, 3).ToString(), "1.2.3" );
+
+}

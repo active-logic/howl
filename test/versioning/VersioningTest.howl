@@ -1,0 +1,83 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+⊐ Sv = Active.Howl.Subversion;
+
+‒ ○ VersioningTest : TestBase{
+
+    ᴸ ㄹ Manifest = "package.json";
+
+    Versioning ι;
+
+    ⍜ Setup(){ ι = ⌢ Versioning(); Manifest.Write(data); }
+
+    // --------------------------------------------------------------
+
+    ؟ Get ⎚ o( ι.Get(".").ToString(), "0.1.6" );
+
+    ؟ Inc_major(){ ι.Increment(".", Sv.major); o( Has("1.1.6") ); }
+
+    ؟ Inc_minor(){ ι.Increment(".", Sv.minor); o( Has("0.2.6") ); }
+
+    ؟ Inc_patch(){ ι.Increment(".", Sv.patch); o( Has("0.1.7") ); }
+
+    ؟ Apply_ps1(){
+        "test.ps1".Write(ps1_data);
+        ι.Apply("1.2.3", "test.ps1");
+        o( "test.ps1".Read().Contains(@"$version = ""1.2.3""") );
+    }
+
+    ؟ Apply_sh(){
+        "test".Write(sh_data);
+        ι.Apply("1.2.3", "test");
+        o( "test".Read().Contains(@"version=1.2.3") );
+    }
+
+    ؟ Apply_notFound(){
+        "test".Write(sh_bad_data);
+        ಠᴗಠ<System.Exception>( ⎚ ι.Apply("1.2.3", "test") );
+    }
+
+    ؟ Apply_howl(){
+        "test.howl".Write(howl_data);
+        ι.Apply("1.2.3", "test.howl");
+        o( "test.howl".Read().Contains(@"ᴸ ㄹ version = ""1.2.3"";") );
+    }
+
+    // --------------------------------------------------------------
+
+    ‒ ㅇ Has(ㄹ x) → Manifest.Read().Contains(x);
+
+    ᴸ ㄹ ps1_data =
+@"# First...
+cls
+$version = ""0.1.6""
+";
+
+    ᴸ ㄹ sh_data =
+@"#!/bin/bash
+version=0.1.6
+echo ""Say hi""
+";
+
+    ᴸ ㄹ sh_bad_data =
+@"#!/bin/bash
+mansion=0.1.6
+echo ""Say hi""
+";
+
+    ᴸ ㄹ howl_data =
+@"⊐ Ex = System.Exception;
+⊓ Active.Howl{
+‒ ○ CLI{
+    ᴸ ㄹ version = ""0.1.6a"";
+    ㅇ dry;
+";
+
+    ‒ ᴸ ㄹ data =
+@"{
+    ""name""        : ""com.activ.howl"",
+    ""version""     : ""0.1.6"",
+    ""displayName"" : ""Howl-Core"",
+}";
+
+}

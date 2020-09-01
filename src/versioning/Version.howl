@@ -1,0 +1,34 @@
+⊓ Active.Howl{
+‒⌷ ⊟ Version{
+
+    ‒⌷ ᆞ major, minor, patch;
+
+    ‒ Version(ᆞ major, ᆞ minor, ᆞ patch){
+        ⦿.major = major;
+        ⦿.minor = minor;
+        ⦿.patch = patch;
+    }
+
+    ‒̥ Version ⨕ + (Version x, Subversion s){
+        ⤭ (s){
+        ⥰ Subversion.major:
+            ⮐ ⌢ Version(x.major + 1, x.minor    , x.patch    );
+        ⥰ Subversion.minor:
+            ⮐ ⌢ Version(x.major    , x.minor + 1, x.patch    );
+        ⥰ Subversion.patch:
+            ⮐ ⌢ Version(x.major    , x.minor    , x.patch + 1);
+        ～:
+            (╯°□°)╯ ⌢ System.Exception("Unknown value");
+        }
+    }
+
+    ⒤ ㄹ(Version ⧕) → ⧕.ToString();
+
+    ⒤ Version(ㄹ ⧕){
+        ∙ p = ⧕.Split(".");
+        ⮐ ⌢ Version(ᆞ.Parse(p[0]), ᆞ.Parse(p[1]), ᆞ.Parse(p[2]));
+    }
+
+    ⁺ ‒ ㄹ ToString ⎚ $"{major}.{minor}.{patch}";
+
+}}

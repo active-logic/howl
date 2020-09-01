@@ -73,6 +73,10 @@
 
     // --------------------------------------------------------------
 
+    ؟ VersionCmd ⎚ o( ι.Version(∅, "Mudbox", "major") );
+
+    // --------------------------------------------------------------
+
     ؟ ExportCmd(){
         o( ι.Export(∅, "Mudbox/src", "Mudbox/build") );
         ∃( "Mudbox/build/Main.cs" );
@@ -83,6 +87,7 @@
     ┈ MkProj(){
         "Mudbox/src".MkDir();
         "Mudbox/src/Main.howl".Write("‒○ Bar{∘ ┈ Main(ㄹ[] args){}}");
+        "Mudbox/package.json".Write(VersioningTest.data);
     }
 
     ┈ DelProj(){

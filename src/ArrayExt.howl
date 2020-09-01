@@ -1,0 +1,15 @@
+⊐ System;
+
+⊓ Active.Howl{
+‒̥ ○ ArrayExt{
+
+    ‒̥ T[] Clip<T>(⦿ T[] self, ᆞ offset)
+    → Clip(self, offset, self❙ - offset);
+
+    ‒̥ T[] Clip<T>(⦿ T[] self, ᆞ offset, ᆞ length){
+		∙ ㄸ = new T[length];
+		Array.Copy(self, offset, ㄸ, 0, length);
+		⮐ ㄸ;
+	}
+
+}}

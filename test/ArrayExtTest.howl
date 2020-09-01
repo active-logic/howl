@@ -1,0 +1,17 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ ArrayExtTest : TestBase{
+
+    ؟ Clip_1(){
+        ∙ x = ⌢ ᆞ[]{0, 1, 2, 3};
+        o( x.Clip(2), ⌢ ᆞ[]{2, 3} );
+    }
+
+    ؟ Clip_2(){
+        ∙ x = ⌢ ᆞ[]{0, 1, 2, 3};
+        o( x.Clip(2, 1), ⌢ ᆞ[]{2} );
+    }
+
+}}

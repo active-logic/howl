@@ -1,0 +1,35 @@
+⊐ Ex = System.Exception; ⊐ System.Linq; ⊐ System.Collections.Generic;
+
+⊓ Active.Howl{
+‒ ○ Versioning{
+
+    ‒ ㅇ Increment(ㄹ path, Subversion δ, ⋯ ㄹ[] files){
+        ∙ version = Get(path) + δ;
+        Apply(version, $"{path}/package.json");
+        ∀ (∙ φ ∈ files) Apply(version, φ); ㆑
+    }
+
+    ‒ Version Get(ㄹ path){
+        ∀ (∙ λ ∈ $"{path}/package.json".ReadLines())
+            ⤴ (λ.∋("version"))
+                ⮐ λ.Split(":")[1].Replace(@"""", "")
+                                  .Replace(",", "").Trim();
+        (╯°□°)╯
+               ⌢ Ex("Version not in package.json");
+    }
+
+    ‒ ┈ Apply(Version x, ㄹ φ){
+        ㄹ κ = ∅; ∙ ρ = ⌢ 𝕄 <ㄹ, (ㄹ h, ㄹ p)>{
+          [".json"] = ( @"""version""", @"  ""version"" : ""##"","),
+          [".ps1" ] = ( "$version =", @"$version = ""##"""),
+          [".howl"] = ( "ᴸ ㄹ version", @"    ᴸ ㄹ version = ""##"";"),
+          [""     ] = ( "version=", @"version=##")
+        }[φ.Extension()];
+        φ.Write((‖ λ ∈ φ.ReadLines()
+                 ▸ λ.∋(ρ.h) ? ρ.p.Replace(κ = "##", x)
+                            : λ)৴.Join('\n'));
+        ⤴ (κ ☰ ∅) (╯°□°)╯
+                           ⌢ Ex(@"Hint [{hint}] not in {file}");
+    }
+
+}}

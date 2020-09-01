@@ -3,13 +3,15 @@
 ⊓ Active.Howl{
 ‒ ○ CLI{
 
+    ᴸ ㄹ version = "0.1.6a";
     ㅇ dry;
-    Builder β = ⌢ Builder();
+    Builder    β          = ⌢ Builder();
+    Versioning versioning = ⌢ Versioning();
 
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
     ‒̥ ᆞ Main(ㄹ[] ㅂ){
-        🐰 "Howl CLI v0.1.6a";
+        🐰 "Howl CLI v{version}";
         ⮐ ⌢ CLI(dry: ✗).Parse(ㅂ) ? 0 : 1;
     }
 
@@ -24,6 +26,7 @@
             ⥰ "run"     : ⮐ Run     (ㅂ);
             ⥰ "test"    : ⮐ Test    (ㅂ);
             // Provisional
+            ⥰ "version" : ⮐ Version (ㅂ);
             ⥰ "inject"  : Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑
             //
             ～: 🦞 $"Unrecognized command [{ㅂ[0]}]"; ⤬
@@ -37,6 +40,16 @@
     ‒ ㅇ Publish (⋯ ㄹ[] ㅂ) → β.Publish (ㅂ[1]);
     ‒ ㅇ Run     (⋯ ㄹ[] ㅂ) → β.Run     (ㅂ[1]);
     ‒ ㅇ Test    (⋯ ㄹ[] ㅂ) → β.Test    (ㅂ[1]);
+
+    // Provisional ---------------------------------------------------
+
+    ‒ ㅇ Inject  (⋯ ㄹ[] ㅂ){ Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑ }
+
+    ‒ ㅇ Version (⋯ ㄹ[] ㅂ) → versioning.Increment(
+        ㅂ[1],
+        System.Enum.Parse<Subversion>(ㅂ[2]),
+        ㅂ.Clip(3)
+    );
 
     // ---------------------------------------------------------------
 

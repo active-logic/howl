@@ -1,0 +1,10 @@
+{
+  "name"        : "com.activ.howl",
+  "version"     : "0.1.6",
+  "displayName" : "Howl-Core",
+  "description" : "Symbolic Notation Engine",
+  "unity"       : "2018.4",
+  "keywords"    : [ "notation", "language", "programming" ],
+  "author"      : { "name": "T.E.A de Souza",
+                    "email": "active.behaviours@gmail.com" }
+}
