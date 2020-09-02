@@ -45,14 +45,19 @@ cd Howl
 
 ## Releases
 
+(9.56)
 1) Commit, run `howl test .`
-2) Run `howl install .` and `howl`
-3) Run `test.sh` (manual till correct err codes)
-4) Visit https://github.com/active-logic/howl/releases/new
-5) Match release tag in `CLI.howl, Setup, Setup.ps1`
-6) Run `./release`
-7) Upload `Howl.tgz`
-8) Update `setup` and `setup.ps1` to point at the correct version.
-9) Commit and push
-10) Run `./setup`
+2) Bump version in `CLI.howl` and `package.json`
+3) Run `howl`, `howl install .`, `howl`; this is to confirm new version installs, and updated version displays correctly
+4) Run `test.sh`
+5) Push; this is ensure CI tests are passing, especially on other platforms.
+6) Run `./release` to generate the tar archive
+7) Visit https://github.com/active-logic/howl/releases/new
+    - Create new version,
+    - Apply release tag
+    - Write release notes (use Source tree to see what has changed)
+    - Upload `howl.tgz` (ensure howl.tgz is "fresh")
+8) Update version in `Setup`, `Setup.ps1` to point at the latest release
+9) Commit and push (for updated setup)
+10) Run `./setup` to re-install local version from archive
 11) If the symset has changed, run `./scripts/gup [minor | patch]` to update and publish `language-howl` and `tree-sitter-howl`
