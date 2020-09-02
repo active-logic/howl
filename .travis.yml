@@ -11,7 +11,7 @@ jobs:
         - ./scripts/solution
       script:
         - dotnet test build $TEST_ARGS
-        - ./scripts/dev-workflow-test
+        - sudo ./scripts/dev-workflow-test
       after_script:
         - sed -i 's/.cs/.howl/g' build/test/coverage.opencover.xml
         - bash <(curl -s https://codecov.io/bash)
