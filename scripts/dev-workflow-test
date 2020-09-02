@@ -1,0 +1,13 @@
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+# Run workflow tests
+echo "Installing local version"
+howl install . > /dev/null
+echo "Running tests"
+echo "- export..."  && howl export src tmp > /dev/null && rm -rf tmp
+echo "- build...."  && howl build   .  > /dev/null
+echo "- run......"  && howl run     .  > /dev/null
+echo "- test....."  && howl test    .  > /dev/null
+echo "- install.."  && howl install .  > /dev/null
+# All done
+echo "OK"

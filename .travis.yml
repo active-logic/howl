@@ -1,6 +1,5 @@
 language: csharp
 mono: none
-script: dotnet test build $TEST_ARGS
 jobs:
   include:
     # Linux: run tests, export coverage report
@@ -10,6 +9,9 @@ jobs:
       before_script:
         - ./setup
         - ./scripts/solution
+      script:
+        - dotnet test build $TEST_ARGS
+        - ./scripts/dev-workflow-test
       after_script:
         - sed -i 's/.cs/.howl/g' build/test/coverage.opencover.xml
         - bash <(curl -s https://codecov.io/bash)
@@ -21,3 +23,4 @@ jobs:
         - choco install dotnetcore-sdk
         - powershell "./setup.ps1"
         - powershell howl build .
+      script: dotnet test build $TEST_ARGS

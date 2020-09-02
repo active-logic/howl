@@ -58,6 +58,6 @@ cd Howl
     - Write release notes (use Source tree to see what has changed)
     - Upload `howl.tgz` (ensure howl.tgz is "fresh")
 8) Update version in `Setup`, `Setup.ps1` to point at the latest release
-9) Commit and push (for updated setup)
+9) Commit and push (for updated setup; may include a rebase + force push to assimilate versioning commit)
 10) Run `./setup` to re-install local version from archive
 11) If the symset has changed, run `./scripts/gup [minor | patch]` to update and publish `language-howl` and `tree-sitter-howl`
