@@ -45,7 +45,23 @@ cd Howl
 
 ## Releases
 
-Assuming changes are committed and tests passing both locally and CI
+First, ensure changes are committed and tests passing both locally and CI
+
+### New workflow
+
+1) Run `./release [major|minor|patch]`
+2) Ensure CI tests are passing (transitional)
+3) Visit https://github.com/active-logic/howl/releases/new
+    - Create new version,
+    - Apply release tag
+    - Write release notes (use Source tree to see what has changed)
+    - Upload `howl.tgz` (ensure howl.tgz is "fresh")
+4) Update version in `Setup`, `Setup.ps1` to point at the latest release
+5) Commit and push (for updated setup; may include a rebase + force push to assimilate versioning commit)
+6) Run `./setup` to re-install local version from archive
+7) If the symset has changed, run `./scripts/gup [minor | patch]` to update and publish `language-howl` and `tree-sitter-howl`
+
+### Legacy workflow
 
 1) Bump version in `CLI.howl` and `package.json`
 2) Run `howl`, `howl install .`, `howl`; this is to confirm new version installs, and updated version displays correctly

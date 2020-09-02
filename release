@@ -1,5 +1,10 @@
 #!/bin/bash
-set -euxo pipefail
-rm -rf build/src/bin
-rm -rf build/src/obj
-tar czf --exclude='.*' -f howl.tgz build/src
+# Usage: ./release [ major | minor | patch ]
+set  -euxo pipefail
+howl version $1 src/CLI.howl
+howl install .
+rm   -rf build/src/bin build/src/obj
+tar  czf --exclude='.*' -f howl.tgz build/src
+git add --all
+git commit -m "$1 version"
+git push
