@@ -15,25 +15,4 @@
        ∧ δ["sln add", "src/src.csproj test/test.csproj", π, dry];
     }
 
-    ‒ ㅇ SlowSolution(ㄹ π, ㅇ dry){
-        ∙  ㄸ = ✓;
-        ⤴ (!$"{π}/Main.sln".∃()){
-            π.MkDir();
-            ∙ opts = "--force --no-restore";
-            // NOTE: dotnet [new solution | sln | add ] do not accept
-            // --no-restore
-            ㄸ &= δ.New($"solution --force -n Main", π, ∅, dry);
-            ㄸ &= δ.New($"console {opts} -n src", π, ∅, dry);
-            ㄸ &= δ.New($"nunit {opts} -n test", π, ∅, dry);
-            $"{π}/src/Program.cs".JustDelete(dry);
-            // This is for libraries
-            // $"{π}/src/Class1.cs".JustDelete(dry);
-            $"{π}/test/UnitTest1.cs".JustDelete(dry);
-            ㄸ &= δ["add",
-                "test/test.csproj reference src/src.csproj", π, dry];
-            ㄸ &= δ["sln add",
-               "src/src.csproj test/test.csproj", π, dry];
-        } ⮐ ㄸ;
-    }
-
 }}
