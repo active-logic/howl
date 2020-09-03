@@ -1,0 +1,29 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ ProjectTest : TestBase{
+
+    Project ι; ⍜ Setup ⎚ ι = ⌢ Project();
+
+    ؟ Solution(){
+        ∙ σ = "~/Sandbox/src";
+        ∙ π = "~/Sandbox";
+        σ.MkDir();
+        π.MkDir();
+        o( ι.Solution("~/Sandbox", dry: ✗), ✓ );
+        ∃( $"{π}/Main.sln",
+           $"{π}/src",
+           $"{π}/src/src.csproj",
+           $"{π}/test/test.csproj" );
+        π.RmDir(dry: ✗);
+    }
+
+    ؟ Solution_noProjectStructure(){
+        ∙ π = "~/Sandbox";
+        π.MkDir();
+        o( ι.Solution("~/Sandbox", dry: ✗), ✗);
+        π.RmDir(dry: ✗);
+    }
+
+}}

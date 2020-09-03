@@ -40,16 +40,6 @@
 
     ؟ ExeName ⎚ o( β.ExeName("~/Sandbox"), "sandbox");
 
-    ؟ Solution(){
-        ∙ π = "~/Sandbox";
-        π.MkDir();
-        o( β.Solution("~/Sandbox", dry: ✗) );
-        o( $"{π}/Main.sln".∃() );
-        o( $"{π}/src".∃() );
-        o( $"{π}/src/src.csproj".∃() );
-        o( $"{π}/test/test.csproj".∃() );
-    }
-
     ؟ Update(){
         "Sandbox/src".MkDir();
         "Sandbox/test".MkDir();
@@ -68,6 +58,12 @@
         o( "Sandbox/build/test/TestA.cs".∃(), ✗);
         // Do not accidentally delete C# input, if any
         ∃( "Sandbox/src/X.cs" );
+        "Sandbox".RmDir(dry: ✗);
+    }
+
+    ؟ Update_noSrcDir(){
+        "Sandbox".MkDir();
+        o( β.Update("Sandbox"), ✗);
         "Sandbox".RmDir(dry: ✗);
     }
 

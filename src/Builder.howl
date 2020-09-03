@@ -1,5 +1,4 @@
 ⊐ System; ⊐ Ex = System.Exception;
-⊐ DNT = Active.Howl.DotNetTemplates;
 ⊐ System.Linq;
 
 ⊓ Active.Howl{
@@ -7,29 +6,25 @@
 
     DotNet δ = ⌢ DotNet();
 
-    ‒ ㅇ Build(ㄹ π){
-        Update(π);
-        ⮐ δ.Build("-v quiet --nologo", $"{π}/build", dry: ✗);
-    }
+    ‒ ㅇ Build(ㄹ π)
+    → Update(π) ∧ δ.Build("-v quiet --nologo", $"{π}/build", dry: ✗);
 
     ‒ ㅇ Install(ㄹ π, ㅇ addToPath = ✓)
-    → OS.isWindows ? InstallWin(π, addToPath)
-                   : InstallNix(π, addToPath);
+    → OS.isWindows ? InstWin(π, addToPath) : InstNix(π, addToPath);
 
-    ‒ ㅇ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅){
-        Update(π);
-        ⮐ δ.Publish($"src -c {config} --nologo", $"{π}/build",
-                     rt, dry: ✗);
-    }
+    ‒ ㅇ Publish(ㄹ π, ㄹ config = "Debug", ㄹ rt = ∅)
+    → Update(π) ∧ δ.Publish($"src -c {config} --nologo", $"{π}/build",
+                            rt, dry: ✗);
 
-    ‒ ㅇ Run(ㄹ π){
-        Update(π); ⮐ δ.Run("--project src", $"{π}/build", dry: ✗); }
+    ‒ ㅇ Run(ㄹ π)
+    → Update(π) ∧ δ.Run("--project src", $"{π}/build", dry: ✗);
 
-    ‒ ㅇ Test(ㄹ π){ Update(π);  ⮐ δ.Test($"{π}/build", dry: ✗); }
+    ‒ ㅇ Test(ㄹ π)
+    →  Update(π) ∧ δ.Test($"{π}/build", dry: ✗);
 
     // ---------------------------------------------------------------
 
-    ‒ ㅇ InstallNix(ㄹ π, ㅇ addToPath){
+    ‒ ㅇ InstNix(ㄹ π, ㅇ addToPath){
         ∙ rt = OS.runtime;
         ∙ ㄸ = Publish(π, config: "Release", rt);
         ⤴ (!ㄸ){ 🦞 "Install: Publish failed ({ㄸ})"; ⤬ }
@@ -45,7 +40,7 @@
         ⮐ ㄸ;
     }
 
-    ‒ ㅇ InstallWin(ㄹ π, ㅇ addToPath){
+    ‒ ㅇ InstWin(ㄹ π, ㅇ addToPath){
         Update(π);
         ㄹ args = "-c Release --nologo", proj = ProjectName(π);
         ∙ ㄸ = δ.Publish(
@@ -77,11 +72,12 @@
     ‒ ㄹ ExeName(ㄹ π) → ProjectName(π).ToLower();
 
     ‒ ㅇ Update(ㄹ π){
-        ∙ β = $"{π}/build";
-        ⤴ ( β.∃() ) β.DeleteFiles("*.cs", withMetaFile: ✗);
-        Export(∅, $"{π}/src", $"{β}/src");
-        Export(∅, $"{π}/test", $"{β}/test");
-        ⮐ Solution(β, dry: ✗);
+        ㄹ src = $"{π}/src", test = $"{π}/test", build = $"{π}/build";
+        ⤴ (!src.∃()){ 🦞$"{src} not found"; ⤬ }
+        ⤴ ( build.∃() ) build.DeleteFiles("*.cs", withMetaFile: ✗);
+        Export(∅, src, $"{build}/src");
+        Export(∅, test, $"{build}/test");
+        ⮐ ⌢ Project().Solution(build, dry: ✗);
     }
 
     // TRANSITIONAL
@@ -100,35 +96,6 @@
             Howl.BuildFile(x, y);
         }
         ⮐ "Exported some files";
-    }
-
-    ‒ ㅇ Solution(ㄹ π, ㅇ dry)
-      → $"{π}/Main.sln".∃()
-      ∨ (π.MkDir() ≠ ∅)
-      ∧ δ.New($"solution --force -n Main", π, ∅, dry)
-      ∧ $"{π}/src/src.csproj"  .Write(DNT.Console, mkdir: ✓)
-      ∧ $"{π}/test/test.csproj".Write(DNT.NUnit,   mkdir: ✓)
-      ∧ δ["sln add", "src/src.csproj test/test.csproj", π, dry];
-
-    ‒ ㅇ SlowSolution(ㄹ π, ㅇ dry){
-        ∙  ㄸ = ✓;
-        ⤴ (!$"{π}/Main.sln".∃()){
-            π.MkDir();
-            ∙ opts = "--force --no-restore";
-            // NOTE: dotnet [new solution | sln | add ] do not accept
-            // --no-restore
-            ㄸ &= δ.New($"solution --force -n Main", π, ∅, dry);
-            ㄸ &= δ.New($"console {opts} -n src", π, ∅, dry);
-            ㄸ &= δ.New($"nunit {opts} -n test", π, ∅, dry);
-            $"{π}/src/Program.cs".JustDelete(dry);
-            // This is for libraries
-            // $"{π}/src/Class1.cs".JustDelete(dry);
-            $"{π}/test/UnitTest1.cs".JustDelete(dry);
-            ㄸ &= δ["add",
-                "test/test.csproj reference src/src.csproj", π, dry];
-            ㄸ &= δ["sln add",
-               "src/src.csproj test/test.csproj", π, dry];
-        } ⮐ ㄸ;
     }
 
 }}
