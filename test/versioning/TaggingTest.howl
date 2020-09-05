@@ -1,0 +1,22 @@
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+⊐ Sv = Active.Howl.Subversion;
+
+⊓ Unit{
+‒ ○ TaggingTest : TestBase{
+
+    Tagging ι;
+    Runner2Mock mock;
+
+    ⍜ Setup ⎚ ι = ⌢ Tagging( mock = ⌢ Runner2Mock() );
+
+    ؟ Tag(){
+        o( ι.Tag("0.0.0", "."), ✓);
+        o(mock[0], @". | git add --all");
+        o(mock[1], @". | git commit -m ""Version 0.0.0""");
+        o(mock[2], @". | git push");
+        o(mock[3], @". | git tag 0.0.0");
+        o(mock[4], @". | git push origin 0.0.0");
+    }
+
+}}

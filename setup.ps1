@@ -1,7 +1,10 @@
-# First, may need to run
-# set-executionpolicy remotesigned
+# May need to run `set-executionpolicy remotesigned`
 cls
-$version = "0.1.7"
+$version = '0.1.7'
+$stable = '0.1.7'
+if ( $args[0] -eq "stable" ) {
+    $version = $stable
+}
 $repo    = "https://github.com/active-logic/howl"
 $url     = "$repo/releases/download/$version/howl.tgz"
 

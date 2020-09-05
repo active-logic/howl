@@ -1,12 +1,22 @@
-⊐ Ex = System.Exception; ⊐ System.Linq; ⊐ System.Collections.Generic;
+⊐ Ex = System.Exception;
 
 ⊓ Active.Howl{
 ‒ ○ Versioning{
 
-    ‒ ㅇ Increment(ㄹ path, Subversion δ, ⋯ ㄹ[] files){
+    ‒ Tagging tagging = ⌢ Tagging();
+
+    ᵛ‒ ㅇ Increment(ㄹ path, Subversion δ, ⋯ ㄹ[] files){
         ∙ version = Get(path) + δ;
-        Apply(version, $"{path}/package.json");
-        ∀ (∙ φ ∈ files) Apply(version, φ); ㆑
+        VersionInjector.Apply(version, $"{path}/package.json");
+        ㅇ tag = ✗;
+        ∀ (∙ φ ∈ files)
+            ⤴ (φ == "tag") tag = ✓;
+            ⤵ VersionInjector.Apply(version, φ);
+        ⮐ !tag ? ✓ : tagging.Tag($"{version}", path);
+    }
+
+    ‒ ㄹ[] GetVersionedFiles(ㄹ path){
+        ⮐ $"{path}/.version".ReadLines();
     }
 
     ‒ Version Get(ㄹ path){
@@ -16,20 +26,6 @@
                                   .Replace(",", "").Trim();
         (╯°□°)╯
                ⌢ Ex("Version not in package.json");
-    }
-
-    ‒ ┈ Apply(Version x, ㄹ φ){
-        ㄹ κ = ∅; ∙ ρ = ⌢ 𝕄 <ㄹ, (ㄹ h, ㄹ p)>{
-          [".json"] = ( @"""version""", @"  ""version"" : ""##"","),
-          [".ps1" ] = ( "$version =", @"$version = ""##"""),
-          [".howl"] = ( "ᴸ ㄹ version", @"    ᴸ ㄹ version = ""##"";"),
-          [""     ] = ( "version=", @"version=##")
-        }[φ.Extension()];
-        φ.Write((‖ λ ∈ φ.ReadLines()
-                 ▸ λ.∋(ρ.h) ? ρ.p.Replace(κ = "##", x)
-                            : λ)৴.Join('\n'));
-        ⤴ (κ ☰ ∅) (╯°□°)╯
-                           ⌢ Ex(@"Hint [{hint}] not in {file}");
     }
 
 }}

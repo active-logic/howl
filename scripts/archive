@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euxo pipefail
+cd "$(git rev-parse --show-toplevel)"
+sudo rm -rf build/src/bin build/src/obj
+if command -v apt-get &> /dev/null
+then  # Linux
+    tar -c -f howl.tgz -z --exclude='.*' build/src
+else  # macOS
+    tar czf --exclude='.*' -f howl.tgz build/src
+fi

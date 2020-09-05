@@ -1,0 +1,21 @@
+⊐ ArgEx = System.ArgumentException;
+⊐ Win32Ex = System.ComponentModel.Win32Exception;
+⊐ NUnit.Framework;
+⊐ Active.Howl;
+
+‒ ○ Runner2Test : TestBase{
+
+    Runner2 ι;
+
+    ⍜ Setup ⎚ ι = ⌢ Runner2();
+
+    ؟ Cmd_noWorkDir ⎚ ಠᴗಠ<ArgEx>( ⎚ ι.Cmd(∅, ∅, ∅) );
+
+    ؟ Cmd_success ⎚ o( ι.Cmd("git", "status", "."), ✓ );
+
+    ؟ Cmd_fail(){
+        ⤴ (OS.isWindows) ಠᴗಠ<Win32Ex>(⎚ ι.Cmd("boom", "boom", "."));
+        ⤵ o( ι.Cmd("boom", "boom", "."), ✗ );
+    }
+
+}

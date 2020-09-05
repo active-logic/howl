@@ -1,0 +1,8 @@
+⊓ Unit{
+‒ ○ TaggingMock : Active.Howl.Tagging{
+
+    ‒ ㄹ cmd;
+
+    ⁺‒ ㅇ Tag(ㄹ tag, ㄹ workdir){ cmd = $"Tag {tag} {workdir}"; ㆑ }
+
+}}

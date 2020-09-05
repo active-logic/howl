@@ -1,0 +1,48 @@
+⊓ Unit{
+‒̥ ○ VersioningData{
+
+    ‒ᴸ ㄹ ps1_data =
+@"# May need ...
+$version = '0.1.7'
+$stable = '0.1.6'
+if ( $args[0] -eq 'stable' ) {
+    $version = $stable
+}
+";
+
+‒ᴸ ㄹ ps1_bad_data =
+@"# May need ...
+$mansion = '0.1.7'
+";
+
+    ‒ᴸ ㄹ sh_data =
+@"#!/bin/bash
+version=0.1.19
+stable=0.1.7
+if [ $1 -eq stable ]; then
+    version=$stable
+fi
+";
+
+    ‒ᴸ ㄹ sh_bad_data =
+@"#!/bin/bash
+mansion=0.1.6
+echo ""Say hi""
+";
+
+    ‒ᴸ ㄹ howl_data =
+@"⊐ Ex = System.Exception;
+⊓ Active.Howl{
+‒ ○ CLI{
+    ᴸ ㄹ version = ""0.1.6a"";
+    ㅇ dry;
+";
+
+    ‒ᴸ ㄹ data =
+@"{
+    ""name""        : ""com.activ.howl"",
+    ""version""     : ""0.1.6"",
+    ""displayName"" : ""Howl-Core"",
+}";
+
+}}

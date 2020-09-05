@@ -87,7 +87,7 @@
     ┈ MkProj(){
         "Mudbox/src".MkDir();
         "Mudbox/src/Main.howl".Write("‒○ Bar{∘ ┈ Main(ㄹ[] args){}}");
-        "Mudbox/package.json".Write(VersioningTest.data);
+        "Mudbox/package.json".Write(VersioningData.data);
     }
 
     ┈ DelProj(){

@@ -1,6 +1,10 @@
 #!/bin/bash
 # -------------------------------------------------------------------
 version=0.1.7
+stable=0.1.7
+if [ $1 == stable ]; then
+    version=$stable
+fi
 repo=https://github.com/active-logic/howl
 url=$repo/releases/download/$version/howl.tgz
 # -------------------------------------------------------------------

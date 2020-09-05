@@ -21,6 +21,8 @@
         o(y, z);
     }
 
+    ؟ Left ⎚ o( "alpha = 10".Left('='), "alpha" );
+
     //Expected: "Foo |=\nHot potatoes\n& fries\n=| Bar\n"
     //But was:  "Foo |=Hot potatoes\n& fries\n=| Bar\n"
 
@@ -31,9 +33,11 @@
         o(x[1], "bar\n");
     }
 
-    ؟ LineCount(){
-        o("Foo\nbar\n".LineCount(), 2);
-    }
+    ؟ Lines_nullArg ⎚ o( ((ㄹ)∅).Lines(), ∅ );
+
+    ؟ Lines_emptyArg ⎚ o( "".Lines()❙, 0 );
+
+    ؟ LineCount ⎚ o("Foo\nbar\n".LineCount(), 2);
 
     ؟ Lines_doubleSpaced(){
         ∙ x = "Foo\n\nbar\n".Lines();
@@ -65,6 +69,8 @@
         o("a".Reverse(), "a");
         o("abc".Reverse(), "cba");
     }
+
+    ؟ Right ⎚ o( "alpha = 10".Right('='), "10" );
 
     ؟ Tokenize(){
         ∙ x = "Foo.bar".Tokenize();
