@@ -92,7 +92,6 @@
             ⮐ ∅;
         ∀ (∙ x ∈ paths){
             ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
-            🐰y;
             Howl.BuildFile(x, y);
         }
         ⮐ "Exported some files";
