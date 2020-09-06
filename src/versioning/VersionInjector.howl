@@ -1,0 +1,64 @@
+⊐ System.Linq; ⊐ Ex = System.Exception;
+
+⊓ Active.Howl{ ‒̥ ○ VersionInjector{
+
+    ‒̥ ┈ Apply(Version x, ㄹ φ){ ⤭ (φ.Extension()){
+        ⥰ ".json":
+            Generic(x,φ,@"""version""",@"  ""version"" : ""##"",");¦
+        ⥰ ".howl":
+            Generic(x,φ,"ᴸ ㄹ version",@"    ᴸ ㄹ version = ""##"";");¦
+        ⥰ ".ps1" :
+            Ps1(x, φ);¦
+        ⥰ "":
+            Sh(x, φ);¦
+    }}
+
+    ‒̥ ┈ Generic(Version x, ㄹ φ, ㄹ hint, ㄹ pattern){
+        ㄹ κ = ∅;
+        φ.Write((‖ λ ∈ φ.ReadLines()
+                 ▸ λ.∋(hint) ? pattern.Replace(κ = "##", x)
+                             : λ)৴.Join('\n'));
+        ⤴ (κ ☰ ∅) (╯°□°)╯⌢ Ex(@"Hint [{hint}] not in {file}");
+    }
+
+    ‒̥ ┈ Ps1(Version x, ㄹ φ){
+        ㅇ didReplace = ✗;
+        ㄹ versionHint = "$version =", stableHint = "$stable =",
+          stable      = ∅           , ㄸ = ∅;
+        ∀ (∙ λ ∈ φ.ReadLines()){
+            ⤴ (λ.∋(versionHint) && !λ.Contains("$stable")){
+                stable = λ.Right('=');
+                ㄸ += $"$version = '{x}'";
+                didReplace = ✓;
+            }⤳ (λ.∋(stableHint)){
+                ㄸ += $"$stable = {stable}";
+            }⤵
+                ㄸ += λ;
+            ㄸ += "\n";
+        }
+        φ.Write(ㄸ);
+        ⤴ (!didReplace) (╯°□°)╯
+                             ⌢ Ex($"Hint [{versionHint}] not in {φ}");
+    }
+
+    ‒̥ ┈ Sh(Version x, ㄹ φ){
+        ㅇ didReplace = ✗;
+        ㄹ versionHint = "version=", stableHint = "stable=",
+          stable      = ∅         , ㄸ = ∅;
+        ∀ (∙ λ ∈ φ.ReadLines()){
+            ⤴ (λ.∋(versionHint) && !λ.Contains("$")){
+                stable = λ.Right('=');
+                ㄸ += $"version={x}";
+                didReplace = ✓;
+            }⤳ (λ.∋(stableHint)){
+                ㄸ += $"stable={stable}";
+            }⤵
+                ㄸ += λ;
+            ㄸ += "\n";
+        }
+        φ.Write(ㄸ);
+        ⤴ (!didReplace) (╯°□°)╯
+                             ⌢ Ex($"Hint [{versionHint}] not in {φ}");
+    }
+
+}}

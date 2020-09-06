@@ -1,0 +1,43 @@
+⊐ NUnit.Framework; ⊐ Active.Howl; ⊐̥ Unit.VersioningData;
+⊐ VI = Active.Howl.VersionInjector;
+
+⊓ Unit{
+‒ ○ VersionInjectorTest : TestBase{
+
+    ᴸ ㄹ ps1 = "test.ps1", sh = "test", howl = "test.howl";
+
+    ؟ Ps1(){
+        ps1.Write(ps1_data);
+        VI.Apply("1.2.3", ps1);
+        ∙ σ = ps1.Read();
+        o( σ.Contains(@"$version = '1.2.3'") );
+        o( σ.Contains(@"$version = $stable") );
+        o( σ.Contains(@"$stable = '0.1.7'") );
+    }
+
+    ؟ Ps1_notFound(){
+        ps1.Write(ps1_bad_data);
+        ಠᴗಠ<System.Exception>( ⎚ VI.Apply("1.2.3", ps1) );
+    }
+
+    ؟ Sh(){
+        sh.Write(sh_data);
+        VI.Apply("1.2.3", sh);
+        ∙ σ = sh.Read();
+        o( σ.Contains(@"version=1.2.3") );
+        o( σ.Contains(@"version=$stable") );
+        o( σ.Contains(@"stable=0.1.19") );
+    }
+
+    ؟ Sh_notFound(){
+        sh.Write(sh_bad_data);
+        ಠᴗಠ<System.Exception>( ⎚ VI.Apply("1.2.3", sh) );
+    }
+
+    ؟ Apply_howl(){
+        howl.Write(howl_data);
+        VI.Apply("1.2.3", howl);
+        o( howl.Read().Contains(@"ᴸ ㄹ version = ""1.2.3"";") );
+    }
+
+}}

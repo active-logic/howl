@@ -35,6 +35,11 @@
         ⮐ header + src + footer;
     }
 
+    ‒̥ ㄹ Left(⦿ ㄹ x, ᆩ c, ㅇ trim = ✓){
+        ∙ z = x.IndexOf(c);
+        ⮐ x.Substring(0, z).Trim();
+    }
+
     ‒̥ ㄹ[] Lines(⦿ ㄹ self){
         ⤴(self ☰ ∅) ⮐ ∅;
         ⤴(self❙ ☰ 0) ⮐ ⌢ ㄹ[]{};
@@ -52,18 +57,23 @@
         ⮐  ㄸ৴;
     }
 
-    ‒̥ bool Matches(this string x, string y, int at){
-        var w = at + y❙;
-        if(w > x❙) ⤬
-        var z = x.Substring(at, y❙);
-        return z ☰ y;
+    ‒̥ ㅇ Matches(⦿ ㄹ x, ㄹ y, ᆞ at){
+        ∙ w = at + y❙;
+        ⤴ (w > x❙) ⤬
+        ∙ z = x.Substring(at, y❙);
+        ⮐ z ☰ y;
     }
-    
+
     ‒̥ ㄹ Reverse(⦿ ㄹ x){
         ⤴(x❙ ≤ 1) ⮐ x;
         char[] ㄸ = x.ToCharArray();
         Array.Reverse(ㄸ);
         ⮐ ⌢ ㄹ(ㄸ);
+    }
+
+    ‒̥ ㄹ Right(⦿ ㄹ x, ᆩ c, ㅇ trim = ✓){
+        ∙ z = x.IndexOf(c);
+        ⮐ x.Substring(z + 1).Trim();
     }
 
     ‒̥ ㄹ[] Tokenize(⦿ ㄹ self){

@@ -1,0 +1,15 @@
+⊓ Active.Howl{
+‒ ○ Tagging{
+
+    ‒ Runner2 ρ = ⌢ Runner2();
+
+    ‒ Tagging(Runner2 runner = ∅) → ρ = runner ?? ρ;
+
+    ᵛ‒ ㅇ Tag(ㄹ tag, ㄹ workdir)
+        → ρ.Cmd("git", $"add --all"                  , workdir)
+        ∧ ρ.Cmd("git", $"commit -m \"Version {tag}\"", workdir)
+        ∧ ρ.Cmd("git", "push"                        , workdir)
+        ∧ ρ.Cmd("git", $"tag {tag}"                  , workdir)
+        ∧ ρ.Cmd("git", $"push origin {tag}"          , workdir);
+
+}}

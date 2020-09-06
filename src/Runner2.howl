@@ -2,13 +2,12 @@
 ⊐ ArgEx = System.ArgumentException;
 
 ⊓ Active.Howl{
-‒̥ ○ Runner{
+‒ ○ Runner2{
 
-    ‒̥ ᆞ Cmd(ㄹ cmd, ㄹ args, ㄹ workdir, ㅇ dry=✓) {
+    ‒ᵛ ㅇ Cmd(ㄹ cmd, ㄹ args, ㄹ workdir) {
         ᆞ ㄸ;
         ⤴ (ㄹ.IsNullOrEmpty(workdir))
             (╯°□°)╯ ⌢ ArgEx("Better have a work dir");
-        ⤳ (dry) ⮐ 0;
         ⤵ ⊐ (∙ φ = ⌢ Process()){
             φ.StartInfo.WorkingDirectory = workdir;
             φ.StartInfo.FileName         = cmd;
@@ -34,11 +33,11 @@
             }
             φ.WaitForExit();
             ㄸ = φ.ExitCode;
-        } ⮐ ㄸ;
+        } ⮐ ㄸ == 0;
 
     }
 
-    ∘ ┈ OutputHandler(⊡ x, DataReceivedEventArgs λ)
+    ┈ OutputHandler(⊡ x, DataReceivedEventArgs λ)
     { ⤴ (!ㄹ.IsNullOrEmpty(λ.Data)) Console.WriteLine(λ.Data); }
 
 }}

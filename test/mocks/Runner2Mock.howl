@@ -1,0 +1,15 @@
+⊐ System.Collections.Generic;
+⊐ Active.Howl;
+
+⊓ Unit{
+‒ ○ Runner2Mock : Runner2{
+
+    𝕃<ㄹ> log = ⌢ 𝕃<ㄹ>();
+
+    ⁺‒ ㅇ Cmd(ㄹ cmd, ㄹ args, ㄹ workdir){
+        log.Add($"{workdir} | {cmd} {args}"); ㆑
+    }
+
+    ‒ ㄹ ⦿[ᆞ n] → log[n];
+
+}}

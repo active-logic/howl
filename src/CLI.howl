@@ -1,9 +1,9 @@
-⊐ Ex = System.Exception;
+⊐ System.Collections.Generic; ⊐ Ex = System.Exception;
 
 ⊓ Active.Howl{
 ‒ ○ CLI{
 
-    ᴸ ㄹ version = "0.1.7";
+    ᴸ ㄹ version = "0.1.24";
     ㅇ dry;
     Builder    β          = ⌢ Builder();
     Versioning versioning = ⌢ Versioning();
@@ -26,8 +26,9 @@
             ⥰ "run"     : ⮐ Run     (ㅂ);
             ⥰ "test"    : ⮐ Test    (ㅂ);
             // Provisional
-            ⥰ "version" : ⮐ Version (ㅂ);
             ⥰ "inject"  : Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑
+            ⥰ "release" : ⮐ Release(ㅂ);
+            ⥰ "version" : ⮐ Version (ㅂ);
             //
             ～: 🦞 $"Unrecognized command [{ㅂ[0]}]"; ⤬
         }
@@ -45,11 +46,17 @@
 
     ‒ ㅇ Inject  (⋯ ㄹ[] ㅂ){ Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑ }
 
+    ‒ ㅇ Release (⋯ ㄹ[] ㅂ){
+        ∙ files = ⌢ 𝕃<ㄹ>(versioning.GetVersionedFiles("."));
+        files.Add("tag");
+        ⮐ versioning.Increment(
+            ".", System.Enum.Parse<Subversion>(ㅂ[1]),
+            files ৴
+        );
+    }
+
     ‒ ㅇ Version (⋯ ㄹ[] ㅂ) → versioning.Increment(
-        ㅂ[1],
-        System.Enum.Parse<Subversion>(ㅂ[2]),
-        ㅂ.Clip(3)
-    );
+        ㅂ[1], System.Enum.Parse<Subversion>(ㅂ[2]), ㅂ.Clip(3) );
 
     // ---------------------------------------------------------------
 
