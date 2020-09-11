@@ -1,99 +1,33 @@
 ⊐ System.Collections.Generic; ⊐ Ex = System.Exception;
 
-⊓ Active.Howl{
-‒ ○ CLI{
+⊓ Active.Howl{ ‒ ○ CLI{
 
     ᴸ ㄹ version = "0.1.7";
-    ㅇ dry;
-    Builder    β          = ⌢ Builder();
-    Versioning versioning = ⌢ Versioning();
+
+    ㅇ          dry;
+    Builder    β = ⌢ Builder();
+    Versioning ν = ⌢ Versioning();
 
     ‒ CLI(ㅇ dry) → ⦿.dry = dry;
 
-    ‒̥ ᆞ Main(ㄹ[] ㅂ){
-        🐰 $"Howl CLI v{version}";
-        ⮐ ⌢ CLI(dry: ✗).Parse(ㅂ) ? 0 : 1;
+    ‒̥ ᆞ Main(⋯ ㄹ[] ㅂ){
+        ⤴ (ㅂ❙ ☰ 0){ 🐰 $"Howl CLI v{version}\n{Help.usage}"; ⮐ 0; }
+        ⤵ ⮐ ⌢ CLI(dry: ✗).Parse(ㅂ) ? 0 : 1;
     }
 
-    ㅇ Parse(ㄹ[] ㅂ){
-        ⤴ (ㅂ❙ < 1){ 🍥(help); ㆑ }
-        ⤭ (ㅂ[0]){
-            ⥰ "build"   : ⮐ Build   (ㅂ);
-            ⥰ "export"  : ⮐ Export  (ㅂ);
-            ⥰ "import"  : ⮐ Import  (ㅂ);
-            ⥰ "install" : ⮐ Install (ㅂ);
-            ⥰ "publish" : ⮐ Publish (ㅂ);
-            ⥰ "run"     : ⮐ Run     (ㅂ);
-            ⥰ "test"    : ⮐ Test    (ㅂ);
-            // Provisional
-            ⥰ "inject"  : Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑
-            ⥰ "release" : ⮐ Release(ㅂ);
-            ⥰ "version" : ⮐ Version (ㅂ);
-            //
-            ～: 🦞 $"Unrecognized command [{ㅂ[0]}]"; ⤬
-        }
-    }
-
-    // ---------------------------------------------------------------
-
-    ‒ ㅇ Build   (⋯ ㄹ[] ㅂ) → β.Build   (ㅂ[1]);
-    ‒ ㅇ Install (⋯ ㄹ[] ㅂ) → β.Install (ㅂ[1]);
-    ‒ ㅇ Publish (⋯ ㄹ[] ㅂ) → β.Publish (ㅂ[1]);
-    ‒ ㅇ Run     (⋯ ㄹ[] ㅂ) → β.Run     (ㅂ[1]);
-    ‒ ㅇ Test    (⋯ ㄹ[] ㅂ) → β.Test    (ㅂ[1]);
-
-    // Provisional ---------------------------------------------------
-
-    ‒ ㅇ Inject  (⋯ ㄹ[] ㅂ){ Grammar.Inject(ㅂ[1], ㅂ[2]); ㆑ }
-
-    ‒ ㅇ Release (⋯ ㄹ[] ㅂ){
-        ∙ files = ⌢ 𝕃<ㄹ>(versioning.GetVersionedFiles("."));
-        files.Add("tag");
-        ⮐ versioning.Increment(
-            ".", System.Enum.Parse<Subversion>(ㅂ[1]),
-            files ৴
-        );
-    }
-
-    ‒ ㅇ Version (⋯ ㄹ[] ㅂ) → versioning.Increment(
-        ㅂ[1], System.Enum.Parse<Subversion>(ㅂ[2]), ㅂ.Clip(3) );
-
-    // ---------------------------------------------------------------
-
-    ‒ ㅇ Export(⋯ ㄹ[] ㅂ){
-        ㄹ src = ㅂ[1].WithFinalSep(),
-          dst = ㅂ[2].WithFinalSep();
-        ⤴ (!src.IsDir()){ 🦞 $"Source dir not found: {src}"; ⤬ }
-        ∙ paths = FileSystem.Paths(src, "*.howl");
-        ⤴ (dry) ㆑
-        ᆞ count = paths⁝;
-        ∀ (∙ x ∈ paths){
-            ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
-            🐰y;
-            🍥($"Export {x} --> {y}");
-            Howl.BuildFile(x, y);
-        }
-        ⤴ (count ☰ 1) 🐰 $"Exported {paths[0].FileName()}";
-        ⤳ (count > 1)  🐰 $"Exported {count} files";
-        ⤵              🐰 $"No input files in '{src}'";
-        ㆑
-    }
-
-    ㅇ Import(ㄹ[] ㅂ){ 🐤 "Unimplemented"; ⤬ }
-
-    ㄹ help =
-@"Usage:
-Import/Export commands
-howl export SRC_DIR DST_DIR - Export Howl scripts to C#
-howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
-
-Builder commands
-howl build DIR              - Publish a console app
-howl install DIR            - Install a console app
-howl publish DIR            - Publish a console app
-howl run DIR                - Build and run a console app
-howl test DIR               - Run tests
-Builder commands assume source files in DIR/src, tests in DIR/test.
-";
+    ㅇ Parse(ㄹ[] ㅂ){ ⤭ (ㅂ[0]){
+        ⥰ "build"   : ⮐ β.Build(ㅂ[1]);
+        ⥰ "export"  : ⮐ Howl.Export(ㅂ[1], ㅂ[2]);
+        ⥰ "import"  : 🐤 "Unimplemented"; ⤬
+        ⥰ "install" : ⮐ β.Install (ㅂ[1]);
+        ⥰ "publish" : ⮐ β.Publish (ㅂ[1]);
+        ⥰ "run"     : ⮐ β.Run     (ㅂ[1]);
+        ⥰ "test"    : ⮐ β.Test    (ㅂ[1]);
+        // Provisional
+        ⥰ "inject"  : ⮐ Grammar.Inject(ㅂ[1], ㅂ[2]);
+        ⥰ "release" : ⮐ ν.Release(ν.Parse(ㅂ[1]) );
+        ⥰ "version" : ⮐ ν.Increment(ㅂ[1], ν.Parse(ㅂ[2]), ㅂ.Clip(3));
+        ～           : 🦞 $"Unrecognized command [{ㅂ[0]}]"; ⤬
+    }}
 
 }}

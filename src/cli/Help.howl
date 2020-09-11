@@ -1,0 +1,18 @@
+⊓ Active.Howl{
+‒̥ ○ Help{
+
+‒ᴸ ㄹ usage = @"Usage:
+Import/Export commands
+howl export SRC_DIR DST_DIR - Export Howl scripts to C#
+howl import SRC_DIR DST_DIR - Convert C# scripts to Howl [n/a]
+
+Builder commands
+howl build DIR              - Publish a console app
+howl install DIR            - Install a console app
+howl publish DIR            - Publish a console app
+howl run DIR                - Build and run a console app
+howl test DIR               - Run tests
+Builder commands assume source files in DIR/src, tests in DIR/test.
+";
+
+}}

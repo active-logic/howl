@@ -6,9 +6,10 @@
 
     // cd to tree-sitter-howl, then:
     // In: grammar.template.js, Out: grammar.js
-    ‒̥ ┈ Inject(ㄹ ㅂ, ㄹ ㄸ){
+    ‒̥ ㅇ Inject(ㄹ ㅂ, ㄹ ㄸ){
         🍥("Injecting grammar template");
         ㄸ.Write(Grammar.Inject(ㅂ.Read(), Map.@default));
+        ㆑
     }
 
     ‒̥ ㄹ Inject(ㄹ jsGram, Map map, ㅇ raise = ✓){

@@ -74,27 +74,10 @@
     ‒ ㅇ Update(ㄹ π){
         ㄹ src = $"{π}/src", test = $"{π}/test", build = $"{π}/build";
         ⤴ (!src.∃()){ 🦞$"{src} not found"; ⤬ }
-        ⤴ ( build.∃() ) build.DeleteFiles("*.cs", withMetaFile: ✗);
-        Export(∅, src, $"{build}/src");
-        Export(∅, test, $"{build}/test");
-        ⮐ ⌢ Project().Solution(build, dry: ✗);
-    }
-
-    // TRANSITIONAL
-    ‒ ㄹ Export(⋯ ㄹ[] ㅂ){
-        ㅇ dry = ✗;
-        ㄹ src = ㅂ[1].WithFinalSep(),
-          dst = ㅂ[2].WithFinalSep();
-        ⤴ (!src.IsDir())
-            ⮐ $"Source dir not found: {src}\n";
-        ∙ paths = FileSystem.Paths(src, "*.howl");
-        ⤴ (dry)
-            ⮐ ∅;
-        ∀ (∙ x ∈ paths){
-            ∙ y = dst + x.RelativeTo(src).SetExtension(".cs");
-            Howl.BuildFile(x, y);
-        }
-        ⮐ "Exported some files";
+        ⤴ (build.∃()) build.DeleteFiles("*.cs", withMetaFile: ✗);
+        Howl.Export(test, $"{build}/test");
+        ⮐ Howl.Export(src, $"{build}/src")
+         ∧ ⌢ Project().Solution(build, dry: ✗);
     }
 
 }}

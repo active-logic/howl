@@ -21,7 +21,7 @@
     // --------------------------------------------------------------
 
     ؟ BuildCmd(){
-        ι.Build(∅, "Mudbox");
+        CLI.Main("build", "Mudbox");
         ∃( "Mudbox/build/Main.sln",
            "Mudbox/build/src/Main.cs",
            "Mudbox/build/src/src.csproj",
@@ -44,7 +44,7 @@
     */
 
     ؟ PublishCmd(){
-        ι.Publish(∅, "Mudbox");
+        CLI.Main("publish", "Mudbox");
         ∙ ext  = OS.runtime ☰ OS.Windows ? ".exe" : "";
         ∙ path = OS.runtime ☰ OS.MacOS ? publishPath
                                        : publishPathNoRID;
@@ -53,7 +53,7 @@
 
     // TODO differentiate `Run` from `Build`
     ؟ RunCmd(){
-        o( ι.Build(∅, "Mudbox") );
+        o( CLI.Main("run", "Mudbox"), 0 );
         ∃( "Mudbox/build/Main.sln",
            "Mudbox/build/src/Main.cs",
            "Mudbox/build/src/src.csproj",
@@ -63,7 +63,7 @@
 
     // TODO - Check tests actually build and run
     ؟ TestCmd(){
-        ι.Test(∅, "Mudbox");
+        CLI.Main("test", "Mudbox");
         ∃( "Mudbox/build/src",
            "Mudbox/build/test",
            "Mudbox/build/Main.sln",
@@ -73,12 +73,12 @@
 
     // --------------------------------------------------------------
 
-    ؟ VersionCmd ⎚ o( ι.Version(∅, "Mudbox", "major") );
+    ؟ VersionCmd ⎚ o( CLI.Main("version", "Mudbox", "major"), 0 );
 
     // --------------------------------------------------------------
 
     ؟ ExportCmd(){
-        o( ι.Export(∅, "Mudbox/src", "Mudbox/build") );
+        o( CLI.Main("export", "Mudbox/src", "Mudbox/build"), 0 );
         ∃( "Mudbox/build/Main.cs" );
     }
 

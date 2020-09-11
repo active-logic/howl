@@ -1,4 +1,4 @@
-⊐ Ex = System.Exception;
+⊐ Ex = System.Exception; ⊐ System.Collections.Generic;
 
 ⊓ Active.Howl{
 ‒ ○ Versioning{
@@ -15,9 +15,17 @@
         ⮐ !tag ? ✓ : tagging.Tag($"{version}", path);
     }
 
-    ‒ ㄹ[] GetVersionedFiles(ㄹ path){
-        ⮐ $"{path}/.version".ReadLines();
+    ‒ ㅇ Release(Subversion subversion){
+        ∙ files = ⌢ 𝕃<ㄹ>(GetVersionedFiles("."));
+        files.Add("tag");
+        ⮐ Increment(".", subversion, files৴);
     }
+
+    // --------------------------------------------------------------
+
+    ‒ Subversion Parse(ㄹ ㅂ) → System.Enum.Parse<Subversion>(ㅂ);
+
+    ‒ ㄹ[] GetVersionedFiles(ㄹ path) → $"{path}/.version".ReadLines();
 
     ‒ Version Get(ㄹ path){
         ∀ (∙ λ ∈ $"{path}/package.json".ReadLines())
