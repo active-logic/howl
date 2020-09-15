@@ -2,7 +2,7 @@
 # -------------------------------------------------------------------
 version=0.1.7
 stable=0.1.7
-if [ $1 == stable ]; then
+if [ "$1" = "stable" ]; then
     version=$stable
 fi
 repo=https://github.com/active-logic/howl
@@ -31,7 +31,7 @@ mkdir howl
 curl  -Ls $url | tar xz --strip 1 -C howl
 pushd howl/src > /dev/null
 sudo  rm -rf /usr/local/Howl
-dotnet publish --nologo -v quiet $flags -o ~/howl.build.tmp
+dotnet publish  -v quiet $flags -o ~/howl.build.tmp
 sudo  mv ~/howl.build.tmp /usr/local/Howl
 sudo  ln -sf /usr/local/Howl/src /usr/local/bin/howl
 popd  > /dev/null
