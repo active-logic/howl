@@ -6,6 +6,7 @@
 ⊓ Unit{
 ‒ ○ TreeSitterTest : TestBase{
 
+/*
     Map map = ⌢ Rep[]{
         Classifier.o * ("+", "plus"),
         Classifier.o * ("-", "minus")
@@ -48,5 +49,6 @@
 
     ؟ Tag_ForRule()
     → o( TreeSitter.Tag(⌢ Rep("o", "bool")), "__%bool%__" );
+*/
 
 }}

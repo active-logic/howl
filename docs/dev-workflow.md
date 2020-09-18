@@ -61,6 +61,11 @@ First, ensure changes are committed and tests passing both locally and CI
 6) Run `./setup` to re-install local version from archive
 7) If the symset has changed, run `./scripts/gup [minor | patch]` to update and publish `language-howl` and `tree-sitter-howl`
 
+### Remove a broken/incorrect release
+
+- Manually delete the release
+- `./untag x.x.x`
+
 ### Legacy workflow
 
 1) Bump version in `CLI.howl` and `package.json`
