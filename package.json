@@ -1,6 +1,6 @@
 {
   "name"        : "com.activ.howl",
-  "version" : "0.2.7",
+  "version" : "0.1.7",
   "displayName" : "Howl-Core",
   "description" : "Symbolic Notation Engine",
   "unity"       : "2018.4",
