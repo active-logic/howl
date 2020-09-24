@@ -1,7 +1,7 @@
 # May need to run `set-executionpolicy remotesigned`
 cls
-$version = '0.2.7'
-$stable = '0.2.7'
+$version = '0.1.7'
+$stable = '0.1.7'
 if ( $args[0] -eq "stable" ) {
     $version = $stable
 }
