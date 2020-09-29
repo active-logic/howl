@@ -1,0 +1,15 @@
+#!/bin/bash
+set  -euo pipefail
+cd   "$(git rev-parse --show-toplevel)"
+echo "Copy sources to Uta"
+pushd ../Uta/Assets/Howl
+rm -rf Editor/Ng
+rm -rf ~build/Howl/Editor/Ng
+popd
+pushd ..
+cp -r Howl/src       Uta/Assets/Howl/Editor/Ng
+cp -r Howl/build/src Uta/Assets/Howl/~build/Howl/Editor/Ng
+popd
+pushd ../Uta/Assets/Howl/~build/Howl/Editor/Ng
+rm -rf bin
+rm -rf obj
