@@ -20,7 +20,7 @@
         o(x.rules❙, 2);
     }
 
-    ؟ Apply ⎚ o("▷ Act()" * ω, "public action Act()");
+    ؟ Apply ⎚ o("▷ Act()" * ω, "action Act()");
 
     ؟ TriColonReplaceTest ⎚ o( "x ⁝ y".Replace("⁝", "*"), "x * y");
 
@@ -55,7 +55,7 @@
     ؟ Consolidate_cmbVariants ⎚ o( ω.Consolidate("‒̥○"), "‒̥ ○" );
 
     ؟ Revert()
-    → o( "public action Act()" / ω, "▷ Act()" );
+    → o( "public action Act()" / ω, "‒ ▷ Act()" );
 
     ؟ Revert_bridging_token_honors_word_boundaries()
     → o( "public Big.Values" / ω, "‒ Big.Values" );

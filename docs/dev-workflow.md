@@ -15,12 +15,22 @@ howl test .     # build and run tests
 howl run src    # run the CLI
 ```
 
-## Changing the symset
+## Adding and replacing symbols
 
-- Add a rule for the symbol that needs to be exchanged
+- Add a rule for the symbol that needs to be added or exchanged
 - `howl install .`
+  (needed for `howl inject` to work correctly)
+- Run `./scripts/patch-uta`
+  (needed for Unity builds)
 - Search and replace to swap symbols in the source
-- Do a *Release*
+  (if a symbol change vs add)
+- Open Uta and select "Make Snippets"
+  (may need rebuild)
+- Run `./scripts/gup patch`
+  NOTE: the CLI *must* be up to date. `gup` does not collect symbols
+  from the local build, it uses the installed CLI.
+  (will inject the grammar, run some tests, update the language
+  pack)
 
 ## Updating and reverting
 
@@ -49,15 +59,8 @@ First, ensure changes are committed and tests passing both locally and CI
 
 ### New workflow
 
-1) Run `./release [major|minor|patch]`
-2) Ensure CI tests are passing (transitional)
-3) Visit https://github.com/active-logic/howl/releases/new
-    - Create new version,
-    - Apply release tag
-    - Write release notes (use Source tree to see what has changed)
-    - Upload `howl.tgz` (ensure howl.tgz is "fresh")
-4) Update version in `Setup`, `Setup.ps1` to point at the latest release
-5) Commit and push (for updated setup; may include a rebase + force push to assimilate versioning commit)
+1) Ensure CI tests are passing (transitional)
+2) Run `./release [major|minor|patch]`
 6) Run `./setup` to re-install local version from archive
 7) If the symset has changed, run `./scripts/gup [minor | patch]` to update and publish `language-howl` and `tree-sitter-howl`
 
