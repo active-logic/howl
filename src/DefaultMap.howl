@@ -82,6 +82,7 @@
         //
         f * -μ("㆑", "return true;",  px: "tt"),   // ༄
         f * -μ("⤬", "return false;", px: "ff", alt: "X"),   // ༎ ༒ ཀ༛༴༿ཛ
+        f * -μ("⏂", "return null;", px: "nn", alt: "O"),
         // ----------------------------------------------------------
         H("Linq")
         +
@@ -149,7 +150,10 @@
         p * -μ("⒡", "Func", name: "Func<>", d: "Function pointer") * B("⒡<${0:R}>"),
         p * -μ("𝕄", "Dictionary", alt: "D", d: "Map type"),  // ⺵
         p * -μ("𝕊", "HashSet", alt: "M", d: "Set type"),
-        p * -μ("𝔼", "IEnumerator", alt: "E", d: "Enumerable collection type"),
+        p * -μ("ℚ", "Queue", alt: "Q", d: "Queue type"),
+        p * -μ("𝕂", "Stack", alt: "K", d: "Stack type"),
+        p * -μ("𝔼", "IEnumerator", alt: "E", d: "Enumerator"),
+        p * -μ("‡", "IEnumerable", d: "Enumerable"),
         p * -(Rep)("𝕃", "List", alt: "L"),
         p * -μ("√", "Sqrt", alt: "L", d: "Square root"),
         p * -(Rep)("∑", "Sum"),
