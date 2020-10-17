@@ -194,14 +194,17 @@
         p * -⌢ Rep("ロ", "GameObject", ι: ✓),  // ◰
         p * -(Rep)("⫙", "Component", alt: "m"),
         // Vectors
-        p * -(Rep)("エ", "Transform"),  // 𖼲 ⟁ ⊺ ⏧ ⩀ ⁜ み サ
+        p * -⌢ Rep("エ", "Transform", px: "ttype"),  // 𖼲 ⟁ ⊺ ⏧ ⩀ ⁜ み サ
+        k * -(Rep)("み", "transform" ),
+        o * -⌢ Rep("⊺", ".transform", px: "dtrans"),
+        o * -⌢ Rep("⩀", ".transform.position", px: "tpos"),
         p * -(Rep)("ᇅ", "Quaternion"),  // ペ, ᇅ
         p * -⌢ Rep("フ", "Vector2", px: "v2"),
         p * -(Rep)("シ", "Vector3"),
         p * -⌢ Rep("タ", "Vector4", px: "v4"),
         // Points
         p * -⌢ Rep("ト", "Vector2", name: "Point2", px: "p2"),
-        p * -⌢ Rep("メ", "Vector3", name: "Point3"),
+        p * -⌢ Rep("メ", "Vector3", name: "Point3", px: "Point3"),
         p * -⌢ Rep("メ̂", "Vector4", name: "Point4", px: "p4"),
         // Idioms
         -⌢ Rep("《", "gameObject.AddComponent<", π: ✗,
