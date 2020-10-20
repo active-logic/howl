@@ -146,7 +146,7 @@
         // ----------------------------------------------------------
         H("Semantics")
         +
-        p * -μ("⒜", "Action", name: "Action<>", d: "Action pointer"),
+        p * -μ("⒜", "Action", name: "Action<>", d: "Action pointer", px: "act"),
         p * -μ("⒡", "Func", name: "Func<>", d: "Function pointer") * B("⒡<${0:R}>"),
         p * -μ("𝕄", "Dictionary", alt: "D", d: "Map type"),  // ⺵
         p * -μ("𝕊", "HashSet", alt: "M", d: "Set type"),
@@ -163,7 +163,20 @@
         -(Rep)("⋺", "ContainsKey", "∋⎯"),
         -(Rep)("∃", "Exists"),
         //-(Rep)("ƪ", "Validate"),
+        -(Rep)("𝚊", "acceleration"),
+        -(Rep)("𝚊̱", "nominalAcceleration"),
+        -(Rep)("𝒹", "density"),
+        -(Rep)("𝐹", "force"),
+        -(Rep)("𝓂", "mass"),
+        -(Rep)("𝓅", "position"),
+        -(Rep)("𝝇", "speed"),
+        -(Rep)("𝑠̱", "nominalSpeed"),
+        -(Rep)("𝓇", "rotation"),
         -(Rep)("⧕", "that", alt: "◁"),
+        -(Rep)("◍", "target"),
+        -(Rep)("𝜏", "torque"),
+        -(Rep)("𝓽", "traction"),
+        -(Rep)("𝓋", "velocity"),
         // ----------------------------------------------------------
         H("Idioms")
         +
@@ -191,13 +204,22 @@
 
         H("Unity")
         +
+        // Types
         p * -⌢ Rep("ロ", "GameObject", ι: ✓),  // ◰
         p * -(Rep)("⫙", "Component", alt: "m"),
         // Vectors
         p * -⌢ Rep("エ", "Transform", px: "ttype"),  // 𖼲 ⟁ ⊺ ⏧ ⩀ ⁜ み サ
-        k * -(Rep)("み", "transform" ),
-        o * -⌢ Rep("⊺", ".transform", px: "dtrans"),
-        o * -⌢ Rep("⩀", ".transform.position", px: "tpos"),
+        k * -⌢ Rep("み", "transform",
+                   name: "Transform identifier", px: "transform"),
+        k * -⌢ Rep("˙", ".transform.position", name: ".position",
+                                        px: "pposition"),
+        k * -⌢ Rep("⁰", ".transform.rotation", name: ".rotation",
+                                        px: "rrotation"),
+        k * -⌢ Rep("ˢ", ".transform.localScale", name: ".localScale",
+                                        px: "sscale"),
+        -⌢ Rep("ʳ", ".transform.localRotation", px: "localRotation"),
+        -⌢ Rep("ᵖ", ".transform.localPosition", px: "localPosition"),
+        -(Rep)("ˡ", ".lossyScale"),
         p * -(Rep)("ᇅ", "Quaternion"),  // ペ, ᇅ
         p * -⌢ Rep("フ", "Vector2", px: "v2"),
         p * -(Rep)("シ", "Vector3"),
@@ -207,6 +229,21 @@
         p * -⌢ Rep("メ", "Vector3", name: "Point3", px: "Point3"),
         p * -⌢ Rep("メ̂", "Vector4", name: "Point4", px: "p4"),
         // Idioms
+        p * -⌢ Rep("⒯", "Time.time"     , name: "time",
+                                           px:"time"),
+        p * -⌢ Rep("𝛿𝚝", "Time.deltaTime", name: "deltaTime",
+                                           px: "deltaTime"),
+        p * -(Rep)("⊣", "left"),
+        p * -(Rep)("⊢", "right"),
+        p * -(Rep)("⊥", "up"),
+        p * -(Rep)("⊤", "down"),
+        p * -(Rep)("⫫", "forward"),
+        p * -(Rep)("⫪", "back"),
+        p * -(Rep)("⟛", "center"),
+        o * -(Rep)("¹", ".normalized", alt:"-"),  // 🜙 ୨
+        o * -(Rep)("❚", ".magnitude", alt:"-"),  // 🜙 ୨
+        o * -(Rep)("ˮ", ".gameObject.name", alt:"-"),  // 🜙 ୨
+        //
         -⌢ Rep("《", "gameObject.AddComponent<", π: ✗,
               name: "AddComponent", px: "AddComponent") * B("《$0》"),
         -⌢ Rep("》", ">()", π: ✗, ns: ✓, q: ✓),
@@ -214,9 +251,11 @@
               name: "GetComponent", px: "GetComponent") * B("⧼$0⧽"),
         -⌢ Rep("⧽", ">()", π: ✗, ns: ✓, q: ✓),
         m * μ("⏚","[UnityTest] public IEnumerator", alt: "↓",
-                                                       px: "utest", d: "Asynchronous test"),
+                   px: "utest", d: "Asynchronous test"),
         k * μ("⏰","yield return new WaitForSeconds",
-                                          alt: "⍉", px: "yieldsec", d: "Synchronous timer"),
+                   alt: "⍉", px: "yieldsec", d: "Synchronous timer"),
+        k * μ("⩶","yield return null;",
+                   alt: "⍉", px: "yieldnn", d: "Yield return null;"),
         // Logging (provisional)
         -⌢ Rep("🍥", "That.Logger.Log", alt: "﹫",
             px: "log", q: ✓) * B("🍥($\"$0\");"),
@@ -228,13 +267,19 @@
         H("Active Logic")
         +
         p * ("⑂", "status"),
-        p * μ("▷", "public action", q: ✓),
-        p * μ("▶", "private action", q: ✓),
+        p * ("▷", "action"),
         s * -μ("◇", "done()", d: "Complete task status"),
         s * -μ("☡", "cont()", d: "Ongoing task status"),
         s * -μ("■", "fail()", d: "Failing task status"),
-        k * -μ("⌽", "return @void();", d: "Void token")
-
+        // Control (status)
+        k * -μ("◇̠", "return done();", px: "dd"),   // ༎ ༒ ཀ༛༴༿ཛ
+        k * -μ("☡̱", "return cont();", px: "cc"),   // ༄
+        k * -μ("■̠", "return fail();", px: "ff"),
+        // Control (certainties)
+        k * -μ("⌽", "return @void();", d: "Void token"),
+        // Idioms
+        f * - ⌢ Rep("❰", "Once()?[", π: ✗) * B("❰$0❱"),
+        f * - ⌢ Rep("❱", "]", π: ✗, ns: ✓, q: ✓),
         // ==========================================================
 
     };
