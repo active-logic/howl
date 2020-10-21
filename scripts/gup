@@ -1,9 +1,16 @@
 #!/bin/bash
 # Usage: cd Howl && ./scripts/gup [major/minor/patch]
-# Requires:
-# - ../Tree-Sitter checked out
-# - Atom and language-howl installed
+# Requires ../Tree-Sitter and Atom with language-howl
+if [ $# -eq 0 ]
+  then
+    echo "Missing argument: gup (major | minor | patch)" && exit 1
+fi
+case $1 in
+  "major") ;; "minor") ;; "patch") ;;
+   *) echo "Invalid argument: $1" && exit 1 ;;
+esac
 set         -euxo pipefail
+howl        install .
 pushd       ../Tree-Sitter
 howl        inject grammar.template.js grammar.js
 tree-sitter generate
@@ -12,12 +19,12 @@ tree-sitter parse sample.howl
 tree-sitter parse braces.howl
 git         add --all
 git         commit -m "Update grammar"
+git         push
 npm         version $1
 npm         publish
 popd
 cd          ~/.atom/packages/language-howl/
-apm         install --verbose
-git         add --all
-git         commit -m "$1"
-git         push
-apm         publish $1
+pwd
+echo "Bump tree-sitter-howl version in package.json and"
+echo "run 'apm install --verbose' to ensure language-howl"
+echo "is using the latest grammar."
