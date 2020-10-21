@@ -21,7 +21,7 @@
 
     ‒̥ ㄹ[] ⨕ / (ㄹ[] A, Map y) → (‖ x ∈ A ▸ x / y)৴;
 
-    ‒̥ ㄹ   ⨕ % (ㄹ x, Map y) → Rev(x, y.nits);
+    ‒̥ ㄹ   ⨕ % (ㄹ x, Map y) → Rev(x, y.nits, ignoreConflicts: ✓);
 
     ‒̥ ㄹ[] ⨕ ! (Map m) → (‖ x ∈ m.rules ¿ !x ▸ x.a)৴;
 
@@ -84,10 +84,11 @@
         ⮐ ㄸ🝠;
     }
 
-    ‒̥ ㄹ Rev(ㄹ x, Rep[] ρ){
-        ∙ ㄸ = ⌢ StringBuilder() ;
+    ‒̥ ㄹ Rev(ㄹ x, Rep[] ρ, ㅇ ignoreConflicts=✓){
+        ∙ ㄸ = ⌢ StringBuilder();
         ∀(∙ θ ∈ x.Break(defs))
-            ㄸ.±(θ.DenotesBlock(defs) ? θ :  RevChunk(θ, ρ));
+            ㄸ.±(θ.DenotesBlock(defs) ? θ
+            : RevChunk(θ, ρ, ignoreConflicts));
         ⮐ ㄸ🝠;
     }
 
@@ -96,14 +97,13 @@
         ⮐ x;
     }
 
-    ∘ ㄹ RevChunk(ㄹ x, Rep[] ρ){
+    ∘ ㄹ RevChunk(ㄹ x, Rep[] ρ, ㅇ ignoreConflicts){
         ㄹ[] tokens = x.Tokenize();
         𝕃<ㄹ> conflicts = ∅;
         ∀(∙ r ∈ ρ){
             ↯{
-                tokens /= r;
-                // TODO
-                // not ready for this
+                tokens = Rep.Rev(tokens, r, ignoreConflicts);
+                // TODO - not ready for this
                 tokens =  Modifiers.NitpickSegment(tokens);
             }⇤(InvOp ex){
                 ⤴(conflicts ☰ ∅) conflicts = ⌢ 𝕃<ㄹ>();
