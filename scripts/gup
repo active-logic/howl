@@ -9,7 +9,7 @@ case $1 in
   "major") ;; "minor") ;; "patch") ;;
    *) echo "Invalid argument: $1" && exit 1 ;;
 esac
-set         -euxo pipefail
+set         -euo pipefail
 howl        install .
 pushd       ../Tree-Sitter
 howl        inject grammar.template.js grammar.js
@@ -23,8 +23,10 @@ git         push
 npm         version $1
 npm         publish
 popd
-cd          ~/.atom/packages/language-howl/
-pwd
-echo "Bump tree-sitter-howl version in package.json and"
+# Copy engine files to Uta
+./scripts/patch_uta
+# Info for manual steps
+echo "Next, cd to ~/.atom/packages/language-howl/, "
+echo "bump tree-sitter-howl version in package.json and"
 echo "run 'apm install --verbose' to ensure language-howl"
 echo "is using the latest grammar."

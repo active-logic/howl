@@ -10,14 +10,12 @@ Run `./scripts/gup [major minor patch]`; this will:
 
 - Update the CLI; required because grammar injection uses the current symset; may cause a segfault, if so just re-run (REF ISSUE).
 - Inject, rebuild, test and re-publish the tree-sitter grammar; necessary because `language-howl` requires an (npm) published grammar.
-- Suggest updating `language-howl` to the latest grammar; could be automated; language-howl freezes the
-grammar version because there is no staging.
+- Run `./scripts/patch-uta`; to copy engine files to Uta (a dependency would be nice, not possible right now)
+- Suggest updating `language-howl` to the latest grammar; could be automated; language-howl freezes the grammar version because there is no staging.
 
 `apm install` should trigger a GYP rebuild; if not either the previous step failed, or perhaps the npm package is not live yet.
 
 ## Update Uta
-
-Running `./scripts/patch-uta`; will copy engine files from the howl repo to Uta. A dependency would be nicer, but right now this is not possible.
 
 Open Uta, then ensure the new engine files build correctly and select "Make Snippets".
 

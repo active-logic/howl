@@ -22,6 +22,10 @@
 
     ؟ Apply ⎚ o("▷ Act()" * ω, "action Act()");
 
+    ؟ ApplyDrive ⎚ o("⸨ x ≫ y ⸩" * ω, "While( x )?[ y ]");
+
+    ؟ ApplyTie ⎚ o("⁅ x × y ⁆" * ω, "Tie( x )?[ y ]");
+
     ؟ TriColonReplaceTest ⎚ o( "x ⁝ y".Replace("⁝", "*"), "x * y");
 
     ؟ MulOpMappingTest(){
