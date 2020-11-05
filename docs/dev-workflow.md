@@ -44,7 +44,7 @@ First, ensure changes are committed and tests passing (both locally and CI)
 
 ### New workflow
 
-Assuming no symset changes (otherwise, see *common tasks* above):
+Assuming no symset changes (otherwise, see [symset updates](symset-updates.md)):
 
 ```sh
 # Initiates a tagged release via Travis CI
