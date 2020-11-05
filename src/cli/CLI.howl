@@ -3,7 +3,7 @@
 
 ⊓ Active.Howl{ ‒ ○ CLI{
 
-    ᴸ ㄹ version = "0.1.16";
+    ᴸ ㄹ version = "0.2.16";
 
     ㅇ          dry;
     Builder    β = ⌢ Builder();
