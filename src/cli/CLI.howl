@@ -1,4 +1,5 @@
 ⊐ System.Collections.Generic; ⊐ Ex = System.Exception;
+⊐ Active.Howl.Util;
 
 ⊓ Active.Howl{ ‒ ○ CLI{
 
@@ -25,6 +26,7 @@
         ⥰ "test"    : ⮐ β.Test    (ㅂ[1]);
         // Provisional
         ⥰ "inject"  : ⮐ Grammar.Inject(ㅂ[1], ㅂ[2]);
+        ⥰ "shorthands" : ⮐ Shorthands.Generate(ㅂ[1]);
         ⥰ "release" : ⮐ ν.Release(ν.Parse(ㅂ[1]) );
         ⥰ "version" : ⮐ ν.Increment(ㅂ[1], ν.Parse(ㅂ[2]), ㅂ.Clip(3));
         ～           : 🦞 $"Unrecognized command [{ㅂ[0]}]"; ⤬

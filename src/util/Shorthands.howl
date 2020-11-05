@@ -1,0 +1,58 @@
+⊐ Active.Howl; ⊐ System.Linq;
+
+⊓ Active.Howl.Util{
+‒̥ ○ Shorthands{
+
+    ∘ ᆞ ι;
+
+    ᴸ ㄹ preamble =
+@"# Howl shorthands
+
+*Note: entries where the snippet prefix matches
+equivalent C# source are not included.*
+";
+    ᴸ ㄹ theader  = "|  #  | Sym | Syntax    | Prefix |";
+    ᴸ ㄹ tformat  = "| :-: | :-: | ---       | ---     |";
+
+    //"Assets/Howl/Documentation/Cosmo-Spec.md"
+    ‒̥ ㅇ Generate(ㄹ ㄸ){
+        ι = 1;
+        ㄸ.Write(preamble + Format(Map.@default));
+        ㆑
+    }
+
+    ‒̥ ㄹ Format(Map map)
+    → (‖ ρ ∈ map.declarative ▸ Format(ρ, map))৴.Join("");
+
+    ‒̥ ㄹ Format(Rep ρ, Map map) → Section(ρ, map)
+    + ( ρ.prefix ☰ ∅ ? ∅
+        : $"| {ι++} | {ρ.a} | {Body(ρ)} | {ρ.prefix.ToLower()} |\n" );
+
+    ‒̥ ㄹ Body(Rep ρ) → ρ.b;
+
+    ‒̥ ㄹ Section(Rep ρ, Map map){
+        //⮐ (ρ.header ☰ ∅) ? ""
+        ⮐ (!HasElements(ρ, map)) ? ""
+        : $"\n### {ρ.header}\n{theader}\n{tformat}\n";
+    }
+
+    ∘ ㅇ HasElements(Rep ρ, Map map){
+        ⤴ (ρ.header ☰ ∅) ⤬
+        // 🐰 $"Looking for header {ρ.header}";
+        ∙ found = ✗;
+        ∀ (∙ e in map.declarative){
+            ⤴ (e.header ≠ ∅){
+                ⤴ (e == ρ){
+                    // 🐰 $"Found section: {e.header}";
+                    found = ✓; 〰
+                }
+                ⤳ (found) ⤬
+            }
+            ⤳ (found ∧ (e.prefix ≠ ∅)){
+                // 🐰 $"Found an element {ρ.prefix}";
+                 ㆑
+             }
+        } ⤬
+    }
+
+}}

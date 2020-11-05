@@ -11,6 +11,7 @@ case $1 in
 esac
 set         -euo pipefail
 howl        install .
+howl        shorthands docs/snippets.md
 pushd       ../Tree-Sitter
 howl        inject grammar.template.js grammar.js
 tree-sitter generate
@@ -24,7 +25,7 @@ npm         version $1
 npm         publish
 popd
 # Copy engine files to Uta
-./scripts/patch_uta
+./scripts/patch-uta
 # Info for manual steps
 echo "Next, cd to ~/.atom/packages/language-howl/, "
 echo "bump tree-sitter-howl version in package.json and"

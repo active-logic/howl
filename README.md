@@ -59,6 +59,8 @@ Running Docker? Start with `apt-get update -qq && apt-get install -qq curl`
 
 [Atom](https://atom.io) and the [language-howl](https://atom.io/packages/language-howl) extension are used to edit Howl sources.
 
+Typing Howl source is via snippets. Mostly, said snippets appear as you type regular C#; exceptions are listed [here](docs/snippets.md).
+
 ### Exporting Howl sources
 
 Assume a `SRC` directory containing **.howl* source files. Then...

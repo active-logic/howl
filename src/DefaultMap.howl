@@ -141,8 +141,8 @@
         // ----------------------------------------------------------
         H("Keywords")
         +
-        k * ⌢ Rep("╭", "get", px: "get") * B("╭{ $0 }"),
-        k * ⌢ Rep("╰", "set", px: "set") * B("╰{ $0 }"),
+        k * ("╭", "get") * B("╭{ $0 }"),
+        k * ("╰", "set") * B("╰{ $0 }"),
         s * -(Rep)("✓", "true"),   // ⊨
         s * -(Rep)("✗", "false"),  // ⊭
         k * ("⌢", "new"),
@@ -166,23 +166,23 @@
         p * -μ("√", "Sqrt", alt: "L", d: "Square root"),
         p * -(Rep)("∑", "Sum"),
         p * -(Rep)("𝛑", "pi (3.14...)", alt: "π"),
-        -(Rep)("±", "Append", "±"),
-        -(Rep)("∋", "Contains"),
-        -(Rep)("⋺", "ContainsKey", "∋⎯"),
-        -(Rep)("∃", "Exists"),
+        o * -(Rep)("±", "Append", "±"),
+        o * -(Rep)("∋", "Contains"),
+        o * -(Rep)("⋺", "ContainsKey", "∋⎯"),
+        o * -(Rep)("∃", "Exists"),
         //-(Rep)("ƪ", "Validate"),
-        -(Rep)("𝚊", "acceleration"),
-        -(Rep)("𝚊̱", "nominalAcceleration"),
-        -(Rep)("𝒹", "density"),
-        -(Rep)("𝐹", "force"),
-        -(Rep)("𝓂", "mass"),
-        -(Rep)("𝝇", "speed"),
-        -(Rep)("𝑠̱", "nominalSpeed"),
-        -(Rep)("⧕", "that", alt: "◁"),
-        -(Rep)("◍", "target"),
-        -(Rep)("𝜏", "torque"),
-        -(Rep)("𝓽", "traction"),
-        -(Rep)("𝓋", "velocity"),
+        k * -(Rep)("𝚊", "acceleration"),
+        k * -(Rep)("𝚊̱", "nominalAcceleration"),
+        k * -(Rep)("𝒹", "density"),
+        k * -(Rep)("𝐹", "force"),
+        k * -(Rep)("𝓂", "mass"),
+        k * -(Rep)("𝝇", "speed"),
+        k * -(Rep)("𝑠̱", "nominalSpeed"),
+        k * -(Rep)("⧕", "that", alt: "◁"),
+        k * -(Rep)("◍", "target"),
+        k * -(Rep)("𝜏", "torque"),
+        k * -(Rep)("𝓽", "traction"),
+        k * -(Rep)("𝓋", "velocity"),
         // ----------------------------------------------------------
         H("Idioms")
         +
@@ -214,9 +214,9 @@
         p * -⌢ Rep("ロ", "GameObject", ι: ✓),  // ◰
         p * -(Rep)("⫙", "Component", alt: "m"),
         // Vectors
-        p * -⌢ Rep("エ", "Transform", px: "ttype"),  // 𖼲 ⟁ ⊺ ⏧ ⩀ ⁜ み サ
+        p * - (Rep)("エ", "Transform"),  // 𖼲 ⟁ ⊺ ⏧ ⩀ ⁜ み サ
         k * -⌢ Rep("み", "transform",
-                   name: "Transform identifier", px: "transform"),
+                   name: "Transform identifier", px: "tra"),
         k * -⌢ Rep("˙", ".transform.position", name: ".position",
                                         px: "position"),
         k * -⌢ Rep("⁰", ".transform.rotation", name: ".rotation",
@@ -282,8 +282,6 @@
         p * ("⨴", "impending"),
         p * ("⨮", "pending"),
         p * ("ⓧ", "failure"),
-        k * ("ꜝ", ".now"),
-        k * ("ˣ", ".fail"),
         k * ("ʾ", ".due"),
         k * ("ʿ", ".undue"),
         k * ("ᴼ", ".ever"),
@@ -293,27 +291,33 @@
         // Control (status)
         k * -μ("◇̠", "return done();", px: "dd"),   // ༎ ༒ ཀ༛༴༿ཛ
         k * -μ("☡̱", "return cont();", px: "cc"),   // ༄
-        k * -μ("■̠", "return fail();", px: "ff"),
+        k * -μ("■̠", "return fail();", px: "fa"),
         // Control (certainties)
-        k * -μ("⌽", "return @void();",           px: "vv"),
-        k * -μ("ⓧ̱", "return failure.broken();", px: "xx"),
-        k * -μ("𝟾̱", "return loop.forever();",    px: "ff"),
+        k * -μ("⌽", "return @void();",        px: "vvv"),
+        k * -μ("ⓧ̱", "return @false();",      px: "fff"),
+        k * -μ("𝟾̱", "return loop.cont();",    px: "lcc"),
         // More certainties
         k * -μ("◇̠ʾ", "return pending.done();", px: "pdd"),
         k * -μ("☡̱ʾ", "return pending.cont();", px: "pcc"),
         k * -μ("☡̱ʿ", "return impending.cont();", px: "icc"),
-        k * -μ("■̠ʿ", "return impending.doom();", px: "doom"),
+        k * -μ("■̠ʿ", "return impending.fail();", px: "iff"),
 
         // Idioms
-        f * - ⌢ Rep("❰", "Once()?[", π: ✗) * B("❰$0❱"),       // Once
+        f * - ⌢ Rep("⍈", "Sequence()", π: ✗)
+                                * B("⍈ [ ⩓ $1 : ${2:repeat}];"),
+        f * μ("⩓", "and ?", px: "then"),
+        f * - ⌢ Rep("⍰", "Selector()", π: ✗)
+                                * B("⍰ [ ⩔ $1 : ${2:repeat}];"),
+        f * μ("⩔", "or ?", px: "otherwise"),
+        f * - ⌢ Rep("❰", "Once()?[", π: ✗) * B("❰$1❱"),       // Once
         f * - ⌢ Rep("❱", "]", π: ✗, ns: ✓, q: ✓),
         //
-        f * - ⌢ Rep("⸨", "While(", px: "Drive", π: ✗)
-                                            * B("⸨ $1 ≫ $0 ⸩"),
+        f * - ⌢ Rep("⸨", "While(", px: "Drive", π: ✗)         // While
+                       * B("⸨ $1 ≫ $2 ⸩"),
         o * - ⌢ Rep("≫", ")?[", π: ✗, ns: ✓, q: ✓),
         f * - ⌢ Rep("⸩", "]"  , π: ✗, ns: ✓, q: ✓),
         //
-        f * - ⌢ Rep("⁅", "Tie(", π: ✗) * B("⁅ $1 × $0 ⁆"),
+        f * - ⌢ Rep("⁅", "Tie(", π: ✗) * B("⁅ $1 × $2 ⁆"),    // Tie
         o * - ⌢ Rep("×", ")?[", π: ✗, ns: ✓, q: ✓),
         f * - ⌢ Rep("⁆", "]"  , π: ✗, ns: ✓, q: ✓)
 
