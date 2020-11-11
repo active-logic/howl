@@ -303,12 +303,10 @@
         k * -μ("■̠ʿ", "return impending.fail();", px: "iff"),
 
         // Idioms
-        f * - ⌢ Rep("⍈", "Sequence()", π: ✗)
-                                * B("⍈ [ ⩓ $1 : ${2:repeat}];"),
-        f * μ("⩓", "and ?", px: "then"),
-        f * - ⌢ Rep("⍰", "Selector()", π: ✗)
-                                * B("⍰ [ ⩔ $1 : ${2:repeat}];"),
-        f * μ("⩔", "or ?", px: "otherwise"),
+        f * - ⌢ Rep("⍈", "Seq", π: ✗) * B("⍈() ⟦ $1 ⟧"),
+        f * - ⌢ Rep("⍰", "Sel", π: ✗) * B("⍰() ⟦ $1 ⟧"),
+        f * - ⌢ Rep("⟦", "% @do?[", π: ✗, px: "task") * B("⟦ $1 ⟧"),
+        f * - ⌢ Rep("⟧", "]"  , π: ✗, ns: ✓, q: ✓),
         f * - ⌢ Rep("❰", "Once()?[", π: ✗) * B("❰$1❱"),       // Once
         f * - ⌢ Rep("❱", "]", π: ✗, ns: ✓, q: ✓),
         //
