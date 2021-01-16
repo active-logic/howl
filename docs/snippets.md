@@ -81,6 +81,7 @@ equivalent C# source are not included.*
 | 49 | ☡̱ʾ | return pending.cont(); | pcc |
 | 50 | ☡̱ʿ | return impending.cont(); | icc |
 | 51 | ■̠ʿ | return impending.fail(); | iff |
-| 52 | ⩓ | and ? | then |
-| 53 | ⩔ | or ? | otherwise |
-| 54 | ⸨ | While( | drive |
+| 52 | • | => ε( | sx |
+| 53 | ⎨ | [log && $" | nt |
+| 54 | ⟦ | % @do?[ | task |
+| 55 | ⸨ | While( | drive |
