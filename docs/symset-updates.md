@@ -2,7 +2,29 @@
 
 This document clarifies the dev workflow for adding/removing/replacing symbols.
 
-First, add a rule for the symbol that needs to be added or exchanged; ensure build and tests are passing.
+First, add rules to `DefaultMap`; ensure build and tests are passing.
+
+# Classifier notes
+
+Classifiers are listed below.
+
+```
+Language keywords:
+
+k: language keyword (general class)
+-- c: type denotation (class, namesapce, delegate, ...)
+-- m: modifier
+-- f: flow control
+-- p: primitive (such as bool, float)
+-- s: literal constant (such as 'true' or 'false')
+--
+
+o: operator
+
+other:
+x: special (only used for 'return'?)
+si: standard import
+```
 
 # Update and republish the tree-sitter grammar
 

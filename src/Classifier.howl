@@ -11,14 +11,16 @@
     ⦿._class = _class;
   }
 
-  ‒̥ self c   → ⌢ self("Cat");
-  ‒̥ self f   → ⌢ self("Flow");
-  ‒̥ self k   → ⌢ self("Key");
-  ‒̥ self m   → ⌢ self("Mod");
-  ‒̥ self o   → ⌢ self("Op");
-  ‒̥ self p   → ⌢ self("Pr");
-  ‒̥ self s   → ⌢ self("Const");
-  ‒̥ self x   → ⌢ self("Spe");
+  ‒̥ self k   → ⌢ self("Key");   // keyword (general class)
+  ‒̥ self c   → ⌢ self("Cat");   // type signifier
+  ‒̥ self m   → ⌢ self("Mod");   // modifier
+  ‒̥ self f   → ⌢ self("Flow");  // control flow
+  ‒̥ self p   → ⌢ self("Pr");    // primitive/std type
+  ‒̥ self s   → ⌢ self("Const"); // constant
+  //
+  ‒̥ self o   → ⌢ self("Op");    //
+  //
+  ‒̥ self x   → ⌢ self("Spe");   // special
 
   ‒̥ self[] all → ⌢ self[]{ c, f, k, m, o, p, s, x };
 

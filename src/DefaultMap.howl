@@ -77,6 +77,7 @@
         f * ("↯", "try"),
         f * ("⇤", "catch"),
         f * ("(╯°□°)╯", "throw"),
+        f * ⌢ Rep("(╯°ѡ°)⸗", "throw new System.Exception", px: "throwEx"),
         //new Rep("(ɔ˘з˘)ɔ", "catch", name: "Got U",  px: "got"),
         //new Rep("(ɔ=3=)ɔ", "catch", name: "Gotcha", px: "gotcha"),
         //new Rep("(ɔówó)ɔ", "catch", name: "WTF!",   px: "wtf"),
@@ -124,6 +125,7 @@
         m * ⌢ Rep("⒤", "public static implicit operator",
                  px: "implicit", name: "Implicit type conversion")
                                                    * B("⒤ $1($2 ⧕)"),
+
         // ----------------------------------------------------------
         H("Primitives")
         +
@@ -161,6 +163,7 @@
         p * -μ("𝕄", "Dictionary", alt: "D", d: "Map type"),  // ⺵
         p * -μ("𝕊", "HashSet", alt: "M", d: "Set type"),
         p * -μ("ℚ", "Queue", alt: "Q", d: "Queue type"),
+        p * -μ("✧", "Instantiate", d: "Instantiate"),
         p * -μ("𝕂", "Stack", alt: "K", d: "Stack type"),
         p * -μ("𝔼", "IEnumerator", alt: "E", d: "Enumerator"),
         p * -μ("‡", "IEnumerable", d: "Enumerable"),
@@ -212,9 +215,16 @@
 
         H("Unity")
         +
+        // Attributes
+        k * - (Rep)("ⓔ", "[ExecuteInEditMode]"),
+        k * - (Rep)("①", "[DisallowMultipleComponent]"),
+        k * - (Rep)("ⓗ", "[HideInInspector]"),
+        k * - (Rep)("ⓜ", "[Multiline]"),
         // Types
         p * -⌢ Rep("ロ", "GameObject", ι: ✓),  // ◰
         p * -(Rep)("⫙", "Component", alt: "m"),
+        p * -(Rep)("🧩", "MonoBehaviour", alt: "B"),
+        p * -(Rep)("🕹", "XBehaviour", alt: "B"),
         // Vectors
         p * - (Rep)("エ", "Transform"),  // 𖼲 ⟁ ⊺ ⏧ ⩀ ⁜ み サ
         k * -⌢ Rep("み", "transform",
@@ -236,6 +246,28 @@
         p * -⌢ Rep("ト", "Vector2", name: "Point2", px: "p2"),
         p * -⌢ Rep("メ", "Vector3", name: "Point3", px: "Point3"),
         p * -⌢ Rep("メ̂", "Vector4", name: "Point4", px: "p4"),
+        // Functions
+        p * - ⌢ Rep("Ʀ", "Physics.Raycast", name: "Raycast",
+            px:"Raycast"   ) * B("Ʀ($0, u, out hit, dist)"),
+        p * - ⌢ Rep("Ⴔ", "Physics.Spherecast", name: "Spherecast",
+            px:"Spherecast") * B("Ʀ($0, ρ, u, out hit, dist)"),
+        p * - ⌢ Rep("Ⴋ", "Object.FindObjectOfType", name: "Find Object",
+                                            px:"The")
+                                            * B("Ⴋ<$0>()"),
+        p * - ⌢ Rep("Ⴌ", "Object.FindObjectsOfType", name: "Find Objects",
+                                            px:"All")
+                                            * B("Ⴌ<$0>()"),
+        p * - ⌢ Rep("Ⴄ", "GameObject.Find", name: "GameObject.Find",
+                                            px:"Find")
+                                            * B("Ⴄ($0)"),
+        // Signatures
+
+        m * μ("ᑍ", "void Awake()", px: "Awake"),
+        m * μ("ᐅ", "void Start()", px: "Start"),
+        m * μ("ᑐ", "void Update()", px: "Update"),
+        m * μ("ᑔ", "void FixedUpdate()", px: "FixedUpdate"),
+        m * μ("🀰", "void OnEnable()", px: "OnEnable"),
+        m * μ("🀱", "void OnDisable()", px: "OnDisable"),
         // Idioms
         p * - ⌢ Rep("⒯", "Time.time"     , name: "time",
                                             px:"time"),
@@ -278,12 +310,17 @@
         // Active Logic =============================================
         H("Active Logic")
         +
+        // Types
         p * ("⑂", "status"),
         p * ("▷", "action"),
         p * ("𝟾", "loop"),
         p * ("⨴", "impending"),
         p * ("⨮", "pending"),
         p * ("ⓧ", "failure"),
+        p * -(Rep)("🦋", "Task", alt: "T"),
+        p * -(Rep)("🌱", "UTask", alt: "uT"),
+        p * -(Rep)("🍄", "XTask", alt: "xT"),
+        //
         k * ("ʾ", ".due"),
         k * ("ʿ", ".undue"),
         k * ("ᴼ", ".ever"),
@@ -303,7 +340,8 @@
         k * -μ("☡̱ʾ", "return pending.cont();", px: "pcc"),
         k * -μ("☡̱ʿ", "return impending.cont();", px: "icc"),
         k * -μ("■̠ʿ", "return impending.fail();", px: "iff"),
-
+        // Signatures
+        m * μ("⼻", "override public status Step()", px: "Step"),
         // Idioms
         f * - ⌢ Rep("⍈", "Seq", π: ✗) * B("⍈() ⟦ $1 ⟧"),
         f * - ⌢ Rep("⍰", "Sel", π: ✗) * B("⍰() ⟦ $1 ⟧"),
@@ -327,7 +365,16 @@
         //
         f * - ⌢ Rep("⁅", "Tie(", π: ✗) * B("⁅ $1 × $2 ⁆"),    // Tie
         o * - ⌢ Rep("×", ")?[", π: ✗, ns: ✓, q: ✓),
-        f * - ⌢ Rep("⁆", "]"  , π: ✗, ns: ✓, q: ✓)
+        f * - ⌢ Rep("⁆", "]"  , π: ✗, ns: ✓, q: ✓),
+
+        // Imports ==================================================
+
+        k * ⌢ Rep("Ɑℓ", "using Active.Core; using static Active.Status;", px: "usingAL"),
+        k * ⌢ Rep("𝐊", "using Kabuki;", px: "usingKabuki"),
+        k * ⌢ Rep("𝖴", "using UnityEngine; using UnityEngine.UI;", px: "usingUnity"),
+        k * ⌢ Rep("𝖴ᵉ", "using UnityEditor", px: "usingEd"),
+        k * ⌢ Rep("𝚂", "using System; using System.Linq;", px: "usingSystem"),
+        k * ⌢ Rep("𝙲", "using System.Collections; using System.Collections.Generic;", px: "usingCollections")
 
         // ==========================================================
 
